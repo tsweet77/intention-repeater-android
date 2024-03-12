@@ -64,7 +64,7 @@ import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
-const val version = "Version 1.1"
+const val version = "Version 1.2"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
