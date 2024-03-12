@@ -58,7 +58,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.anthroteacher.intentionrepeater.R
 import com.anthroteacher.intentionrepeater.ui.theme.IntentionRepeaterTheme
 import kotlinx.coroutines.delay
 import kotlin.math.log10
@@ -75,7 +74,7 @@ class MainActivity : ComponentActivity() {
             IntentionRepeaterTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                            modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
@@ -417,14 +416,14 @@ fun TimerLogic(
 
     LaunchedEffect(timerRunning) {
         while (timerRunning) {
+            for (i in 1..10000000) {
+                processIntention = newIntention
+            }
             val currentTime = System.currentTimeMillis()
             elapsedTime.value = currentTime - startTime
 
-            for (i in 1..10000) {
-                iterations.value++
-                freq.value++
-                processIntention = newIntention
-            }
+            iterations.value += 10000000
+            freq.value += 10000000
 
             if (currentTime - lastUpdate.value >= 1000) {
                 val hours = elapsedTime.value / 3600000
