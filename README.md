@@ -1,5 +1,3 @@
-Certainly! Here's a template for your Readme.md file. Feel free to customize it further based on your specific requirements:
-
 # Intention Repeater Android App
 
 The Intention Repeater is an Android application designed to help users manifest their intentions by repeating them millions of times per second. This app is created by Anthro Teacher and is licensed under the GNU General Public License v3.0 (GPLv3).
