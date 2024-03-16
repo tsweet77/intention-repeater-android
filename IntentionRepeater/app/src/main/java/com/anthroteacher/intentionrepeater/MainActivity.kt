@@ -491,7 +491,7 @@ private fun EulaButton() {
 
     Button(
         onClick = {
-            val url = "https://android.intentionrepeater.com/Docs/IntentionRepeaterAndroidEULA.txt"
+            val url = "https://www.intentionrepeater.com/android_eula.html"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             context.startActivity(intent)
         },
@@ -519,7 +519,7 @@ private fun PrivacyPolicyButton() {
 
     Button(
         onClick = {
-            val url = "https://android.intentionrepeater.com/Docs/IntentionRepeaterAndroidPrivacyPolicy.txt"
+            val url = "https://www.intentionrepeater.com/android_privacy_policy.html"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             context.startActivity(intent)
         },
