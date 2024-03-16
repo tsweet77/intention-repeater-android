@@ -12,6 +12,8 @@ The latest code is in the development branch.
 - Simple and intuitive user interface
 - No internet connection required, except for launching website or forum
 
+The development branch contains the latest update. The main branch is a more stable version.
+
 ## Installation
 
 To install the Intention Repeater app on your Android device, follow these steps:
