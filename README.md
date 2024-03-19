@@ -22,7 +22,10 @@ To install the Intention Repeater app on your Android device, follow these steps
    ```
    git clone https://github.com/tsweet77/intention-repeater-android.git
    ```
-
+To Clone the development branch (more updated):
+   ```
+   git clone -b development https://github.com/tsweet77/intention-repeater-android.git
+   ```
 2. Open the project in Android Studio Jellyfish.
 
 3. Connect your Android device to your computer or set up an emulator.
