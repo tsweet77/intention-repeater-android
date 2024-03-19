@@ -7,8 +7,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,11 +48,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -60,12 +58,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anthroteacher.intentionrepeater.ui.theme.IntentionRepeaterTheme
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.math.BigInteger
 import java.math.RoundingMode
 import kotlin.math.roundToLong
 
-const val version = "Version 1.3"
+const val version = "Version 1.4"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,14 +109,14 @@ fun Greeting(modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.Black)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { focusManager.clearFocus() }
                 )
             }
     ) {
-        BackgroundImage()
-        MainContent(
+       MainContent(
             intention = intention,
             onIntentionChange = { intention = it },
             timerRunning = timerRunning,
@@ -175,16 +175,6 @@ fun Greeting(modifier: Modifier = Modifier) {
             onIterationsUpdate = { formattedIterations = it }
         )
     }
-}
-
-@Composable
-private fun BackgroundImage() {
-    Image(
-        painter = painterResource(id = R.drawable.background),
-        contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
-    )
 }
 
 @Composable
@@ -264,13 +254,13 @@ private fun AppTitle() {
     Spacer(modifier = Modifier.size(16.dp))
     Text(
         text = "Intention Repeater",
-        fontSize = 24.sp,
+        fontSize = 36.sp,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
     Text(
         text = "by Anthro Teacher",
-        fontSize = 14.sp,
+        fontSize = 24.sp,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
@@ -369,7 +359,7 @@ private fun TimerDisplay(time: String) {
 private fun IterationsDisplay(formattedIterations: String) {
     Text(
         text = formattedIterations,
-        fontSize = 18.sp,
+        fontSize = 22.sp,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
@@ -401,7 +391,7 @@ private fun StartStopResetButtons(
             Text(
                 text = buttonText,
                 color = Color.White,
-                fontSize = 18.sp,
+                fontSize = 24.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold
             )
@@ -421,7 +411,7 @@ private fun StartStopResetButtons(
             Text(
                 text = "Reset",
                 color = Color.White,
-                fontSize = 18.sp,
+                fontSize = 24.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold
             )
@@ -450,7 +440,7 @@ private fun WebsiteButton() {
         Text(
             text = "Website",
             color = Color.Black,
-            fontSize = 18.sp,
+            fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -478,7 +468,7 @@ private fun ForumButton() {
         Text(
             text = "Forum",
             color = Color.Black,
-            fontSize = 18.sp,
+            fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -506,7 +496,7 @@ private fun EulaButton() {
         Text(
             text = "EULA",
             color = Color.Black,
-            fontSize = 18.sp,
+            fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -534,7 +524,7 @@ private fun PrivacyPolicyButton() {
         Text(
             text = "Privacy",
             color = Color.Black,
-            fontSize = 18.sp,
+            fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -571,27 +561,26 @@ fun TimerLogic(
             val currentTime = System.currentTimeMillis()
             elapsedTime.value = currentTime - startTime
 
-            var processIntention = newIntention
-            repeat(100_000_000) {
-                processIntention = newIntention
+            withContext(Dispatchers.Default) {
+                var processIntention = newIntention
+                repeat(100_000_000) {
+                    processIntention = newIntention
+                }
+                iterations.value += BigInteger.valueOf(100_000_000 * multiplier)
+                freq.value += BigInteger.valueOf(100_000_000 * multiplier)
             }
-
-            iterations.value += BigInteger.valueOf(100_000_000 * multiplier)
-            freq.value += BigInteger.valueOf(100_000_000 * multiplier)
 
             if (currentTime - lastUpdate.value >= 1000) {
                 val hours = elapsedTime.value / 3600000
                 val minutes = (elapsedTime.value / 60000) % 60
                 val seconds = (elapsedTime.value / 1000) % 60
-
                 val updatedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-                val updatedIterations =
-                    "${formatLargeNumber(iterations.value)} Iterations (${
-                        formatLargeFreq(freq.value)
-                    })"
+                val updatedIterations = "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(freq.value)})"
 
-                onTimeUpdate(updatedTime)
-                onIterationsUpdate(updatedIterations)
+                withContext(Dispatchers.Main) {
+                    onTimeUpdate(updatedTime)
+                    onIterationsUpdate(updatedIterations)
+                }
 
                 lastUpdate.value = currentTime
                 freq.value = BigInteger.valueOf(0) // Reset frequency counter for the next second
