@@ -2,6 +2,8 @@
 
 The Intention Repeater is an Android application designed to help users manifest their intentions by repeating them millions of times per second. This app is created by Anthro Teacher and is licensed under the GNU General Public License v3.0 (GPLv3).
 
+The latest code is in the development branch.
+
 ## Features
 
 - Set and customize your intention
@@ -9,6 +11,8 @@ The Intention Repeater is an Android application designed to help users manifest
 - Save your intention locally using Android's Shared Preferences
 - Simple and intuitive user interface
 - No internet connection required, except for launching website or forum
+
+The development branch contains the latest update. The main branch is a more stable version.
 
 ## Installation
 
@@ -18,7 +22,10 @@ To install the Intention Repeater app on your Android device, follow these steps
    ```
    git clone https://github.com/tsweet77/intention-repeater-android.git
    ```
-
+To Clone the development branch (more updated):
+   ```
+   git clone -b development https://github.com/tsweet77/intention-repeater-android.git
+   ```
 2. Open the project in Android Studio Jellyfish.
 
 3. Connect your Android device to your computer or set up an emulator.

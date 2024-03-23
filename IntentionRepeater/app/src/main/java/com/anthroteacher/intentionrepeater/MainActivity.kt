@@ -116,7 +116,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                 )
             }
     ) {
-       MainContent(
+        MainContent(
             intention = intention,
             onIntentionChange = { intention = it },
             timerRunning = timerRunning,
@@ -575,7 +575,8 @@ fun TimerLogic(
                 val minutes = (elapsedTime.value / 60000) % 60
                 val seconds = (elapsedTime.value / 1000) % 60
                 val updatedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-                val updatedIterations = "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(freq.value)})"
+                val updatedIterations =
+                    "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(freq.value)})"
 
                 withContext(Dispatchers.Main) {
                     onTimeUpdate(updatedTime)
@@ -629,7 +630,8 @@ fun formatLargeNumber(value: BigInteger): String {
     }
 
     val divisor = BigInteger.TEN.pow(index * 3)
-    val formattedValue = value.toBigDecimal().divide(divisor.toBigDecimal(), 3, RoundingMode.HALF_UP)
+    val formattedValue =
+        value.toBigDecimal().divide(divisor.toBigDecimal(), 3, RoundingMode.HALF_UP)
 
     return String.format("%.3f%s", formattedValue, names[index])
 }
@@ -644,7 +646,8 @@ fun formatLargeFreq(value: BigInteger): String {
     }
 
     val divisor = BigInteger.TEN.pow(index * 3)
-    val formattedValue = value.toBigDecimal().divide(divisor.toBigDecimal(), 3, RoundingMode.HALF_UP)
+    val formattedValue =
+        value.toBigDecimal().divide(divisor.toBigDecimal(), 3, RoundingMode.HALF_UP)
 
     return String.format("%.3f%s", formattedValue, names[index])
 }
