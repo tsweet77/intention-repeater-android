@@ -1,9 +1,12 @@
 package com.anthroteacher.intentionrepeater
 
+import android.app.Notification
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
+import android.os.PowerManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -36,12 +39,14 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -57,15 +62,20 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
 import com.anthroteacher.intentionrepeater.ui.theme.IntentionRepeaterTheme
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigInteger
 import java.math.RoundingMode
 import kotlin.math.roundToLong
+import android.app.Service
 
-const val version = "Version 1.4"
+const val version = "Version 1.5"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,6 +115,9 @@ fun Greeting(modifier: Modifier = Modifier) {
     var newIntention by remember { mutableStateOf("") }
     var multiplier by remember { mutableStateOf(0L) }
     var isIntentionProcessed by remember { mutableStateOf(false) }
+
+    val intent = Intent(context, TimerForegroundService::class.java)
+    context.startService(intent)
 
     Box(
         modifier = Modifier
@@ -156,7 +169,7 @@ fun Greeting(modifier: Modifier = Modifier) {
     }
 
     if (timerRunning && !isIntentionProcessed) {
-        ProcessIntention(
+        ProcessIntentionMultiplication(
             targetLength = targetLength,
             intention = intention,
             onIntentionProcessed = { processedIntention, processedMultiplier ->
@@ -553,13 +566,40 @@ fun TimerLogic(
     val elapsedTime = remember { mutableStateOf(0L) }
     val iterations = remember { mutableStateOf(BigInteger.ZERO) }
     val freq = remember { mutableStateOf(BigInteger.ZERO) }
-    val startTime = System.currentTimeMillis()
-    val lastUpdate = remember { mutableStateOf(startTime) }
+    val startTime = remember { mutableStateOf(System.currentTimeMillis()) }
+    val lastUpdate = remember { mutableStateOf(startTime.value) }
+
+    val savedStateHandle = rememberSaveable { mutableStateOf(Bundle()) }
+
+    // Save state when the composable is destroyed
+    DisposableEffect(Unit) {
+        onDispose {
+            val bundle = Bundle().apply {
+                putLong("elapsedTime", elapsedTime.value)
+                putString("iterations", iterations.value.toString())
+                putString("freq", freq.value.toString())
+                putLong("startTime", startTime.value)
+                putLong("lastUpdate", lastUpdate.value)
+            }
+            savedStateHandle.value = bundle
+        }
+    }
+
+    // Restore state when the composable is recreated
+    LaunchedEffect(savedStateHandle.value) {
+        savedStateHandle.value.apply {
+            elapsedTime.value = getLong("elapsedTime", 0L)
+            iterations.value = BigInteger(getString("iterations", "0"))
+            freq.value = BigInteger(getString("freq", "0"))
+            startTime.value = getLong("startTime", System.currentTimeMillis())
+            lastUpdate.value = getLong("lastUpdate", startTime.value)
+        }
+    }
 
     LaunchedEffect(timerRunning) {
         while (timerRunning) {
             val currentTime = System.currentTimeMillis()
-            elapsedTime.value = currentTime - startTime
+            elapsedTime.value = currentTime - startTime.value
 
             withContext(Dispatchers.Default) {
                 var processIntention = newIntention
@@ -584,7 +624,7 @@ fun TimerLogic(
                 }
 
                 lastUpdate.value = currentTime
-                freq.value = BigInteger.valueOf(0) // Reset frequency counter for the next second
+                freq.value = BigInteger.ZERO // Reset frequency counter for the next second
             }
 
             delay(1) // Reduce CPU usage
@@ -593,7 +633,7 @@ fun TimerLogic(
 }
 
 @Composable
-fun ProcessIntention(
+fun ProcessIntentionMultiplication(
     targetLength: Long,
     intention: String,
     onIntentionProcessed: (String, Long) -> Unit
@@ -650,6 +690,62 @@ fun formatLargeFreq(value: BigInteger): String {
         value.toBigDecimal().divide(divisor.toBigDecimal(), 3, RoundingMode.HALF_UP)
 
     return String.format("%.3f%s", formattedValue, names[index])
+}
+
+class TimerForegroundService : Service() {
+    companion object {
+        const val NOTIFICATION_ID = 1
+    }
+
+    private lateinit var wakeLock: PowerManager.WakeLock
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val notification = createNotification()
+        startForeground(NOTIFICATION_ID, notification)
+
+        // Acquire a partial wake lock
+        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = powerManager.newWakeLock(
+            PowerManager.PARTIAL_WAKE_LOCK,
+            "TimerForegroundService::WakeLock"
+        )
+        wakeLock.acquire(10*60*1000L /*10 minutes*/)
+
+        // Start a coroutine to perform your timer logic
+        GlobalScope.launch {
+            while (true) {
+                // Perform your timer logic here
+                // For example, update the elapsed time, iterations, etc.
+
+                delay(1000) // Delay for 1 second
+            }
+        }
+
+        return START_STICKY
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Release the wake lock when the service is destroyed
+        if (wakeLock.isHeld) {
+            wakeLock.release()
+        }
+    }
+
+    private fun createNotification(): Notification {
+        val notificationBuilder = NotificationCompat.Builder(this, "default")
+
+        return notificationBuilder
+            .setContentTitle("Intention Repeater is running")
+            .setContentText("Intention Repeater is running in the background")
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .build()
+    }
 }
 
 @Preview(showBackground = true)
