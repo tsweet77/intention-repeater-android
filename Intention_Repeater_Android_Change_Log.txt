@@ -7,8 +7,6 @@ Made background black instead of textured to increase contrast.
 Moved repeater loop to a background process to fix lagging for some users.
 Increased text size for header and subheader and buttons.
 
+v1.6 Updated so the # iterations and frequency rate are more accurate per second.
 
-
-
-
-Need to use app strings for multiple languages on next update.
+Will need to use app strings for multiple languages on next update.

@@ -75,7 +75,7 @@ import java.math.RoundingMode
 import kotlin.math.roundToLong
 import android.app.Service
 
-const val version = "Version 1.5"
+const val version = "Version 1.6"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -372,7 +372,7 @@ private fun TimerDisplay(time: String) {
 private fun IterationsDisplay(formattedIterations: String) {
     Text(
         text = formattedIterations,
-        fontSize = 22.sp,
+        fontSize = 20.sp,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
@@ -597,37 +597,43 @@ fun TimerLogic(
     }
 
     LaunchedEffect(timerRunning) {
+        var lastUpdateTime = System.currentTimeMillis()
+        var iterationsPerSecond = BigInteger.ZERO
+
         while (timerRunning) {
             val currentTime = System.currentTimeMillis()
-            elapsedTime.value = currentTime - startTime.value
+            val elapsedMillis = currentTime - startTime.value
 
-            withContext(Dispatchers.Default) {
-                var processIntention = newIntention
-                repeat(100_000_000) {
-                    processIntention = newIntention
-                }
-                iterations.value += BigInteger.valueOf(100_000_000 * multiplier)
-                freq.value += BigInteger.valueOf(100_000_000 * multiplier)
-            }
+            if (currentTime - lastUpdateTime >= 1000) {
+                elapsedTime.value = elapsedMillis
 
-            if (currentTime - lastUpdate.value >= 1000) {
-                val hours = elapsedTime.value / 3600000
-                val minutes = (elapsedTime.value / 60000) % 60
-                val seconds = (elapsedTime.value / 1000) % 60
+                val hours = elapsedMillis / 3600000
+                val minutes = (elapsedMillis / 60000) % 60
+                val seconds = (elapsedMillis / 1000) % 60
+
+                iterations.value += iterationsPerSecond * BigInteger.valueOf(multiplier)
+                freq.value = iterationsPerSecond * BigInteger.valueOf(multiplier)
+
                 val updatedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-                val updatedIterations =
-                    "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(freq.value)})"
+                val updatedIterations = "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(freq.value)})"
 
-                withContext(Dispatchers.Main) {
-                    onTimeUpdate(updatedTime)
-                    onIterationsUpdate(updatedIterations)
+                if (freq.value != BigInteger.ZERO) {
+                    withContext(Dispatchers.Main) {
+                        onTimeUpdate(updatedTime)
+                        onIterationsUpdate(updatedIterations)
+                    }
                 }
 
-                lastUpdate.value = currentTime
-                freq.value = BigInteger.ZERO // Reset frequency counter for the next second
+                iterationsPerSecond = BigInteger.ZERO
+                lastUpdateTime = currentTime
             }
 
-            delay(1) // Reduce CPU usage
+            var processIntention = newIntention
+            processIntention = newIntention
+            iterationsPerSecond++
+
+            val delayMillis = 1L - (System.currentTimeMillis() - currentTime) % 1L
+            delay(delayMillis)
         }
     }
 }
