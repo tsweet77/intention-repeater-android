@@ -74,8 +74,9 @@ import java.math.BigInteger
 import java.math.RoundingMode
 import kotlin.math.roundToLong
 import android.app.Service
+import androidx.compose.ui.text.input.KeyboardType
 
-const val version = "Version 1.9"
+const val version = "Version 1.10"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,6 +117,8 @@ fun Greeting(modifier: Modifier = Modifier) {
     var multiplier by remember { mutableStateOf(0L) }
     var isIntentionProcessed by remember { mutableStateOf(false) }
 
+    var frequency by remember { mutableStateOf(sharedPref.getString("frequency", "3") ?: "3") }
+
     val intent = Intent(context, TimerForegroundService::class.java)
     context.startService(intent)
 
@@ -133,6 +136,10 @@ fun Greeting(modifier: Modifier = Modifier) {
             intention = intention,
             onIntentionChange = { intention = it },
             timerRunning = timerRunning,
+            frequency = frequency,
+            onFrequencyChange = { newFrequency ->
+                frequency = newFrequency
+            },
             sliderPosition = sliderPosition,
             onSliderPositionChange = { newValue ->
                 sliderPosition = newValue.roundToLong().toFloat()
@@ -155,6 +162,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                         sliderPosition = (targetLength / 1024 / 1024).toFloat()
                     }
                     sharedPref.edit().putString("intention", intention).apply()
+                    sharedPref.edit().putString("frequency", frequency).apply()
                     timerRunning = true
                     isIntentionProcessed = false
                 }
@@ -184,6 +192,7 @@ fun Greeting(modifier: Modifier = Modifier) {
             timerRunning = timerRunning,
             multiplier = multiplier,
             newIntention = newIntention,
+            frequency = frequency,
             onTimeUpdate = { time = it },
             onIterationsUpdate = { formattedIterations = it }
         )
@@ -193,6 +202,8 @@ fun Greeting(modifier: Modifier = Modifier) {
 @Composable
 private fun MainContent(
     intention: String,
+    frequency: String,
+    onFrequencyChange: (String) -> Unit,
     onIntentionChange: (String) -> Unit,
     timerRunning: Boolean,
     sliderPosition: Float,
@@ -220,6 +231,11 @@ private fun MainContent(
         MultiplierSlider(
             sliderPosition = sliderPosition,
             onSliderPositionChange = onSliderPositionChange,
+            timerRunning = timerRunning
+        )
+        FrequencyInput(
+            frequency = frequency,
+            onFrequencyChange = onFrequencyChange,
             timerRunning = timerRunning
         )
         TimerDisplay(time = time)
@@ -356,6 +372,34 @@ private fun MultiplierSlider(
             )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun FrequencyInput(
+    frequency: String,
+    onFrequencyChange: (String) -> Unit,
+    timerRunning: Boolean
+) {
+    OutlinedTextField(
+        value = frequency,
+        onValueChange = { newValue ->
+            if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+                onFrequencyChange(newValue)
+            }
+        },
+        label = { Text("Frequency (Hz) [0 = Max, 3 = Optimal]", color = Color.White) },
+        enabled = !timerRunning,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = Modifier.fillMaxWidth(),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            cursorColor = Color.White,
+            focusedBorderColor = Color.Blue,
+            unfocusedBorderColor = Color.Gray
+        ),
+        textStyle = LocalTextStyle.current.copy(color = Color.White, lineHeight = 24.sp),
+    )
 }
 
 @Composable
@@ -559,6 +603,7 @@ private fun VersionDisplay() {
 fun TimerLogic(
     timerRunning: Boolean,
     multiplier: Long,
+    frequency: String,
     newIntention: String,
     onTimeUpdate: (String) -> Unit,
     onIterationsUpdate: (String) -> Unit
@@ -599,10 +644,19 @@ fun TimerLogic(
     LaunchedEffect(timerRunning) {
         var lastUpdateTime = System.currentTimeMillis()
         var iterationsPerSecond = BigInteger.ZERO
+        var processIntention = newIntention
+        val frequencyValue = frequency.toIntOrNull() ?: 0
 
         while (timerRunning) {
             val currentTime = System.currentTimeMillis()
             val elapsedMillis = currentTime - startTime.value
+
+            processIntention = newIntention
+            iterationsPerSecond++
+
+            if (frequencyValue > 0) {
+                delay((1000 / frequencyValue).toLong())
+            }
 
             if (currentTime - lastUpdateTime >= 1000) {
                 elapsedTime.value = elapsedMillis
@@ -627,13 +681,6 @@ fun TimerLogic(
                 iterationsPerSecond = BigInteger.ZERO
                 lastUpdateTime = currentTime
             }
-
-            var processIntention = newIntention
-            processIntention = newIntention
-            iterationsPerSecond++
-
-            val delayMillis = 1L - (System.currentTimeMillis() - currentTime) % 1L
-            delay(delayMillis)
         }
     }
 }
