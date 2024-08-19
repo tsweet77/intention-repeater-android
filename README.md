@@ -12,6 +12,8 @@ The Intention Repeater is an Android application designed to help users manifest
 
 To install the Intention Repeater Android App: https://android.intentionrepeater.com
 
+If you can't access the Google Play Store and need the apk: https://github.com/tsweet77/intention-repeater-android/tree/main/IntentionRepeater/app/release
+
 To Clone this repository to your local machine using the following command:
    ```
    git clone https://github.com/tsweet77/intention-repeater-android.git
