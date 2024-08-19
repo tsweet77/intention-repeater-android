@@ -30,6 +30,8 @@ To Clone this repository to your local machine using the following command:
 
 6. To stop the repetition, press the "Stop" button.
 
+I have found that a low frequency such as 3Hz to be optimal and stronger than high frequencies.
+
 ## Contributing
 
 Contributions to the Intention Repeater app are welcome! If you find any bugs, have suggestions for improvements, or want to add new features, please submit an issue
