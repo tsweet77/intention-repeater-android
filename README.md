@@ -46,9 +46,9 @@ This project is licensed under the GNU General Public License v3.0 (GPLv3). You 
 If you have any questions, suggestions, or feedback, please feel free to contact the project maintainer:
 
 Anthro Teacher
-Email: android@intentionrepeater.com
-Website: https://www.intentionrepeater.com
-Forum: https://intentionrepeater.boards.net/
+- Email: android@intentionrepeater.com
+- Website: https://www.intentionrepeater.com
+- Forum: https://intentionrepeater.boards.net/
 
 ## Acknowledgements
 
