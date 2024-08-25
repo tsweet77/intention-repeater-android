@@ -1,6 +1,7 @@
 package com.anthroteacher.intentionrepeater
 
 import android.app.Notification
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -31,15 +32,16 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -72,11 +74,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigInteger
 import java.math.RoundingMode
+import java.security.MessageDigest
 import kotlin.math.roundToLong
-import android.app.Service
-import androidx.compose.ui.text.input.KeyboardType
 
-const val version = "Version 1.10"
+const val version = "Version 1.12"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,17 +95,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+fun sha256(input: String): String {
+    val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+    return bytes.joinToString("") { "%02x".format(it) }
+}
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun Greeting(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-    val savedIntention = sharedPref.getString("intention", "") ?: ""
+
+    var selectedFrequency by rememberSaveable { mutableStateOf(sharedPref.getString("frequency", "3") ?: "3") }
+    var isBoostEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("boost_enabled", false)) } // Load Boost value from SharedPreferences
     var targetLength by remember { mutableLongStateOf(1L) }
     var time by remember { mutableStateOf("00:00:00") }
     var timerRunning by remember { mutableStateOf(false) }
     var formattedIterations by remember { mutableStateOf("0 Iterations (0 Hz)") }
-    var intention by remember { mutableStateOf(savedIntention) }
+    var intention by remember { mutableStateOf(sharedPref.getString("intention", "") ?: "") }
     val focusManager = LocalFocusManager.current
     val savedSliderPosition = sharedPref.getFloat("sliderPosition", 0f)
     var sliderPosition by remember { mutableFloatStateOf(savedSliderPosition) }
@@ -117,11 +125,6 @@ fun Greeting(modifier: Modifier = Modifier) {
     var multiplier by remember { mutableStateOf(0L) }
     var isIntentionProcessed by remember { mutableStateOf(false) }
 
-    var frequency by remember { mutableStateOf(sharedPref.getString("frequency", "3") ?: "3") }
-
-    val intent = Intent(context, TimerForegroundService::class.java)
-    context.startService(intent)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -133,12 +136,14 @@ fun Greeting(modifier: Modifier = Modifier) {
             }
     ) {
         MainContent(
+            selectedFrequency = selectedFrequency,
             intention = intention,
             onIntentionChange = { intention = it },
             timerRunning = timerRunning,
-            frequency = frequency,
+            isBoostEnabled = isBoostEnabled,
+            onBoostChange = { isBoostEnabled = it },
             onFrequencyChange = { newFrequency ->
-                frequency = newFrequency
+                selectedFrequency = newFrequency
             },
             sliderPosition = sliderPosition,
             onSliderPositionChange = { newValue ->
@@ -162,7 +167,8 @@ fun Greeting(modifier: Modifier = Modifier) {
                         sliderPosition = (targetLength / 1024 / 1024).toFloat()
                     }
                     sharedPref.edit().putString("intention", intention).apply()
-                    sharedPref.edit().putString("frequency", frequency).apply()
+                    sharedPref.edit().putString("frequency", selectedFrequency).apply()
+                    sharedPref.edit().putBoolean("boost_enabled", isBoostEnabled).apply() // Save Boost value to SharedPreferences
                     timerRunning = true
                     isIntentionProcessed = false
                 }
@@ -190,9 +196,10 @@ fun Greeting(modifier: Modifier = Modifier) {
     } else if (timerRunning && isIntentionProcessed) {
         TimerLogic(
             timerRunning = timerRunning,
+            selectedFrequency = selectedFrequency,
             multiplier = multiplier,
             newIntention = newIntention,
-            frequency = frequency,
+            isBoostEnabled = isBoostEnabled, // Pass Boost value to TimerLogic
             onTimeUpdate = { time = it },
             onIterationsUpdate = { formattedIterations = it }
         )
@@ -201,9 +208,11 @@ fun Greeting(modifier: Modifier = Modifier) {
 
 @Composable
 private fun MainContent(
+    selectedFrequency: String,
     intention: String,
-    frequency: String,
     onFrequencyChange: (String) -> Unit,
+    isBoostEnabled: Boolean,
+    onBoostChange: (Boolean) -> Unit,
     onIntentionChange: (String) -> Unit,
     timerRunning: Boolean,
     sliderPosition: Float,
@@ -233,9 +242,11 @@ private fun MainContent(
             onSliderPositionChange = onSliderPositionChange,
             timerRunning = timerRunning
         )
-        FrequencyInput(
-            frequency = frequency,
+        FrequencyAndBoostSelector(
+            selectedFrequency = selectedFrequency,
             onFrequencyChange = onFrequencyChange,
+            isBoostEnabled = isBoostEnabled,
+            onBoostChange = onBoostChange,
             timerRunning = timerRunning
         )
         TimerDisplay(time = time)
@@ -248,7 +259,7 @@ private fun MainContent(
             timerRunning = timerRunning,
             intention = intention
         )
-        Spacer(modifier = Modifier.size(48.dp))
+        Spacer(modifier = Modifier.size(24.dp))
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -262,7 +273,7 @@ private fun MainContent(
                 ForumButton()
             }
 
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(8.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -283,7 +294,7 @@ private fun AppTitle() {
     Spacer(modifier = Modifier.size(16.dp))
     Text(
         text = "Intention Repeater",
-        fontSize = 36.sp,
+        fontSize = 32.sp,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
@@ -359,13 +370,13 @@ private fun MultiplierSlider(
                 value = sliderPosition,
                 enabled = !timerRunning,
                 onValueChange = onSliderPositionChange,
-                valueRange = 0f..20f,
+                valueRange = 0f..100f,
                 steps = 19,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "20",
+                text = "100",
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Serif,
                 color = Color.White
@@ -376,30 +387,106 @@ private fun MultiplierSlider(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FrequencyInput(
-    frequency: String,
+fun FrequencyAndBoostSelector(
+    selectedFrequency: String,
     onFrequencyChange: (String) -> Unit,
+    isBoostEnabled: Boolean,
+    onBoostChange: (Boolean) -> Unit,
     timerRunning: Boolean
 ) {
-    OutlinedTextField(
-        value = frequency,
-        onValueChange = { newValue ->
-            if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
-                onFrequencyChange(newValue)
-            }
-        },
-        label = { Text("Frequency (Hz) [0 = Max, 3 = Optimal]", color = Color.White) },
-        enabled = !timerRunning,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            cursorColor = Color.White,
-            focusedBorderColor = Color.Blue,
-            unfocusedBorderColor = Color.Gray
-        ),
-        textStyle = LocalTextStyle.current.copy(color = Color.White, lineHeight = 24.sp),
-    )
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp), // Ensure the row height is at least 48dp
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start // Align items to the start
+        ) {
+            RadioButton(
+                selected = selectedFrequency == "3",
+                onClick = { if (!timerRunning) onFrequencyChange("3") },
+                enabled = !timerRunning,
+                modifier = Modifier.size(48.dp)
+            )
+            Text(
+                text = "3 Hz (Optimal)",
+                color = Color.White,
+                fontSize = 16.sp,
+                fontFamily = FontFamily.Serif,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            RadioButton(
+                selected = selectedFrequency == "0",
+                onClick = { if (!timerRunning) onFrequencyChange("0") },
+                enabled = !timerRunning,
+                modifier = Modifier.size(48.dp)
+            )
+            Text(
+                text = "Max Freq",
+                color = Color.White,
+                fontSize = 16.sp,
+                fontFamily = FontFamily.Serif,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp), // Ensure the row height is at least 48dp
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start // Align items to the start
+        ) {
+            Checkbox(
+                checked = isBoostEnabled,
+                onCheckedChange = { onBoostChange(it) },
+                enabled = !timerRunning,
+                modifier = Modifier.size(48.dp)
+            )
+            Text(
+                text = "Power Boost - Uses Sha256 Encoding",
+                color = Color.White,
+                fontSize = 16.sp,
+                fontFamily = FontFamily.Serif,
+                modifier = Modifier.padding(start = 4.dp)
+
+            )
+        }
+    }
+}
+
+@Composable
+private fun BoostCheckbox(
+    isBoostEnabled: Boolean,
+    onBoostChange: (Boolean) -> Unit,
+    timerRunning: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Checkbox(
+            checked = isBoostEnabled,
+            onCheckedChange = { onBoostChange(it) },
+            enabled = !timerRunning,
+            modifier = Modifier.size(24.dp)
+        )
+        Text(
+            text = "Boost",
+            color = Color.White,
+            fontSize = 14.sp,
+            fontFamily = FontFamily.Serif,
+            modifier = Modifier.padding(start = 4.dp) // Add padding between checkbox and label
+        )
+    }
 }
 
 @Composable
@@ -603,83 +690,64 @@ private fun VersionDisplay() {
 fun TimerLogic(
     timerRunning: Boolean,
     multiplier: Long,
-    frequency: String,
+    selectedFrequency: String,
     newIntention: String,
     onTimeUpdate: (String) -> Unit,
-    onIterationsUpdate: (String) -> Unit
+    onIterationsUpdate: (String) -> Unit,
+    isBoostEnabled: Boolean,
 ) {
     val elapsedTime = remember { mutableStateOf(0L) }
     val iterations = remember { mutableStateOf(BigInteger.ZERO) }
-    val freq = remember { mutableStateOf(BigInteger.ZERO) }
-    val startTime = remember { mutableStateOf(System.currentTimeMillis()) }
+    val startTime = remember { mutableStateOf(System.nanoTime()) }
     val lastUpdate = remember { mutableStateOf(startTime.value) }
-
-    val savedStateHandle = rememberSaveable { mutableStateOf(Bundle()) }
-
-    // Save state when the composable is destroyed
-    DisposableEffect(Unit) {
-        onDispose {
-            val bundle = Bundle().apply {
-                putLong("elapsedTime", elapsedTime.value)
-                putString("iterations", iterations.value.toString())
-                putString("freq", freq.value.toString())
-                putLong("startTime", startTime.value)
-                putLong("lastUpdate", lastUpdate.value)
-            }
-            savedStateHandle.value = bundle
-        }
-    }
-
-    // Restore state when the composable is recreated
-    LaunchedEffect(savedStateHandle.value) {
-        savedStateHandle.value.apply {
-            elapsedTime.value = getLong("elapsedTime", 0L)
-            iterations.value = BigInteger(getString("iterations", "0"))
-            freq.value = BigInteger(getString("freq", "0"))
-            startTime.value = getLong("startTime", System.currentTimeMillis())
-            lastUpdate.value = getLong("lastUpdate", startTime.value)
-        }
-    }
+    var mutableIntention = newIntention
 
     LaunchedEffect(timerRunning) {
-        var lastUpdateTime = System.currentTimeMillis()
-        var iterationsPerSecond = BigInteger.ZERO
-        var processIntention = newIntention
-        val frequencyValue = frequency.toIntOrNull() ?: 0
+        var iterationsInLastSecond = 0L
 
         while (timerRunning) {
-            val currentTime = System.currentTimeMillis()
-            val elapsedMillis = currentTime - startTime.value
+            val loopStartTime = System.nanoTime()
 
-            processIntention = newIntention
-            iterationsPerSecond++
+            // Process the intention
+            var processIntention = newIntention
 
-            if (frequencyValue > 0) {
-                delay((1000 / frequencyValue).toLong())
+            if (isBoostEnabled) {
+                mutableIntention = sha256(mutableIntention)
             }
 
-            if (currentTime - lastUpdateTime >= 1000) {
-                elapsedTime.value = elapsedMillis
+            iterationsInLastSecond++
 
-                val hours = elapsedMillis / 3600000
-                val minutes = (elapsedMillis / 60000) % 60
-                val seconds = (elapsedMillis / 1000) % 60
+            // Calculate actual loop time
+            //val actualLoopTimeNs = System.nanoTime() - loopStartTime
 
-                iterations.value += iterationsPerSecond * BigInteger.valueOf(multiplier)
-                freq.value = iterationsPerSecond * BigInteger.valueOf(multiplier)
+            if (selectedFrequency == "3") {
+                delay(333)
+            }
+
+            // Update every second
+            if (System.nanoTime() - lastUpdate.value >= 1_000_000_000L) {
+                elapsedTime.value = (System.nanoTime() - startTime.value) / 1_000_000L // Convert to ms
+
+                val hours = elapsedTime.value / 3600000
+                val minutes = (elapsedTime.value / 60000) % 60
+                val seconds = (elapsedTime.value / 1000) % 60
+
+                iterations.value += BigInteger.valueOf(iterationsInLastSecond * multiplier)
+
+                // Calculate frequency for the last second
+                val actualFrequency = iterationsInLastSecond.toFloat()
 
                 val updatedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-                val updatedIterations = "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(freq.value)})"
+                val updatedIterations = "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(actualFrequency*multiplier)})"
 
-                if (freq.value != BigInteger.ZERO) {
-                    withContext(Dispatchers.Main) {
-                        onTimeUpdate(updatedTime)
-                        onIterationsUpdate(updatedIterations)
-                    }
+                withContext(Dispatchers.Main) {
+                    onTimeUpdate(updatedTime)
+                    onIterationsUpdate(updatedIterations)
                 }
 
-                iterationsPerSecond = BigInteger.ZERO
-                lastUpdateTime = currentTime
+                // Reset for the next second
+                iterationsInLastSecond = 0L
+                lastUpdate.value = System.nanoTime()
             }
         }
     }
@@ -714,6 +782,10 @@ fun ProcessIntentionMultiplication(
 }
 
 fun formatLargeNumber(value: BigInteger): String {
+    if (value < BigInteger("1000")) {
+        return value.toString()
+    }
+
     val names = arrayOf("", "k", "M", "B", "T", "q", "Q", "s", "S")
     val magnitude = value.toString().length
     val index = (magnitude - 1) / 3
@@ -729,20 +801,25 @@ fun formatLargeNumber(value: BigInteger): String {
     return String.format("%.3f%s", formattedValue, names[index])
 }
 
-fun formatLargeFreq(value: BigInteger): String {
-    val names = arrayOf("Hz", "kHz", "MHz", "GHz", "THz", "PHz", "EHz")
-    val magnitude = value.toString().length
-    val index = (magnitude - 1) / 3
+fun formatLargeFreq(value: Float): String {
+    val units = arrayOf("Hz", "kHz", "MHz", "GHz", "THz", "PHz", "EHz")
+    var adjustedValue = value
+    var unitIndex = 0
 
-    if (index >= names.size) {
-        return value.toString() + "Hz"
+    // Adjust the value to the correct unit
+    while (adjustedValue >= 1000 && unitIndex < units.size - 1) {
+        adjustedValue /= 1000
+        unitIndex++
     }
 
-    val divisor = BigInteger.TEN.pow(index * 3)
-    val formattedValue =
-        value.toBigDecimal().divide(divisor.toBigDecimal(), 3, RoundingMode.HALF_UP)
-
-    return String.format("%.3f%s", formattedValue, names[index])
+    // Format the frequency
+    return if (unitIndex == 0) {
+        // If the value is still in Hz, show it without decimals
+        String.format("%.0f %s", adjustedValue, units[unitIndex])
+    } else {
+        // Otherwise, show it with three decimal places
+        String.format("%.3f %s", adjustedValue, units[unitIndex])
+    }
 }
 
 class TimerForegroundService : Service() {
