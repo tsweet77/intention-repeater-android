@@ -77,7 +77,7 @@ import java.math.RoundingMode
 import java.security.MessageDigest
 import kotlin.math.roundToLong
 
-const val version = "Version 1.12"
+const val version = "Version 1.16"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,8 +95,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun sha256(input: String): String {
-    val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+fun sha512(input: String): String {
+    val bytes = MessageDigest.getInstance("SHA-512").digest(input.toByteArray())
     return bytes.joinToString("") { "%02x".format(it) }
 }
 
@@ -161,9 +161,9 @@ fun Greeting(modifier: Modifier = Modifier) {
                     formattedIterations = "Loading Intention..."
                     intentionMultiplied.clear()
                     multiplier = 0
-                    targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 3
-                    if (targetLength * 3 > ninetyPercentOfFreeMemory) {
-                        targetLength = (ninetyPercentOfFreeMemory / 3).toLong()
+                    targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
+                    if (targetLength * 4 > ninetyPercentOfFreeMemory) {
+                        targetLength = (ninetyPercentOfFreeMemory / 4).toLong()
                         sliderPosition = (targetLength / 1024 / 1024).toFloat()
                     }
                     sharedPref.edit().putString("intention", intention).apply()
@@ -451,7 +451,7 @@ fun FrequencyAndBoostSelector(
                 modifier = Modifier.size(48.dp)
             )
             Text(
-                text = "Power Boost - Uses Sha256 Encoding",
+                text = "Power Boost - Uses Sha512 Encoding",
                 color = Color.White,
                 fontSize = 16.sp,
                 fontFamily = FontFamily.Serif,
@@ -698,12 +698,13 @@ fun TimerLogic(
 ) {
     val elapsedTime = remember { mutableStateOf(0L) }
     val iterations = remember { mutableStateOf(BigInteger.ZERO) }
-    val startTime = remember { mutableStateOf(System.nanoTime()) }
-    val lastUpdate = remember { mutableStateOf(startTime.value) }
+    val startTime = remember { System.nanoTime() }
+    val lastUpdate = remember { mutableStateOf(startTime) }
     var mutableIntention = newIntention
 
     LaunchedEffect(timerRunning) {
         var iterationsInLastSecond = 0L
+        var lastSecond = System.nanoTime()
 
         while (timerRunning) {
             val loopStartTime = System.nanoTime()
@@ -712,21 +713,27 @@ fun TimerLogic(
             var processIntention = newIntention
 
             if (isBoostEnabled) {
-                mutableIntention = sha256(mutableIntention)
+                mutableIntention = sha512("$mutableIntention: $newIntention")
             }
 
             iterationsInLastSecond++
 
-            // Calculate actual loop time
-            //val actualLoopTimeNs = System.nanoTime() - loopStartTime
-
             if (selectedFrequency == "3") {
-                delay(333)
+                // Calculate the time taken to hash
+                val timeTakenForHashingNs = System.nanoTime() - loopStartTime
+
+                // Calculate the remaining delay time in milliseconds
+                val remainingDelayMs = 333 - (timeTakenForHashingNs / 1_000_000L)
+
+                if (remainingDelayMs > 0) {
+                    delay(remainingDelayMs)
+                }
             }
 
             // Update every second
-            if (System.nanoTime() - lastUpdate.value >= 1_000_000_000L) {
-                elapsedTime.value = (System.nanoTime() - startTime.value) / 1_000_000L // Convert to ms
+            val now = System.nanoTime()
+            if (now - lastSecond >= 1_000_000_000L) {
+                elapsedTime.value = (now - startTime) / 1_000_000L // Convert to ms
 
                 val hours = elapsedTime.value / 3600000
                 val minutes = (elapsedTime.value / 60000) % 60
@@ -738,7 +745,7 @@ fun TimerLogic(
                 val actualFrequency = iterationsInLastSecond.toFloat()
 
                 val updatedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-                val updatedIterations = "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(actualFrequency*multiplier)})"
+                val updatedIterations = "${formatLargeNumber(iterations.value)} Iterations (${formatLargeFreq(actualFrequency * multiplier)})"
 
                 withContext(Dispatchers.Main) {
                     onTimeUpdate(updatedTime)
@@ -747,7 +754,7 @@ fun TimerLogic(
 
                 // Reset for the next second
                 iterationsInLastSecond = 0L
-                lastUpdate.value = System.nanoTime()
+                lastSecond = now
             }
         }
     }
