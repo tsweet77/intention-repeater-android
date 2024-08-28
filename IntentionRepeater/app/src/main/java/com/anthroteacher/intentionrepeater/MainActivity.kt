@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -77,7 +79,7 @@ import java.math.RoundingMode
 import java.security.MessageDigest
 import kotlin.math.roundToLong
 
-const val version = "Version 1.16"
+const val version = "Version 1.17"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,7 +109,7 @@ fun Greeting(modifier: Modifier = Modifier) {
     val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
 
     var selectedFrequency by rememberSaveable { mutableStateOf(sharedPref.getString("frequency", "3") ?: "3") }
-    var isBoostEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("boost_enabled", false)) } // Load Boost value from SharedPreferences
+    var isBoostEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("boost_enabled", false)) }
     var targetLength by remember { mutableLongStateOf(1L) }
     var time by remember { mutableStateOf("00:00:00") }
     var timerRunning by remember { mutableStateOf(false) }
@@ -124,6 +126,20 @@ fun Greeting(modifier: Modifier = Modifier) {
     var newIntention by remember { mutableStateOf("") }
     var multiplier by remember { mutableStateOf(0L) }
     var isIntentionProcessed by remember { mutableStateOf(false) }
+
+    val resultLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = { uri ->
+            uri?.let {
+                val hashedValue = hashFileContent(context, it)
+                intention += hashedValue // Append the hash to the intention text box
+            }
+        }
+    )
+
+    val handleInsertFileClick = {
+        resultLauncher.launch(arrayOf("*/*")) // Allow any file type
+    }
 
     Box(
         modifier = Modifier
@@ -152,7 +168,7 @@ fun Greeting(modifier: Modifier = Modifier) {
             },
             time = time,
             formattedIterations = formattedIterations,
-            buttonText = if (timerRunning) "Stop" else "Start",
+            buttonText = if (timerRunning) "STOP" else "START",
             onStartStopButtonClick = {
                 focusManager.clearFocus()
                 if (timerRunning) {
@@ -168,7 +184,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                     }
                     sharedPref.edit().putString("intention", intention).apply()
                     sharedPref.edit().putString("frequency", selectedFrequency).apply()
-                    sharedPref.edit().putBoolean("boost_enabled", isBoostEnabled).apply() // Save Boost value to SharedPreferences
+                    sharedPref.edit().putBoolean("boost_enabled", isBoostEnabled).apply()
                     timerRunning = true
                     isIntentionProcessed = false
                 }
@@ -178,6 +194,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                 formattedIterations = "0 Iterations (0 Hz)"
                 time = "00:00:00"
             },
+            onInsertFileClick = handleInsertFileClick, // Pass the file selection logic
             scrollState = scrollState
         )
     }
@@ -199,10 +216,22 @@ fun Greeting(modifier: Modifier = Modifier) {
             selectedFrequency = selectedFrequency,
             multiplier = multiplier,
             newIntention = newIntention,
-            isBoostEnabled = isBoostEnabled, // Pass Boost value to TimerLogic
+            isBoostEnabled = isBoostEnabled,
             onTimeUpdate = { time = it },
             onIterationsUpdate = { formattedIterations = it }
         )
+    }
+}
+
+fun hashFileContent(context: Context, uri: Uri): String {
+    return try {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val bytes = inputStream?.use { it.readBytes() } ?: byteArrayOf() // Provide a default empty array if bytes are null
+        val digest = MessageDigest.getInstance("SHA-512").digest(bytes)
+        digest.joinToString("") { "%02x".format(it) }.uppercase() // Convert to uppercase
+    } catch (e: Exception) {
+        e.printStackTrace()
+        ""
     }
 }
 
@@ -222,8 +251,11 @@ private fun MainContent(
     buttonText: String,
     onStartStopButtonClick: () -> Unit,
     onResetButtonClick: () -> Unit,
+    onInsertFileClick: () -> Unit,
     scrollState: ScrollState
 ) {
+    var isEulaPrivacyVisible by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -256,6 +288,7 @@ private fun MainContent(
             buttonText = buttonText,
             onStartStopButtonClick = onStartStopButtonClick,
             onResetButtonClick = onResetButtonClick,
+            onInsertFileClick = onInsertFileClick, // Pass the onInsertFileClick here
             timerRunning = timerRunning,
             intention = intention
         )
@@ -273,19 +306,19 @@ private fun MainContent(
                 ForumButton()
             }
 
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(12.dp))
+            VersionDisplay(isEulaPrivacyVisible) { isEulaPrivacyVisible = !isEulaPrivacyVisible }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                EulaButton()
-                Spacer(modifier = Modifier.size(16.dp))
-                PrivacyPolicyButton()
+            if (isEulaPrivacyVisible) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    EulaButton()
+                    PrivacyPolicyButton()
+                }
             }
         }
-        Spacer(modifier = Modifier.size(12.dp))
-        VersionDisplay()
     }
 }
 
@@ -514,9 +547,11 @@ private fun StartStopResetButtons(
     buttonText: String,
     onStartStopButtonClick: () -> Unit,
     onResetButtonClick: () -> Unit,
+    onInsertFileClick: () -> Unit,
     timerRunning: Boolean,
     intention: String
 ) {
+    // Start and Reset buttons on the first line
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
@@ -553,7 +588,35 @@ private fun StartStopResetButtons(
             )
         ) {
             Text(
-                text = "Reset",
+                text = "RESET",
+                color = Color.White,
+                fontSize = 24.sp,
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+
+    Spacer(modifier = Modifier.size(8.dp))
+
+    // Insert File button on its own line
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Button(
+            onClick = onInsertFileClick,
+            enabled = !timerRunning,
+            modifier = Modifier
+                .weight(1f)
+                .height(48.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.White,
+                containerColor = Color.Blue
+            )
+        ) {
+            Text(
+                text = "LOAD FILE",
                 color = Color.White,
                 fontSize = 24.sp,
                 fontFamily = FontFamily.Serif,
@@ -615,6 +678,25 @@ private fun ForumButton() {
             fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun VersionDisplay(isEulaPrivacyVisible: Boolean, onToggleVisibility: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "$version ...",
+            color = Color.White,
+            fontSize = 14.sp,
+            fontFamily = FontFamily.Serif,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.pointerInput(Unit) {
+                detectTapGestures(onTap = { onToggleVisibility() })
+            }
         )
     }
 }
