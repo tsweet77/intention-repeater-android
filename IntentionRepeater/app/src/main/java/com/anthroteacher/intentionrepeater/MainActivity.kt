@@ -60,6 +60,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -79,7 +81,7 @@ import java.math.RoundingMode
 import java.security.MessageDigest
 import kotlin.math.roundToLong
 
-const val version = "Version 1.17"
+const val version = "Version 1.24"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,8 +120,8 @@ fun Greeting(modifier: Modifier = Modifier) {
     val focusManager = LocalFocusManager.current
     val savedSliderPosition = sharedPref.getFloat("sliderPosition", 0f)
     var sliderPosition by remember { mutableFloatStateOf(savedSliderPosition) }
-    val ninetyPercentOfFreeMemory = remember {
-        Runtime.getRuntime().let { it.maxMemory() - (it.totalMemory() - it.freeMemory()) } * 0.9
+    val fiftyPercentOfFreeMemory = remember {
+        Runtime.getRuntime().let { it.maxMemory() - (it.totalMemory() - it.freeMemory()) } * 0.5
     }
     val scrollState = rememberScrollState()
     var intentionMultiplied by remember { mutableStateOf(StringBuilder()) }
@@ -140,6 +142,8 @@ fun Greeting(modifier: Modifier = Modifier) {
     val handleInsertFileClick = {
         resultLauncher.launch(arrayOf("*/*")) // Allow any file type
     }
+
+    val maxMemoryUsageMB = 100f // Set the maximum allowed memory usage to 100 MB
 
     Box(
         modifier = Modifier
@@ -178,10 +182,17 @@ fun Greeting(modifier: Modifier = Modifier) {
                     intentionMultiplied.clear()
                     multiplier = 0
                     targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
-                    if (targetLength * 4 > ninetyPercentOfFreeMemory) {
-                        targetLength = (ninetyPercentOfFreeMemory / 4).toLong()
+                    if (targetLength * 4 > fiftyPercentOfFreeMemory) {
+                        targetLength = (fiftyPercentOfFreeMemory / 4).toLong()
                         sliderPosition = (targetLength / 1024 / 1024).toFloat()
+                        // Ensure sliderPosition does not exceed 100
+                        sliderPosition = sliderPosition.coerceAtMost(maxMemoryUsageMB)
                     }
+                    // Adjust targetLength again to make sure it's within the 100 MB limit
+                    if (sliderPosition > maxMemoryUsageMB) {
+                        sliderPosition = maxMemoryUsageMB
+                    }
+                    targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
                     sharedPref.edit().putString("intention", intention).apply()
                     sharedPref.edit().putString("frequency", selectedFrequency).apply()
                     sharedPref.edit().putBoolean("boost_enabled", isBoostEnabled).apply()
@@ -443,7 +454,9 @@ fun FrequencyAndBoostSelector(
                 selected = selectedFrequency == "3",
                 onClick = { if (!timerRunning) onFrequencyChange("3") },
                 enabled = !timerRunning,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier
+                    .size(48.dp)
+                    .semantics { contentDescription = "Use 3 Hz Frequency (Optimal)" }
             )
             Text(
                 text = "3 Hz (Optimal)",
@@ -459,7 +472,9 @@ fun FrequencyAndBoostSelector(
                 selected = selectedFrequency == "0",
                 onClick = { if (!timerRunning) onFrequencyChange("0") },
                 enabled = !timerRunning,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier
+                    .size(48.dp)
+                    .semantics { contentDescription = "Use Max Frequency" }
             )
             Text(
                 text = "Max Freq",
@@ -481,7 +496,9 @@ fun FrequencyAndBoostSelector(
                 checked = isBoostEnabled,
                 onCheckedChange = { onBoostChange(it) },
                 enabled = !timerRunning,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier
+                    .size(48.dp)
+                    .semantics { contentDescription = "Power Boost (Enables SHA-512 Encoding)" }
             )
             Text(
                 text = "Power Boost - Uses Sha512 Encoding",
