@@ -76,12 +76,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.InputStream
 import java.math.BigInteger
 import java.math.RoundingMode
 import java.security.MessageDigest
 import kotlin.math.roundToLong
 
-const val version = "Version 1.24"
+const val version = "Version 1.25"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -235,14 +236,29 @@ fun Greeting(modifier: Modifier = Modifier) {
 }
 
 fun hashFileContent(context: Context, uri: Uri): String {
+    var inputStream: InputStream? = null
     return try {
-        val inputStream = context.contentResolver.openInputStream(uri)
-        val bytes = inputStream?.use { it.readBytes() } ?: byteArrayOf() // Provide a default empty array if bytes are null
+        // Open input stream from the file URI
+        inputStream = context.contentResolver.openInputStream(uri)
+        val bytes = inputStream?.use { it.readBytes() } ?: byteArrayOf()
+
+        // Generate the hash value using SHA-512
         val digest = MessageDigest.getInstance("SHA-512").digest(bytes)
-        digest.joinToString("") { "%02x".format(it) }.uppercase() // Convert to uppercase
+        val hashValue = digest.joinToString("") { "%02x".format(it) }.uppercase()
+
+        // Clear file content from memory
+        inputStream?.close() // Explicitly close the InputStream
+        inputStream = null // Nullify the reference to allow garbage collection
+
+        // Return the hash value
+        hashValue
     } catch (e: Exception) {
         e.printStackTrace()
         ""
+    } finally {
+        // Ensure input stream is closed in case of an exception
+        inputStream?.close()
+        inputStream = null // Nullify the reference
     }
 }
 
