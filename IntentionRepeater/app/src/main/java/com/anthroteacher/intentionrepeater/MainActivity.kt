@@ -82,7 +82,7 @@ import java.math.RoundingMode
 import java.security.MessageDigest
 import kotlin.math.roundToLong
 
-const val version = "Version 1.25"
+const val version = "Version 1.26"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -185,7 +185,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                     targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
                     if (targetLength * 4 > fiftyPercentOfFreeMemory) {
                         targetLength = (fiftyPercentOfFreeMemory / 4).toLong()
-                        sliderPosition = (targetLength / 1024 / 1024).toFloat()
+                        sliderPosition = (4 * targetLength / 1024 / 1024).toFloat()
                         // Ensure sliderPosition does not exceed 100
                         sliderPosition = sliderPosition.coerceAtMost(maxMemoryUsageMB)
                     }
