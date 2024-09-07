@@ -104,7 +104,7 @@ import java.math.RoundingMode
 import java.security.MessageDigest
 import kotlin.math.roundToLong
 
-const val version = "Version 1.34"
+const val version = "Version 1.41"
 
 class MainActivity : ComponentActivity() {
 
@@ -125,21 +125,27 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
+        // Initialize SharedPreferences
+        val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val isFirstLaunch = sharedPreferences.getBoolean("isFirstLaunch", true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                // Handle the permission result here if needed
+            }
 
-        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-
-        }
-        when {
-            ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED -> {
-                // Request permission
+            // Check if this is the first launch
+            if (isFirstLaunch) {
+                // Check if notification permission is granted
+                if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    // Request permission
                     requestPermissionLauncher.launch(POST_NOTIFICATIONS)
                 }
+
+                // Update SharedPreferences to mark that the permission has been requested
+                sharedPreferences.edit().putBoolean("isFirstLaunch", false).apply()
             }
         }
-
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -433,28 +439,31 @@ fun hashFileContent(context: Context, uri: Uri): String {
 
         Spacer(modifier = Modifier.size(24.dp))
 
-        // Gear Icon Button
-        IconButton(
-            onClick = {
-                val intent = Intent(context, SettingsActivity::class.java)
-                context.startActivity(intent)
-            },
-            modifier = Modifier
-                .size(56.dp)
-                .padding(top = 16.dp)
+        Row(
+            verticalAlignment = Alignment.CenterVertically, // Align items vertically in the center
+            horizontalArrangement = Arrangement.Center, // Center the items horizontally within the row
+            modifier = Modifier.fillMaxWidth() // Make the row fill the available width
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_settings_gear),
-                contentDescription = "Settings",
-                modifier = Modifier
-                    .size(56.dp)
-            )
+            // Gear Icon Button
+            IconButton(
+                onClick = {
+                    val intent = Intent(context, SettingsActivity::class.java)
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.size(56.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_settings_gear),
+                    contentDescription = "Settings",
+                    modifier = Modifier.size(56.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(16.dp)) // Optional spacer to add space between items
+
+            // Version Display
+            VersionDisplay() // Remove the modifier parameter since it's not defined in VersionDisplay
         }
-
-        // Spacer to add space below the gear icon
-        Spacer(modifier = Modifier.height(16.dp)) // Adjust or add more space below the icon if needed
-
-        VersionDisplay()
 
     }
 }
@@ -716,7 +725,7 @@ fun KeepDeviceAwakeCheckbox(
                     enabled = isCheckboxEnabled,
                     modifier = Modifier
                         .size(24.dp) // Size of the checkbox itself
-                        .semantics { contentDescription = "Keep Device Awake Checkbox" }
+                        .semantics { contentDescription = "Keep Device Awake" }
                 )
                 Spacer(modifier = Modifier.width(8.dp)) // Add spacing between the checkbox and text
                 Text(
