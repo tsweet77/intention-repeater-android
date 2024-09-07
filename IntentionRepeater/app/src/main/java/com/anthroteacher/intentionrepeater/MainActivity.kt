@@ -24,8 +24,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,6 +40,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -51,6 +54,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -59,7 +63,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
@@ -76,6 +79,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
@@ -89,9 +93,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.anthroteacher.intentionrepeater.ui.theme.IntentionRepeaterTheme
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.InputStream
@@ -100,7 +104,7 @@ import java.math.RoundingMode
 import java.security.MessageDigest
 import kotlin.math.roundToLong
 
-const val version = "Version 1.29"
+const val version = "Version 1.34"
 
 class MainActivity : ComponentActivity() {
 
@@ -196,6 +200,9 @@ fun Greeting(modifier: Modifier = Modifier) {
     var multiplier by remember { mutableStateOf(0L) }
     var isIntentionProcessed by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
+    // Initialize `isKeepAwakeEnabled` with a default value, saving its state across recompositions
+    var isKeepAwakeEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("keep_awake_enabled", false)) }
+
 
     val resultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
@@ -248,22 +255,20 @@ fun Greeting(modifier: Modifier = Modifier) {
                     val intent = Intent(context, TimerForegroundService::class.java)
                     context.stopService(intent)
 
-                    if(formattedIterations=="Loading Intention..."){
-                        formattedIterations="0 Iterations (0 Hz)"
+                    if (formattedIterations == "Loading Intention...") {
+                        formattedIterations = "0 Iterations (0 Hz)"
                     }
                 } else {
                     formattedIterations = "Loading Intention..."
-                    time="00:00:00"
+                    time = "00:00:00"
                     intentionMultiplied.clear()
                     multiplier = 0
                     targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
                     if (targetLength * 4 > fiftyPercentOfFreeMemory) {
                         targetLength = (fiftyPercentOfFreeMemory / 4).toLong()
                         sliderPosition = (4 * targetLength / 1024 / 1024).toFloat()
-                        // Ensure sliderPosition does not exceed 100
                         sliderPosition = sliderPosition.coerceAtMost(maxMemoryUsageMB)
                     }
-                    // Adjust targetLength again to make sure it's within the 100 MB limit
                     if (sliderPosition > maxMemoryUsageMB) {
                         sliderPosition = maxMemoryUsageMB
                     }
@@ -271,6 +276,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                     sharedPref.edit().putString("intention", intention).apply()
                     sharedPref.edit().putString("frequency", selectedFrequency).apply()
                     sharedPref.edit().putBoolean("boost_enabled", isBoostEnabled).apply()
+                    sharedPref.edit().putBoolean("keep_awake_enabled", isKeepAwakeEnabled).apply() // Ensure it saves state properly
                     viewModel.setTimerRunning(true)
                     isIntentionProcessed = true
 
@@ -288,16 +294,16 @@ fun Greeting(modifier: Modifier = Modifier) {
                     }
 
                     val newIntention = intentionBuilder.toString()
-
                     intentionMultiplied = StringBuilder(newIntention)
-                    multiplier=localMultiplier;
+                    multiplier = localMultiplier
 
                     val intent = Intent(context, TimerForegroundService::class.java)
                     sharedPref.edit().putString("newIntention", newIntention).apply()
-                    intent.putExtra("isBoostEnabled",isBoostEnabled);
-                    intent.putExtra("timerRunning",timerRunning);
-                    intent.putExtra("multiplier",multiplier);
-                    intent.putExtra("selectedFrequency",selectedFrequency);
+                    intent.putExtra("isBoostEnabled", isBoostEnabled)
+                    intent.putExtra("timerRunning", timerRunning)
+                    intent.putExtra("multiplier", multiplier)
+                    intent.putExtra("selectedFrequency", selectedFrequency)
+                    intent.putExtra("isKeepAwakeEnabled", isKeepAwakeEnabled) // Pass keep awake state to the service
                     context.startService(intent)
                 }
             },
@@ -310,7 +316,12 @@ fun Greeting(modifier: Modifier = Modifier) {
             scrollState = scrollState,
             expanded = expanded,
             onExpandChange = {
-                expanded=!expanded
+                expanded = !expanded
+            },
+            isKeepAwakeEnabled = isKeepAwakeEnabled,
+            onKeepAwakeChange = { newValue ->
+                isKeepAwakeEnabled = newValue
+                sharedPref.edit().putBoolean("keep_awake_enabled", newValue).apply()
             }
         )
     }
@@ -335,32 +346,22 @@ fun Greeting(modifier: Modifier = Modifier) {
 fun hashFileContent(context: Context, uri: Uri): String {
     var inputStream: InputStream? = null
     return try {
-        // Open input stream from the file URI
         inputStream = context.contentResolver.openInputStream(uri)
-        val bytes = inputStream?.use { it.readBytes() } ?: byteArrayOf()
-
-        // Generate the hash value using SHA-512
-        val digest = MessageDigest.getInstance("SHA-512").digest(bytes)
-        val hashValue = digest.joinToString("") { "%02x".format(it) }.uppercase()
-
-        // Clear file content from memory
-        inputStream?.close() // Explicitly close the InputStream
-        inputStream = null // Nullify the reference to allow garbage collection
-
-        // Return the hash value
-        hashValue
+        inputStream?.use { stream ->
+            val bytes = stream.readBytes()
+            val digest = MessageDigest.getInstance("SHA-512").digest(bytes)
+            digest.joinToString("") { "%02x".format(it) }.uppercase()
+        } ?: ""
     } catch (e: Exception) {
         e.printStackTrace()
-        ""
+        "" // Return empty string in case of any exception
     } finally {
-        // Ensure input stream is closed in case of an exception
         inputStream?.close()
-        inputStream = null // Nullify the reference
     }
 }
 
 @Composable
-private fun MainContent(
+    private fun MainContent(
     selectedFrequency: String,
     intention: String,
     onFrequencyChange: (String) -> Unit,
@@ -378,9 +379,11 @@ private fun MainContent(
     onInsertFileClick: () -> Unit,
     scrollState: ScrollState,
     expanded: Boolean,
-    onExpandChange: (Boolean) -> Unit
+    onExpandChange: (Boolean) -> Unit,
+    isKeepAwakeEnabled: Boolean, // Add parameter for keep awake state
+    onKeepAwakeChange: (Boolean) -> Unit // Callback for changing the keep awake state
 ) {
-    var isEulaPrivacyVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current // Correctly obtain the context in Compose
 
     Column(
         modifier = Modifier
@@ -409,6 +412,13 @@ private fun MainContent(
             expanded=expanded,
             onExpandChange=onExpandChange
         )
+        // Checkbox for keeping the device awake
+        KeepDeviceAwakeCheckbox(
+            selectedFrequency = selectedFrequency,
+            isKeepAwakeEnabled = isKeepAwakeEnabled,
+            onKeepAwakeChange = onKeepAwakeChange,
+            timerRunning = timerRunning
+        )
         TimerDisplay(time = time)
         IterationsDisplay(formattedIterations = formattedIterations)
         Spacer(modifier = Modifier.size(24.dp))
@@ -420,33 +430,58 @@ private fun MainContent(
             timerRunning = timerRunning,
             intention = intention
         )
+
         Spacer(modifier = Modifier.size(24.dp))
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+
+        // Gear Icon Button
+        IconButton(
+            onClick = {
+                val intent = Intent(context, SettingsActivity::class.java)
+                context.startActivity(intent)
+            },
+            modifier = Modifier
+                .size(56.dp)
+                .padding(top = 16.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                WebsiteButton()
-                Spacer(modifier = Modifier.size(16.dp))
-                ForumButton()
-            }
-
-            Spacer(modifier = Modifier.size(12.dp))
-            VersionDisplay(isEulaPrivacyVisible) { isEulaPrivacyVisible = !isEulaPrivacyVisible }
-
-            if (isEulaPrivacyVisible) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    EulaButton()
-                    PrivacyPolicyButton()
-                }
-            }
+            Image(
+                painter = painterResource(id = R.drawable.ic_settings_gear),
+                contentDescription = "Settings",
+                modifier = Modifier
+                    .size(56.dp)
+            )
         }
+
+        // Spacer to add space below the gear icon
+        Spacer(modifier = Modifier.height(16.dp)) // Adjust or add more space below the icon if needed
+
+        VersionDisplay()
+
+    }
+}
+
+@Composable
+private fun SettingsButton() {
+    val context = LocalContext.current
+    Button(
+        onClick = {
+            val intent = Intent(context, SettingsActivity::class.java)
+            context.startActivity(intent)
+        },
+        colors = ButtonDefaults.buttonColors(
+            contentColor = Color.White,
+            containerColor = Color.Blue
+        ),
+        modifier = Modifier
+            .width(150.dp)
+            .height(48.dp)
+    ) {
+        Text(
+            text = "Settings",
+            color = Color.White,
+            fontSize = 24.sp,
+            fontFamily = FontFamily.Serif,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
@@ -558,7 +593,11 @@ fun FrequencyAndBoostSelector(
     onExpandChange:(Boolean) -> Unit,
 ) {
     data class Option(val title: String, val value: String)
-    val options = listOf(Option("3 Hz (Classic)","3"), Option("7.83 Hz Schumann Res. (Optimal)","7.83"), Option("Maximum Frequency","0"))
+    val options = listOf(
+        Option("3 Hz (Classic)","3"),
+        Option("7.83 Hz Schumann Res. (Optimal)","7.83"),
+        Option("Maximum Frequency","0")
+    )
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -575,7 +614,7 @@ fun FrequencyAndBoostSelector(
         ) {
             TextField(
                 readOnly = true,
-                value = if(selectedFrequency=="3") options.get(0).title else if(selectedFrequency=="7.83") options.get(1).title else options.get(2).title,
+                value = if(selectedFrequency=="3") options[0].title else if(selectedFrequency=="7.83") options[1].title else options[2].title,
                 onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
@@ -607,54 +646,107 @@ fun FrequencyAndBoostSelector(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp), // Ensure the row height is at least 48dp
+                .padding(start = 8.dp) // Aligns both checkboxes to the left
+                .height(48.dp), // Set the height of the row to 48 dp
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start // Align items to the start
+            horizontalArrangement = Arrangement.Start
         ) {
             Checkbox(
                 checked = isBoostEnabled,
                 onCheckedChange = { onBoostChange(it) },
                 enabled = !timerRunning,
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(24.dp) // Size of the checkbox itself
                     .semantics { contentDescription = "Power Boost (Enables SHA-512 Encoding)" }
             )
+            Spacer(modifier = Modifier.width(8.dp)) // Add spacing between the checkbox and text
             Text(
                 text = "Power Boost - Uses Sha512 Encoding",
                 color = Color.White,
-                fontSize = 16.sp,
+                fontSize = 14.sp, // Match the font size
                 fontFamily = FontFamily.Serif,
-                modifier = Modifier.padding(start = 4.dp)
-
+                modifier = Modifier
+                    .weight(1f) // Make the text take up remaining space in the row
+                    .height(48.dp) // Ensures the text aligns vertically within the 48dp height
+                    .wrapContentHeight(Alignment.CenterVertically) // Centers the text vertically within its container
             )
         }
+
     }
 }
 
 @Composable
-private fun BoostCheckbox(
-    isBoostEnabled: Boolean,
-    onBoostChange: (Boolean) -> Unit,
-    timerRunning: Boolean,
-    modifier: Modifier = Modifier
+fun KeepDeviceAwakeCheckbox(
+    selectedFrequency: String,
+    isKeepAwakeEnabled: Boolean,
+    onKeepAwakeChange: (Boolean) -> Unit,
+    timerRunning: Boolean
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        Checkbox(
-            checked = isBoostEnabled,
-            onCheckedChange = { onBoostChange(it) },
-            enabled = !timerRunning,
-            modifier = Modifier.size(24.dp)
-        )
-        Text(
-            text = "Boost",
-            color = Color.White,
-            fontSize = 14.sp,
-            fontFamily = FontFamily.Serif,
-            modifier = Modifier.padding(start = 4.dp) // Add padding between checkbox and label
-        )
+    // Determine if the checkbox should be enabled or disabled
+    val isCheckboxEnabled = (selectedFrequency == "3" || selectedFrequency == "7.83") && !timerRunning
+
+    // Tooltip state
+    var showTooltip by remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier.padding(start = 8.dp, top = 8.dp)) { // Align with other checkbox
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onLongPress = { showTooltip = true },
+                        onTap = { showTooltip = false }
+                    )
+                }
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp), // Set the row height to 48.dp
+                verticalAlignment = Alignment.CenterVertically // Center the contents vertically
+            ) {
+                Checkbox(
+                    checked = isKeepAwakeEnabled, // Always use the state without modification
+                    onCheckedChange = {
+                        if (isCheckboxEnabled) {
+                            onKeepAwakeChange(it)
+                        }
+                    },
+                    enabled = isCheckboxEnabled,
+                    modifier = Modifier
+                        .size(24.dp) // Size of the checkbox itself
+                        .semantics { contentDescription = "Keep Device Awake Checkbox" }
+                )
+                Spacer(modifier = Modifier.width(8.dp)) // Add spacing between the checkbox and text
+                Text(
+                    text = "Keep Device Awake (3 Hz or 7.83 Hz only)",
+                    color = if (isCheckboxEnabled) Color.White else Color.Gray,
+                    fontSize = 14.sp, // Match the font size with "Power Boost"
+                    fontFamily = FontFamily.Serif,
+                    modifier = Modifier
+                        .padding(start = 4.dp)
+                        .align(Alignment.CenterVertically) // Center the text vertically within the row
+                )
+            }
+
+        }
+
+        if (showTooltip) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(start = 36.dp)
+                    .background(Color.DarkGray, shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp))
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = "Prevents device from sleeping during 3 Hz or 7.83 Hz operations. Increases battery usage.",
+                    color = Color.White,
+                    fontSize = 12.sp
+                )
+            }
+        }
     }
 }
 
@@ -763,7 +855,7 @@ private fun StartStopResetButtons(
 }
 
 @Composable
-private fun WebsiteButton() {
+fun WebsiteButton() {
     val context = LocalContext.current
     Button(
         onClick = {
@@ -791,7 +883,7 @@ private fun WebsiteButton() {
 }
 
 @Composable
-private fun ForumButton() {
+fun ForumButton() {
     val context = LocalContext.current
 
     Button(
@@ -819,26 +911,23 @@ private fun ForumButton() {
 }
 
 @Composable
-private fun VersionDisplay(isEulaPrivacyVisible: Boolean, onToggleVisibility: () -> Unit) {
+private fun VersionDisplay() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "$version ...",
+            text = version,
             color = Color.White,
             fontSize = 14.sp,
             fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.pointerInput(Unit) {
-                detectTapGestures(onTap = { onToggleVisibility() })
-            }
+            fontWeight = FontWeight.Bold
         )
     }
 }
 
 @Composable
-private fun EulaButton() {
+fun EulaButton() {
     val context = LocalContext.current
 
     Button(
@@ -866,7 +955,7 @@ private fun EulaButton() {
 }
 
 @Composable
-private fun PrivacyPolicyButton() {
+fun PrivacyPolicyButton() {
     val context = LocalContext.current
 
     Button(
@@ -978,10 +1067,12 @@ class TimerForegroundService : Service() {
     private var mutableIntention = newIntention
 
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
-        if(intent!=null){
-            val notification = createNotification("Intention Repeater 00:00:00","Loading Intention...")
+        // Use safe call operator and provide default values
+        intent?.let { safeIntent ->
+            val notification = createNotification("Intention Repeater 00:00:00", "Loading Intention...")
             startForeground(NOTIFICATION_ID, notification)
 
             // Acquire a partial wake lock
@@ -990,15 +1081,28 @@ class TimerForegroundService : Service() {
                 PowerManager.PARTIAL_WAKE_LOCK,
                 "TimerForegroundService::WakeLock"
             )
-            wakeLock.acquire(10*60*1000L /*10 minutes*/)
+
+            // Get the state of "Keep Device Awake" from the intent or shared preferences
             val sharedPref = applicationContext.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            newIntention = sharedPref.getString("newIntention", "").toString()
+            isBoostEnabled = intent.getBooleanExtra("isBoostEnabled", false)
+            timerRunning = intent.getBooleanExtra("timerRunning", true)
+            selectedFrequency = intent.getStringExtra("selectedFrequency").toString()
+            multiplier = intent.getLongExtra("multiplier", 0L)
+            val keepAwake = intent.getBooleanExtra("isKeepAwakeEnabled", false)
 
+            // Determine the wakelock duration based on the frequency and keep awake state
+            if (selectedFrequency == "0") {
+                // Always use a 10-minute wakelock if selectedFrequency is "0"
+                wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */)
+            } else if (keepAwake) {
+                // Indefinite wakelock if "Keep Device Awake" is enabled
+                wakeLock.acquire()
+            } else {
+                // Fallback wakelock for 10 minutes
+                wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */)
+            }
 
-            newIntention= sharedPref.getString("newIntention","").toString()
-            isBoostEnabled=intent.getBooleanExtra("isBoostEnabled",false)
-            timerRunning= intent.getBooleanExtra("timerRunning",true)
-            selectedFrequency= intent.getStringExtra("selectedFrequency").toString()
-            multiplier=intent.getLongExtra("multiplier",0L)
             val intentUpdate = Intent("IterationUpdate")
 
             if (timerRunning) {
@@ -1014,8 +1118,10 @@ class TimerForegroundService : Service() {
                     })
                 }
             }
+        } ?: run {
+            stopSelf()
+            return START_NOT_STICKY
         }
-
         return START_STICKY
     }
 
