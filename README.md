@@ -5,7 +5,7 @@
 ## Features
 
 - **Intention Repeating**: Set any intention text and repeat it at a controlled frequency to enhance its effect.
-- **Frequency Control**: Choose between an optimal frequency of 3 Hz or maximum frequency for repeating intentions.
+- **Frequency Control**: Choose between an optimal frequency of 7.83 Hz, 3 Hz or maximum frequency for repeating intentions.
 - **Power Boost Mode**: Enable a power boost option to use SHA-512 encoding for stronger manifestation.
 - **Dynamic Timer and Iterations Display**: View real-time updates of elapsed time and iterations.
 - **Memory Management**: Automatically manages memory usage to avoid exceeding limits.
