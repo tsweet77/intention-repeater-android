@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 iteraatiota (0 Hz)</string>
     <string name="enter_intentions">Syötä aikomukset</string>
     <string name="update_language">Päivitä kieli</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Iteraatiot</string>
+    <string name="k">t</string> <!-- k for tuhat -->
+    <string name="M">M</string> <!-- M for miljoona -->
+    <string name="B">milj</string> <!-- B for miljardi -->
+    <string name="T">bilj</string> <!-- T for biljoona -->
+    <string name="q">kvad</string> <!-- q for kvadriljoona -->
+    <string name="Q">kvin</string> <!-- Q for kvintiljoona -->
+    <string name="s">sek</string> <!-- s for sekstiljoona -->
+    <string name="S">sept</string> <!-- S for septiljoona -->
 </resources>

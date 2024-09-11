@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 పదులలూ (0 Hz)</string>
     <string name="enter_intentions">లక్ష్యాలను నమోదు చేయండి</string>
     <string name="update_language">భాషను నవీకరించండి</string>
+    <string name="Hz">హెర్జ్</string>
+    <string name="kHz">కిలోహెర్జ్</string>
+    <string name="MHz">మెగాహెర్జ్</string>
+    <string name="GHz">గిగాహెర్జ్</string>
+    <string name="THz">టెరాహెర్జ్</string>
+    <string name="PHz">పెటాహెర్జ్</string>
+    <string name="EHz">ఎక్సాహెర్జ్</string>
+    <string name="Iterations">పునరావృతాలు</string>
+    <string name="k">కె</string> <!-- k for వేల -->
+    <string name="M">మి</string> <!-- M for మిలియన్ -->
+    <string name="B">బి</string> <!-- B for బిలియన్ -->
+    <string name="T">టి</string> <!-- T for ట్రిలియన్ -->
+    <string name="q">క్వా</string> <!-- q for క్వాడ్రిలియన్ -->
+    <string name="Q">క్వి</string> <!-- Q for క్వింటిలియన్ -->
+    <string name="s">సె</string> <!-- s for సెక్స్టిలియన్ -->
+    <string name="S">సెప్</string> <!-- S for సెప్టిలియన్ -->
 </resources>

@@ -35,4 +35,20 @@
     <string name="no_text_editor_found_please_install_one_from_the_play_store">لم يتم العثور على محرر نصوص. يرجى تثبيت واحد من متجر Play.</string>
     <string name="formatted_0_iterations">٠ تكرارات (٠ هرتز)</string>
     <string name="enter_intentions">أدخل النوايا</string>
+    <string name="Hz">هرتز</string>
+    <string name="kHz">كيلوهرتز</string>
+    <string name="MHz">ميغاهرتز</string>
+    <string name="GHz">جيجاهرتز</string>
+    <string name="THz">تيراهرتز</string>
+    <string name="PHz">بيتا هرتز</string>
+    <string name="EHz">إكسا هرتز</string>
+    <string name="Iterations">التكرارات</string>
+    <string name="k">ألف</string> <!-- k -->
+    <string name="M">مليون</string> <!-- M -->
+    <string name="B">بليون</string> <!-- B -->
+    <string name="T">تريليون</string> <!-- T -->
+    <string name="q">ك</string> <!-- q for كوادريليون -->
+    <string name="Q">ك</string> <!-- Q for كوينتليون -->
+    <string name="s">س</string> <!-- s for سكستيليون -->
+    <string name="S">س</string> <!-- S for سبتيليون -->
 </resources>

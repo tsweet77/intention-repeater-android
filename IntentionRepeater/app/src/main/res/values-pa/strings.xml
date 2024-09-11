@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 ਦੁਹਰਾਈਆਂ (0 Hz)</string>
     <string name="enter_intentions">ਇਰਾਦੇ ਦਿਓ</string>
     <string name="update_language">ਭਾਸ਼ਾ ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ</string>
+    <string name="Hz">ਹਰਟਜ</string>
+    <string name="kHz">ਕਿਲੋਹਰਟਜ</string>
+    <string name="MHz">ਮੇਗਾਹਰਟਜ</string>
+    <string name="GHz">ਗਿਗਾਹਰਟਜ</string>
+    <string name="THz">ਟੈਰਾਹਰਟਜ</string>
+    <string name="PHz">ਪੈਟਾਹਰਟਜ</string>
+    <string name="EHz">ਐਕਸਾਹਰਟਜ</string>
+    <string name="Iterations">ਦੁਹਰਾਵਾਂ</string>
+    <string name="k">ਹ</string> <!-- k for ਹਜ਼ਾਰ -->
+    <string name="M">ਮਿ</string> <!-- M for ਮਿਲੀਅਨ -->
+    <string name="B">ਬਿ</string> <!-- B for ਬਿਲੀਅਨ -->
+    <string name="T">ਟਿ</string> <!-- T for ਟ੍ਰਿਲੀਅਨ -->
+    <string name="q">ਕ੍ਵ</string> <!-- q for ਕਵਾਡ੍ਰੀਲਿਅਨ -->
+    <string name="Q">ਕ੍ਵਿ</string> <!-- Q for ਕਵਿੰਟਿਲਿਅਨ -->
+    <string name="s">ਸੇ</string> <!-- s for ਸੈਕਸਟਿਲਿਅਨ -->
+    <string name="S">ਸੇਪ੍ਟ</string> <!-- S for ਸੇਪਟਿਲਿਅਨ -->
 </resources>

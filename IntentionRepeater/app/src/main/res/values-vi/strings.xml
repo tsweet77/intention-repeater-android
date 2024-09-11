@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Lặp lại (0 Hz)</string>
     <string name="enter_intentions">Nhập ý định</string>
     <string name="update_language">Cập nhật ngôn ngữ</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Lặp lại</string>
+    <string name="k">k</string> <!-- k for nghìn -->
+    <string name="M">M</string> <!-- M for triệu -->
+    <string name="B">T</string> <!-- B for tỷ -->
+    <string name="T">NT</string> <!-- T for nghìn tỷ -->
+    <string name="q">Q</string> <!-- q for tứ trắc -->
+    <string name="Q">Q</string> <!-- Q for tứ thập -->
+    <string name="s">s</string> <!-- s for thập phân -->
+    <string name="S">S</string> <!-- S for thập lục -->
 </resources>

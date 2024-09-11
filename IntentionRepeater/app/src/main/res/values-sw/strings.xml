@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Iterations (0 Hz)</string>
     <string name="enter_intentions">Ingiza nia</string>
     <string name="update_language">Sasisha Lugha</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Kurudiarudi</string>
+    <string name="k">elf</string> <!-- k for elfu -->
+    <string name="M">m</string> <!-- M for milioni -->
+    <string name="B">b</string> <!-- B for bilioni -->
+    <string name="T">t</string> <!-- T for trilioni -->
+    <string name="q">qd</string> <!-- q for quadrilioni -->
+    <string name="Q">Qt</string> <!-- Q for quintilioni -->
+    <string name="s">Sx</string> <!-- s for sextilioni -->
+    <string name="S">Sp</string> <!-- S for septilioni -->
 </resources>

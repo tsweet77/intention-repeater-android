@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Ulangan (0 Hz)</string>
     <string name="enter_intentions">Masukkan Niat</string>
     <string name="update_language">Kemas kini Bahasa</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Ulangan</string>
+    <string name="k">ribu</string> <!-- k for ribu -->
+    <string name="M">j</string> <!-- M for juta -->
+    <string name="B">b</string> <!-- B for bilion -->
+    <string name="T">t</string> <!-- T for trilion -->
+    <string name="q">qd</string> <!-- q for kuadrilion -->
+    <string name="Q">Qt</string> <!-- Q for kuintilion -->
+    <string name="s">s</string> <!-- s for sekstilion -->
+    <string name="S">Sp</string> <!-- S for septilion -->
 </resources>

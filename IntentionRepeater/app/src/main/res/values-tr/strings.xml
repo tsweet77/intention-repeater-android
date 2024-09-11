@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Yineleme (0 Hz)</string>
     <string name="enter_intentions">Niyetleri Girin</string>
     <string name="update_language">Dili Güncelle</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">İterasyonlar</string>
+    <string name="k">b</string> <!-- k for bin -->
+    <string name="M">M</string> <!-- M for milyon -->
+    <string name="B">M</string> <!-- B for milyar -->
+    <string name="T">T</string> <!-- T for trilyon -->
+    <string name="q">K</string> <!-- q for katrilyon -->
+    <string name="Q">Qt</string> <!-- Q for kentilyon -->
+    <string name="s">St</string> <!-- s for sektilyon -->
+    <string name="S">S</string> <!-- S for septilyon -->
 </resources>

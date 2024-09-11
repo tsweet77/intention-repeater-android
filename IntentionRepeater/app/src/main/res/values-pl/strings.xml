@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Iteracji (0 Hz)</string>
     <string name="enter_intentions">Wprowadź zamiary</string>
     <string name="update_language">Zaktualizuj język</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Iteracje</string>
+    <string name="k">k</string> <!-- k for tysiąc -->
+    <string name="M">mln</string> <!-- M for milion -->
+    <string name="B">mld</string> <!-- B for miliard -->
+    <string name="T">bln</string> <!-- T for bilion -->
+    <string name="q">kwad</string> <!-- q for kwadrylion -->
+    <string name="Q">kwin</string> <!-- Q for kwintylion -->
+    <string name="s">sekst</string> <!-- s for sekstylion -->
+    <string name="S">sept</string> <!-- S for septylion -->
 </resources>

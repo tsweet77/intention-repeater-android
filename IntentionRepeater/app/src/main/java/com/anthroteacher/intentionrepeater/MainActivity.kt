@@ -106,7 +106,7 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "1.51"
+const val version = "1.52"
 private const val SETTINGS_REQUEST_CODE = 100
 private var currentLanguage: String = "en" // Default to English
 

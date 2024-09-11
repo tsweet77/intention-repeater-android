@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Iterationer (0 Hz)</string>
     <string name="enter_intentions">Ange intentioner</string>
     <string name="update_language">Uppdatera språk</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Iterationer</string>
+    <string name="k">t</string> <!-- k for tusen -->
+    <string name="M">M</string> <!-- M for miljon -->
+    <string name="B">Md</string> <!-- B for miljard -->
+    <string name="T">T</string> <!-- T for biljon -->
+    <string name="q">Kv</string> <!-- q for kvadriljon -->
+    <string name="Q">Qt</string> <!-- Q for kvintiljon -->
+    <string name="s">Sx</string> <!-- s for sextiljon -->
+    <string name="S">Sp</string> <!-- S for septiljon -->
 </resources>

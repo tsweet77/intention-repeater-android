@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Ітерацій (0 Гц)</string>
     <string name="enter_intentions">Введіть наміри</string>
     <string name="update_language">Оновити мову</string>
+    <string name="Hz">Гц</string>
+    <string name="kHz">кГц</string>
+    <string name="MHz">МГц</string>
+    <string name="GHz">ГГц</string>
+    <string name="THz">ТГц</string>
+    <string name="PHz">ПГц</string>
+    <string name="EHz">ЕГц</string>
+    <string name="Iterations">Ітерації</string>
+    <string name="k">тис</string> <!-- k for тисяча -->
+    <string name="M">млн</string> <!-- M for мільйон -->
+    <string name="B">млрд</string> <!-- B for мільярд -->
+    <string name="T">трлн</string> <!-- T for трильйон -->
+    <string name="q">квдр</string> <!-- q for квадрильйон -->
+    <string name="Q">квн</string> <!-- Q for квінтильйон -->
+    <string name="s">секст</string> <!-- s for секстильйон -->
+    <string name="S">септ</string> <!-- S for септильйон -->
 </resources>

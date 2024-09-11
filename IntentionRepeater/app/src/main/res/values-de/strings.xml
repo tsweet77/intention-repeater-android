@@ -35,4 +35,20 @@
     <string name="no_text_editor_found_please_install_one_from_the_play_store">Kein Texteditor gefunden. Bitte installieren Sie einen aus dem Play Store.</string>
     <string name="formatted_0_iterations">0 Wiederholungen (0 Hz)</string>
     <string name="enter_intentions">Absichten eingeben</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Iterationen</string>
+    <string name="k">Tsd</string> <!-- k for tausend -->
+    <string name="M">Mio</string> <!-- M for Million -->
+    <string name="B">Mrd</string> <!-- B for Milliarde -->
+    <string name="T">Bio</string> <!-- T for Billion -->
+    <string name="q">Q</string> <!-- q for Quadrillion -->
+    <string name="Q">Q</string> <!-- Q for Quintillion -->
+    <string name="s">S</string> <!-- s for Sextillion -->
+    <string name="S">S</string> <!-- S for Septillion -->
 </resources>

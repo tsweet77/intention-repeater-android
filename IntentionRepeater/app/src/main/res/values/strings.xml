@@ -35,4 +35,20 @@
     <string name="no_text_editor_found_please_install_one_from_the_play_store">No text editor found. Please install one from the Play Store.</string>
     <string name="formatted_0_iterations">0 Iterations (0 Hz)</string>
     <string name="enter_intentions">Enter Intentions</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Iterations</string>
+    <string name="k">k</string>
+    <string name="M">M</string>
+    <string name="B">B</string>
+    <string name="T">T</string>
+    <string name="q">q</string>
+    <string name="Q">Q</string>
+    <string name="s">s</string>
+    <string name="S">S</string>
 </resources>

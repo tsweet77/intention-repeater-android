@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 回の繰り返し (0 Hz)</string>
     <string name="enter_intentions">意図を入力する</string>
     <string name="update_language">言語を更新</string>
+    <string name="Hz">ヘルツ</string>
+    <string name="kHz">キロヘルツ</string>
+    <string name="MHz">メガヘルツ</string>
+    <string name="GHz">ギガヘルツ</string>
+    <string name="THz">テラヘルツ</string>
+    <string name="PHz">ペタヘルツ</string>
+    <string name="EHz">エクサヘルツ</string>
+    <string name="Iterations">繰り返し</string>
+    <string name="k">千</string> <!-- k for せん -->
+    <string name="M">百万</string> <!-- M for ひゃくまん -->
+    <string name="B">十億</string> <!-- B for じゅうおく -->
+    <string name="T">兆</string> <!-- T for ちょう -->
+    <string name="q">京</string> <!-- q for けい -->
+    <string name="Q">垓</string> <!-- Q for がい -->
+    <string name="s">秭</string> <!-- s for し -->
+    <string name="S">穣</string> <!-- S for じょう -->
 </resources>

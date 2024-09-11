@@ -35,4 +35,20 @@
     <string name="no_text_editor_found_please_install_one_from_the_play_store">কোনো টেক্সট এডিটর পাওয়া যায়নি। অনুগ্রহ করে প্লে স্টোর থেকে একটি ইনস্টল করুন।</string>
     <string name="formatted_0_iterations">০ পুনরাবৃত্তি (০ হার্জ)</string>
     <string name="enter_intentions">উদ্দেশ্য লিখুন</string>
+    <string name="Hz">হার্জ</string>
+    <string name="kHz">কিলোহার্জ</string>
+    <string name="MHz">মেগাহার্জ</string>
+    <string name="GHz">গিগাহার্জ</string>
+    <string name="THz">টেরাহার্জ</string>
+    <string name="PHz">পেটাহার্জ</string>
+    <string name="EHz">এক্সাহার্জ</string>
+    <string name="Iterations">পুনরাবৃত্তি</string>
+    <string name="k">হা</string> <!-- k for হাজার -->
+    <string name="M">মি</string> <!-- M for মিলিয়ন -->
+    <string name="B">বি</string> <!-- B for বিলিয়ন -->
+    <string name="T">টি</string> <!-- T for ট্রিলিয়ন -->
+    <string name="q">কো</string> <!-- q for কোয়াড্রিলিয়ন -->
+    <string name="Q">কুই</string> <!-- Q for কুইন্টিলিয়ন -->
+    <string name="s">সে</string> <!-- s for সেক্সটিলিয়ন -->
+    <string name="S">সেপ</string> <!-- S for সেপ্টিলিয়ন -->
 </resources>

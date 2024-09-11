@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 รอบ (0 Hz)</string>
     <string name="enter_intentions">กรอกความตั้งใจ</string>
     <string name="update_language">อัปเดตภาษา</string>
+    <string name="Hz">เฮิรตซ์</string>
+    <string name="kHz">กิโลเฮิรตซ์</string>
+    <string name="MHz">เมกะเฮิรตซ์</string>
+    <string name="GHz">กิกะเฮิรตซ์</string>
+    <string name="THz">เทระเฮิรตซ์</string>
+    <string name="PHz">เพตาเฮิรตซ์</string>
+    <string name="EHz">เอกซาเฮิรตซ์</string>
+    <string name="Iterations">การทำซ้ำ</string>
+    <string name="k">พัน</string> <!-- k for พัน -->
+    <string name="M">ล้าน</string> <!-- M for ล้าน -->
+    <string name="B">พันล้าน</string> <!-- B for พันล้าน -->
+    <string name="T">ล้านล้าน</string> <!-- T for ล้านล้าน -->
+    <string name="q">ค</string> <!-- q for ควอดริลเลี่ยน -->
+    <string name="Q">ค</string> <!-- Q for ควินทิลเลี่ยน -->
+    <string name="s">เ</string> <!-- s for เซ็กทิลเลี่ยน -->
+    <string name="S">เ</string> <!-- S for เซปทิลเลี่ยน -->
 </resources>

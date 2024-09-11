@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 மீள்துயற்சிகள் (0 Hz)</string>
     <string name="enter_intentions">நோக்கங்களை உள்ளிடவும்</string>
     <string name="update_language">மொழியை புதுப்பிக்கவும்</string>
+    <string name="Hz">ஹெர்ட்ஸ்</string>
+    <string name="kHz">கிலோஹெர்ட்ஸ்</string>
+    <string name="MHz">மேகா ஹெர்ட்ஸ்</string>
+    <string name="GHz">கிகா ஹெர்ட்ஸ்</string>
+    <string name="THz">டெரா ஹெர்ட்ஸ்</string>
+    <string name="PHz">பெட்டா ஹெர்ட்ஸ்</string>
+    <string name="EHz">எக்ஸா ஹெர்ட்ஸ்</string>
+    <string name="Iterations">மீள்நிறைவு</string>
+    <string name="k">க</string> <!-- k for ஆயிரம் -->
+    <string name="M">மி</string> <!-- M for மில்லியன் -->
+    <string name="B">பி</string> <!-- B for பில்லியன் -->
+    <string name="T">டி</string> <!-- T for டிரில்லியன் -->
+    <string name="q">க்வா</string> <!-- q for க்வாட்ரில்லியன் -->
+    <string name="Q">க்வி</string> <!-- Q for க்விண்டில்லியன் -->
+    <string name="s">செ</string> <!-- s for செக்ஸ்டில்லியன் -->
+    <string name="S">சேப்</string> <!-- S for செப்டில்லியன் -->
 </resources>

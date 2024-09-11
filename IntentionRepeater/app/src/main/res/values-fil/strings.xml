@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 Mga Iterasyon (0 Hz)</string>
     <string name="enter_intentions">Ilagay ang mga Layunin</string>
     <string name="update_language">I-update ang Wika</string>
+    <string name="Hz">Hz</string>
+    <string name="kHz">kHz</string>
+    <string name="MHz">MHz</string>
+    <string name="GHz">GHz</string>
+    <string name="THz">THz</string>
+    <string name="PHz">PHz</string>
+    <string name="EHz">EHz</string>
+    <string name="Iterations">Pag-uulit</string>
+    <string name="k">k</string> <!-- k for libo -->
+    <string name="M">M</string> <!-- M for milyon -->
+    <string name="B">B</string> <!-- B for bilyon -->
+    <string name="T">T</string> <!-- T for trilyon -->
+    <string name="q">q</string> <!-- q for quadrillion -->
+    <string name="Q">Q</string> <!-- Q for quintillion -->
+    <string name="s">s</string> <!-- s for sextillion -->
+    <string name="S">S</string> <!-- S for septillion -->
 </resources>

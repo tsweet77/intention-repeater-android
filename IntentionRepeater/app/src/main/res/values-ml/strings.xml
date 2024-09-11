@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 ആവർത്തനങ്ങൾ (0 Hz)</string>
     <string name="enter_intentions">ഇരിക്കേണ്ട ഉദ്ദേശങ്ങൾ നൽകുക</string>
     <string name="update_language">ഭാഷ പുതുക്കുക</string>
+    <string name="Hz">ഹെർട്സ്</string>
+    <string name="kHz">കിലോ ഹെർട്സ്</string>
+    <string name="MHz">മെഗാഹെർട്സ്</string>
+    <string name="GHz">ഗിഗാഹെർട്സ്</string>
+    <string name="THz">ടെറാഹെർട്സ്</string>
+    <string name="PHz">പെടാഹെർട്സ്</string>
+    <string name="EHz">എക്സാഹെർട്സ്</string>
+    <string name="Iterations">ആവർത്തനങ്ങൾ</string>
+    <string name="k">ക</string> <!-- k for ആയിരം -->
+    <string name="M">മി</string> <!-- M for മില്യൺ -->
+    <string name="B">ബി</string> <!-- B for ബില്യൺ -->
+    <string name="T">ടി</string> <!-- T for ട്രില്യൺ -->
+    <string name="q">ക്വാ</string> <!-- q for ക്വാഡ്രില്യൺ -->
+    <string name="Q">ക്വി</string> <!-- Q for ക്വിന്റില്യൺ -->
+    <string name="s">സെ</string> <!-- s for സെക്സ്റ്റില്യൺ -->
+    <string name="S">സെപ്</string> <!-- S for സെപ്റ്റില്യൺ -->
 </resources>

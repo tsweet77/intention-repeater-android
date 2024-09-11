@@ -31,8 +31,24 @@
     <string name="reset">재설정</string>
     <string name="loading_intention">의도 로딩 중...</string>
     <string name="_0_iterations_0_hz">0 반복 (0 Hz)</string>
-     <string name="no_text_editor_found_please_install_one_from_the_play_store">텍스트 편집기를 찾을 수 없습니다. Play 스토어에서 하나를 설치하십시오.</string>
+    <string name="no_text_editor_found_please_install_one_from_the_play_store">텍스트 편집기를 찾을 수 없습니다. Play 스토어에서 하나를 설치하십시오.</string>
     <string name="formatted_0_iterations">0 반복 (0 Hz)</string>
     <string name="enter_intentions">의도를 입력하세요</string>
     <string name="update_language">언어 업데이트</string>
+    <string name="Hz">헤르츠</string>
+    <string name="kHz">킬로헤르츠</string>
+    <string name="MHz">메가헤르츠</string>
+    <string name="GHz">기가헤르츠</string>
+    <string name="THz">테라헤르츠</string>
+    <string name="PHz">페타헤르츠</string>
+    <string name="EHz">엑사헤르츠</string>
+    <string name="Iterations">반복</string>
+    <string name="k">천</string> <!-- k for 천 -->
+    <string name="M">백만</string> <!-- M for 백만 -->
+    <string name="B">십억</string> <!-- B for 십억 -->
+    <string name="T">조</string> <!-- T for 조 -->
+    <string name="q">천조</string> <!-- q for 천조 -->
+    <string name="Q">백경</string> <!-- Q for 백경 -->
+    <string name="s">천해</string> <!-- s for 천해 -->
+    <string name="S">백양</string> <!-- S for 백양 -->
 </resources>

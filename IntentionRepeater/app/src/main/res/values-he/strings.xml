@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 חזרות (0 הרץ)</string>
     <string name="enter_intentions">הזן כוונות</string>
     <string name="update_language">עדכן שפה</string>
+    <string name="Hz">הרץ</string>
+    <string name="kHz">קילו־הרץ</string>
+    <string name="MHz">מגה־הרץ</string>
+    <string name="GHz">גיגה־הרץ</string>
+    <string name="THz">טרה־הרץ</string>
+    <string name="PHz">פיטה־הרץ</string>
+    <string name="EHz">אקסה־הרץ</string>
+    <string name="Iterations">איטרציות</string>
+    <string name="k">k</string> <!-- k for אלף -->
+    <string name="M">M</string> <!-- M for מיליון -->
+    <string name="B">B</string> <!-- B for מיליארד -->
+    <string name="T">T</string> <!-- T for טריליון -->
+    <string name="q">ק</string> <!-- q for קוודריליון -->
+    <string name="Q">ק</string> <!-- Q for קווינטיליון -->
+    <string name="s">ס</string> <!-- s for סקסטיליון -->
+    <string name="S">ס</string> <!-- S for ספטיליון -->
 </resources>

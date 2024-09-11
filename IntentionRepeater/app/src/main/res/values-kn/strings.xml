@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">೦ ಪುನರಾವರ್ತನೆಗಳು (೦ Hz)</string>
     <string name="enter_intentions">ನಿಮ್ಮ ಉದ್ದೇಶವನ್ನು ನಮೂದಿಸಿ</string>
     <string name="update_language">ಭಾಷೆ ನವೀಕರಿಸಿ</string>
+    <string name="Hz">ಹರ್ಟ್ಜ್</string>
+    <string name="kHz">ಕಿಲೋಹರ್ಟ್ಜ್</string>
+    <string name="MHz">ಮೆಗಾಹರ್ಟ್ಜ್</string>
+    <string name="GHz">ಗಿಗಾಹರ್ಟ್ಜ್</string>
+    <string name="THz">ಟೆರಾಹರ್ಟ್ಜ್</string>
+    <string name="PHz">ಪೆಟಾಹರ್ಟ್ಜ್</string>
+    <string name="EHz">ಎಕ್ಸಾಹರ್ಟ್ಜ್</string>
+    <string name="Iterations">ಆವರ್ತನೆಗಳು</string>
+    <string name="k">ಕೆ</string> <!-- k for ಸಾವಿರ -->
+    <string name="M">ಮಿ</string> <!-- M for ಮಿಲಿಯನ್ -->
+    <string name="B">ಬಿ</string> <!-- B for ಬಿಲಿಯನ್ -->
+    <string name="T">ಟಿ</string> <!-- T for ಟ್ರಿಲಿಯನ್ -->
+    <string name="q">ಕ್ವಾ</string> <!-- q for ಕ್ವಾಡ್ರಿಲಿಯನ್ -->
+    <string name="Q">ಕ್ವಿ</string> <!-- Q for ಕ್ವಿಂಟಿಲಿಯನ್ -->
+    <string name="s">ಸೆ</string> <!-- s for ಸೆಕ್ಸ್ಟಿಲಿಯನ್ -->
+    <string name="S">ಸೆಪ್ಟ</string> <!-- S for ಸೆಪ್ಟಿಲಿಯನ್ -->
 </resources>

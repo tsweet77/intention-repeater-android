@@ -35,4 +35,20 @@
     <string name="formatted_0_iterations">0 次迭代 (0 Hz)</string>
     <string name="enter_intentions">输入意图</string>
     <string name="update_language">更新语言</string>
+    <string name="Hz">赫兹</string>
+    <string name="kHz">千赫兹</string>
+    <string name="MHz">兆赫兹</string>
+    <string name="GHz">吉赫兹</string>
+    <string name="THz">太赫兹</string>
+    <string name="PHz">拍赫兹</string>
+    <string name="EHz">艾赫兹</string>
+    <string name="Iterations">迭代</string>
+    <string name="k">千</string> <!-- k for 千 -->
+    <string name="M">百万</string> <!-- M for 百万 -->
+    <string name="B">十亿</string> <!-- B for 十亿 -->
+    <string name="T">万亿</string> <!-- T for 万亿 -->
+    <string name="q">千万亿</string> <!-- q for 千万亿 -->
+    <string name="Q">千万亿</string> <!-- Q for 千万亿 -->
+    <string name="s">百亿亿</string> <!-- s for 百亿亿 -->
+    <string name="S">千亿亿</string> <!-- S for 千亿亿 -->
 </resources>
