@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,8 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -32,23 +36,74 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.anthroteacher.intentionrepeater.ui.theme.IntentionRepeaterTheme
 import java.io.File
+import java.util.Locale
 
 class SettingsActivity : ComponentActivity() {
+    private lateinit var sharedPreferences: SharedPreferences
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+
+        // Load and apply the saved locale when the activity is created
+        loadLocale()
+
         setContent {
             IntentionRepeaterTheme {
-                SettingsScreen()
+                SettingsScreen(
+                    currentLocale = sharedPreferences.getString("Language", "en") ?: "en", // Read the saved language or default to "en"
+                    onLanguageChange = { newLocale ->
+                        saveLanguageToPreferences(newLocale)
+                        setLocale(this, newLocale) // Apply the new locale
+                        recreate() // Recreate the activity to reflect changes
+                    }
+                )
             }
         }
+    }
+
+    // Function to load and apply the saved locale from SharedPreferences
+    private fun loadLocale() {
+        val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
+        setLocale(this, savedLanguage) // Apply the saved or default locale
+    }
+
+    // Function to save the selected language to SharedPreferences
+    private fun saveLanguageToPreferences(languageCode: String) {
+        sharedPreferences.edit().putString("Language", languageCode).apply()
+    }
+
+    // Function to set the app's locale
+    private fun setLocale(context: Context, languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val resources = context.resources
+        val config = resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+
+        context.createConfigurationContext(config)
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
+    // Apply the locale whenever the activity is resumed
+    override fun onResume() {
+        super.onResume()
+        loadLocale() // Reload and apply the locale when the activity resumes
     }
 }
 
 @SuppressLint("ServiceCast")
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    currentLocale: String,
+    onLanguageChange: (String) -> Unit
+) {
     val context = LocalContext.current
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -57,6 +112,9 @@ fun SettingsScreen() {
 
     // Get the lifecycle owner to observe lifecycle changes
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    // State to keep track of selected language
+    var selectedLanguage by remember { mutableStateOf(currentLocale) }
 
     // Observe the lifecycle state of the composable
     DisposableEffect(lifecycleOwner) {
@@ -82,7 +140,7 @@ fun SettingsScreen() {
     ) {
         // Heading text in white
         Text(
-            text = "Intention Repeater Settings",
+            text = stringResource(R.string.intention_repeater_settings),
             style = MaterialTheme.typography.headlineSmall,
             color = Color.White
         )
@@ -104,7 +162,7 @@ fun SettingsScreen() {
             )
         ) {
             Text(
-                text = "Manage Notifications"
+                text = stringResource(R.string.manage_notifications)
             )
         }
 
@@ -124,10 +182,36 @@ fun SettingsScreen() {
                 contentColor = Color.White
             )
         ) {
-            Text("Open Notes for Intentions")
+            Text(stringResource(R.string.open_notes_for_intentions))
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+
+        // Language dropdown
+        Column(modifier = Modifier.padding(16.dp)) {
+            LanguageDropdown(
+                currentLocale = selectedLanguage,
+                onLanguageSelected = { newLanguage ->
+                    selectedLanguage = newLanguage
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // "Update Language" button
+        Button(
+            onClick = {
+                onLanguageChange(selectedLanguage)  // Use selectedLanguage instead of currentLocale
+            },
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(stringResource(R.string.update_language))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Row for Website and Forum buttons
         Row(
@@ -159,7 +243,7 @@ fun SettingsScreen() {
         Button(
             onClick = { (context as? ComponentActivity)?.finish() }
         ) {
-            Text("Back")
+            Text(stringResource(R.string.back))
         }
     }
 }
@@ -193,7 +277,53 @@ fun openNotesFile(context: Context) {
         context.startActivity(intent)
     } else {
         // Show a message or prompt the user to install a text editor
-        Toast.makeText(context, "No text editor found. Please install one from the Play Store.", Toast.LENGTH_LONG).show()
+        Toast.makeText(context,
+            context.getString(R.string.no_text_editor_found_please_install_one_from_the_play_store), Toast.LENGTH_LONG).show()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LanguageDropdown(
+    currentLocale: String,
+    onLanguageSelected: (String) -> Unit // Renamed to onLanguageSelected for clarity
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedLanguage by remember { mutableStateOf(currentLocale) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        TextField(
+            readOnly = true,
+            value = languages.find { it.code == selectedLanguage }?.displayName ?: "Select Language",
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.ArrowDropDown,
+                    contentDescription = "Dropdown Icon"
+                )
+            }
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            languages.forEach { language ->
+                DropdownMenuItem(
+                    text = { Text(language.displayName) },
+                    onClick = {
+                        selectedLanguage = language.code
+                        expanded = false
+                        onLanguageSelected(selectedLanguage) // Pass the selected language up
+                    }
+                )
+            }
+        }
     }
 }
 
@@ -203,18 +333,18 @@ fun NotificationStatusMessage(enabled: Boolean) {
     val statusText = buildAnnotatedString {
         // Set the default color for the rest of the text to white
         withStyle(style = SpanStyle(color = Color.White)) {
-            append("Notifications are ")
+            append(stringResource(R.string.notifications_are))
 
             if (enabled) {
                 withStyle(style = SpanStyle(color = Color.Green)) {
-                    append("ENABLED")
+                    append(stringResource(R.string.enabled))
                 }
-                append(". When running, the notification will update each second with elapsed time, current frequency, and number of iterations.")
+                append(stringResource(R.string.notification_on_message))
             } else {
                 withStyle(style = SpanStyle(color = Color.Red)) {
-                    append("DISABLED")
+                    append(stringResource(R.string.disabled))
                 }
-                append(". You can enable notifications to view elapsed time, current frequency, and number of iterations when running as a notification.")
+                append(stringResource(R.string.notification_off_message))
             }
         }
     }

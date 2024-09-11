@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
@@ -27,7 +28,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -80,6 +80,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
@@ -102,31 +103,31 @@ import java.io.InputStream
 import java.math.BigInteger
 import java.math.RoundingMode
 import java.security.MessageDigest
+import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "Version 1.41"
+const val version = "1.51"
+private const val SETTINGS_REQUEST_CODE = 100
+private var currentLanguage: String = "en" // Default to English
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var isChangingConfigurations = false
+    private var currentLanguage: String = "en" // Default to English
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()
-        setContent {
-            IntentionRepeaterTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-
         // Initialize SharedPreferences
         val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+
+        // Load and apply the saved locale when the activity is created
+        loadLocale(sharedPreferences)
+
+        // Setup the content UI
+        setupContent()
+
         val isFirstLaunch = sharedPreferences.getBoolean("isFirstLaunch", true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -148,14 +149,69 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("TEST-R", "resumed")
+
+        // Reload and apply the saved locale when the activity resumes
+        val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
+
+        // Check if the language has changed
+        if (currentLanguage != savedLanguage) {
+            currentLanguage = savedLanguage
+            setLocale(this, savedLanguage)
+            recreate() // Only recreate if the language has changed
+        }
+
+        isChangingConfigurations = false
+    }
+
+    // Handle result from SettingsActivity
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SETTINGS_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // Reload locale after returning from settings
+                val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+                val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
+
+                // Check if the language has changed
+                if (currentLanguage != savedLanguage) {
+                    currentLanguage = savedLanguage
+                    setLocale(this, savedLanguage)
+                    recreate() // Only recreate if the language has changed
+                }
+            }
+        }
+    }
+
+    private fun setupContent() {
+        setContent {
+            IntentionRepeaterTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun loadLocale(sharedPreferences: SharedPreferences) {
+        val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
+        currentLanguage = savedLanguage
+        setLocale(this, savedLanguage)
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Log.d("TEST-R","configuration changed");
+        Log.d("TEST-R", "configuration changed")
         isChangingConfigurations = true
     }
 
     override fun onDestroy() {
-        Log.d("TEST-R","destroy called");
+        Log.d("TEST-R", "destroy called")
 
         if (!isChangingConfigurations && isFinishing) {
             val intent = Intent(applicationContext, TimerForegroundService::class.java)
@@ -164,15 +220,17 @@ class MainActivity : ComponentActivity() {
 
         super.onDestroy()
     }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("TEST-R","resumed");
-
-        isChangingConfigurations = false
-    }
 }
 
+// Function to set the app's locale
+fun setLocale(context: Context, languageCode: String) {
+    val locale = Locale(languageCode)
+    Locale.setDefault(locale)
+    val config = Configuration()
+    config.setLocale(locale)
+    context.createConfigurationContext(config)
+    context.resources.updateConfiguration(config, context.resources.displayMetrics)
+}
 
 fun sha512(input: String): String {
     val bytes = MessageDigest.getInstance("SHA-512").digest(input.toByteArray())
@@ -183,6 +241,15 @@ fun sha512(input: String): String {
 @Composable
 fun Greeting(modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    //val resources = context.resources
+    //val configuration = resources.configuration
+
+    //val currentLocale = configuration.locales.get(0)
+
+    // To set a new locale:
+    //val newLocale = Locale("sa") // Example: Sanskrit
+    //configuration.setLocale(newLocale)
+    //resources.updateConfiguration(configuration, resources.displayMetrics)
     val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
 
     val viewModel:TimerViewModel = viewModel()
@@ -253,7 +320,7 @@ fun Greeting(modifier: Modifier = Modifier) {
             },
             time = time,
             formattedIterations = formattedIterations,
-            buttonText = if (timerRunning) "STOP" else "START",
+            buttonText = if (timerRunning) stringResource(R.string.str_stop) else stringResource(R.string.str_start),
             onStartStopButtonClick = {
                 focusManager.clearFocus()
                 if (timerRunning) {
@@ -261,11 +328,11 @@ fun Greeting(modifier: Modifier = Modifier) {
                     val intent = Intent(context, TimerForegroundService::class.java)
                     context.stopService(intent)
 
-                    if (formattedIterations == "Loading Intention...") {
-                        formattedIterations = "0 Iterations (0 Hz)"
+                    if (formattedIterations == context.getString(R.string.loading_intention)) {
+                        formattedIterations = context.getString(R.string._0_iterations_0_hz)
                     }
                 } else {
-                    formattedIterations = "Loading Intention..."
+                    formattedIterations = context.getString(R.string.loading_intention)
                     time = "00:00:00"
                     intentionMultiplied.clear()
                     multiplier = 0
@@ -315,7 +382,7 @@ fun Greeting(modifier: Modifier = Modifier) {
             },
             onResetButtonClick = {
                 focusManager.clearFocus()
-                formattedIterations = "0 Iterations (0 Hz)"
+                formattedIterations = context.getString(R.string._0_iterations_0_hz)
                 time = "00:00:00"
             },
             onInsertFileClick = handleInsertFileClick, // Pass the file selection logic
@@ -444,17 +511,17 @@ fun hashFileContent(context: Context, uri: Uri): String {
             horizontalArrangement = Arrangement.Center, // Center the items horizontally within the row
             modifier = Modifier.fillMaxWidth() // Make the row fill the available width
         ) {
-            // Gear Icon Button
+            // Gear Icon Button to open SettingsActivity
             IconButton(
                 onClick = {
                     val intent = Intent(context, SettingsActivity::class.java)
-                    context.startActivity(intent)
+                    (context as? MainActivity)?.startActivityForResult(intent, SETTINGS_REQUEST_CODE)
                 },
                 modifier = Modifier.size(56.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_settings_gear),
-                    contentDescription = "Settings",
+                    contentDescription = stringResource(R.string.settings),
                     modifier = Modifier.size(56.dp)
                 )
             }
@@ -485,7 +552,7 @@ private fun SettingsButton() {
             .height(48.dp)
     ) {
         Text(
-            text = "Settings",
+            text = stringResource(R.string.settings),
             color = Color.White,
             fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
@@ -494,18 +561,21 @@ private fun SettingsButton() {
     }
 }
 
+private const val s = "Intention Repeater"
+
 @Composable
 private fun AppTitle() {
     Spacer(modifier = Modifier.size(16.dp))
+    val text = stringResource(R.string.intention_repeater_header)
     Text(
-        text = "Intention Repeater",
-        fontSize = 32.sp,
+        text = text,
+        fontSize = 24.sp,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
     Text(
-        text = "by Anthro Teacher",
-        fontSize = 24.sp,
+        text = stringResource(R.string.by_anthro_teacher),
+        fontSize = 20.sp,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
@@ -565,7 +635,7 @@ private fun MultiplierSlider(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = "Mult [${sliderPosition.roundToLong()}]: 0",
+                text = stringResource(R.string.mult_0, sliderPosition.roundToLong()),
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Serif,
                 color = Color.White
@@ -603,9 +673,9 @@ fun FrequencyAndBoostSelector(
 ) {
     data class Option(val title: String, val value: String)
     val options = listOf(
-        Option("3 Hz (Classic)","3"),
-        Option("7.83 Hz Schumann Res. (Optimal)","7.83"),
-        Option("Maximum Frequency","0")
+        Option(stringResource(R.string._3_hz_classic),"3"),
+        Option(stringResource(R.string._7_83_hz_schumann_resonance_optimal),"7.83"),
+        Option(stringResource(R.string.str_maximum_frequency),"0")
     )
 
     Column(
@@ -666,11 +736,12 @@ fun FrequencyAndBoostSelector(
                 enabled = !timerRunning,
                 modifier = Modifier
                     .size(24.dp) // Size of the checkbox itself
+                    .width(56.dp)
                     .semantics { contentDescription = "Power Boost (Enables SHA-512 Encoding)" }
             )
             Spacer(modifier = Modifier.width(8.dp)) // Add spacing between the checkbox and text
             Text(
-                text = "Power Boost - Uses Sha512 Encoding",
+                text = stringResource(R.string.power_boost_uses_sha512_encoding),
                 color = Color.White,
                 fontSize = 14.sp, // Match the font size
                 fontFamily = FontFamily.Serif,
@@ -725,11 +796,12 @@ fun KeepDeviceAwakeCheckbox(
                     enabled = isCheckboxEnabled,
                     modifier = Modifier
                         .size(24.dp) // Size of the checkbox itself
+                        .width(56.dp)
                         .semantics { contentDescription = "Keep Device Awake" }
                 )
                 Spacer(modifier = Modifier.width(8.dp)) // Add spacing between the checkbox and text
                 Text(
-                    text = "Keep Device Awake (3 Hz or 7.83 Hz only)",
+                    text = stringResource(R.string.keep_device_awake_3_hz_or_7_83_hz_only),
                     color = if (isCheckboxEnabled) Color.White else Color.Gray,
                     fontSize = 14.sp, // Match the font size with "Power Boost"
                     fontFamily = FontFamily.Serif,
@@ -746,11 +818,14 @@ fun KeepDeviceAwakeCheckbox(
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(start = 36.dp)
-                    .background(Color.DarkGray, shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp))
+                    .background(
+                        Color.DarkGray,
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp)
+                    )
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "Prevents device from sleeping during 3 Hz or 7.83 Hz operations. Increases battery usage.",
+                    text = stringResource(R.string.prevents_device_from_sleeping_during_3_hz_or_7_83_hz_operations_increases_battery_usage),
                     color = Color.White,
                     fontSize = 12.sp
                 )
@@ -807,7 +882,7 @@ private fun StartStopResetButtons(
             Text(
                 text = buttonText,
                 color = if(timerRunning) Color.White else Color.Black,
-                fontSize = 24.sp,
+                fontSize = 14.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold
             )
@@ -825,9 +900,9 @@ private fun StartStopResetButtons(
             )
         ) {
             Text(
-                text = "RESET",
+                text = stringResource(R.string.reset),
                 color = Color.White,
-                fontSize = 24.sp,
+                fontSize = 14.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold
             )
@@ -853,9 +928,9 @@ private fun StartStopResetButtons(
             )
         ) {
             Text(
-                text = "LOAD FILE",
+                text = stringResource(R.string.str_load_file),
                 color = Color.White,
-                fontSize = 24.sp,
+                fontSize = 14.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold
             )
@@ -878,13 +953,13 @@ fun WebsiteButton() {
         ),
         modifier = Modifier
             //.fillMaxWidth(0.4f)
-            .width(150.dp)
+            .width(175.dp)
             .height(48.dp)
     ) {
         Text(
-            text = "Website",
+            text = stringResource(R.string.website),
             color = Color.Black,
-            fontSize = 24.sp,
+            fontSize = 14.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -906,13 +981,13 @@ fun ForumButton() {
             containerColor = Color.Green
         ),
         modifier = Modifier
-            .width(150.dp)
+            .width(175.dp)
             .height(48.dp)
     ) {
         Text(
-            text = "Forum",
+            text = stringResource(R.string.forum),
             color = Color.Black,
-            fontSize = 24.sp,
+            fontSize = 14.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -926,7 +1001,7 @@ private fun VersionDisplay() {
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = version,
+            text = stringResource(R.string.str_version, version),
             color = Color.White,
             fontSize = 14.sp,
             fontFamily = FontFamily.Serif,
@@ -950,13 +1025,13 @@ fun EulaButton() {
             containerColor = Color.Green
         ),
         modifier = Modifier
-            .width(150.dp)
+            .width(175.dp)
             .height(48.dp)
     ) {
         Text(
-            text = "EULA",
+            text = stringResource(R.string.eula),
             color = Color.Black,
-            fontSize = 24.sp,
+            fontSize = 14.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -978,13 +1053,13 @@ fun PrivacyPolicyButton() {
             containerColor = Color.Green
         ),
         modifier = Modifier
-            .width(150.dp)
+            .width(175.dp)
             .height(48.dp)
     ) {
         Text(
-            text = "Privacy",
+            text = stringResource(R.string.privacy),
             color = Color.Black,
-            fontSize = 24.sp,
+            fontSize = 14.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold
         )
@@ -1181,7 +1256,13 @@ class TimerForegroundService : Service() {
 
                 val updatedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
-                val updatedIterations =  "${ formatLargeNumber(BigInteger.valueOf(iterations.toLong()))} Iterations (${ if(selectedFrequency=="7.83") formatDecimalNumber(7.83.toFloat() * multiplier) else formatLargeFreq((if(selectedFrequency=="3") "3".toFloat() else actualFrequency) * multiplier)})"
+                val updatedIterations = getString(
+                    R.string.str_iterations,
+                    formatLargeNumber(BigInteger.valueOf(iterations.toLong())),
+                    if (selectedFrequency == "7.83") formatDecimalNumber(7.83.toFloat() * multiplier) else formatLargeFreq(
+                        (if (selectedFrequency == "3") "3".toFloat() else actualFrequency) * multiplier
+                    )
+                )
 
                 withContext(Dispatchers.Main) {
                     onTimeUpdate(updatedTime)
