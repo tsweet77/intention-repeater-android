@@ -68,4 +68,6 @@
 
     <string name="multiplier">गुणकः [%1$s]: 0</string>
 
+    <string name="multihasher_app">बहुहेशर अनुप्रयोग</string>
+
 </resources>

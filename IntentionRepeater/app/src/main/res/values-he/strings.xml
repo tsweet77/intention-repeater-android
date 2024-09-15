@@ -68,4 +68,6 @@
 
     <string name="multiplier">מכפיל [%1$s]: 0</string>
 
+    <string name="multihasher_app">אפליקציית רב-האש</string>
+
 </resources>

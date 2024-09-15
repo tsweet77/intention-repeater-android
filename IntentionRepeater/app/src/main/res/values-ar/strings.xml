@@ -68,4 +68,6 @@
 
     <string name="multiplier">المضاعف [%1$s]: 0</string>
 
+    <string name="multihasher_app">تطبيق متعدد التجزئة</string>
+
 </resources>

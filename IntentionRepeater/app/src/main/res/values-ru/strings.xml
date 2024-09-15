@@ -68,4 +68,6 @@
 
     <string name="multiplier">Множитель [%1$s]: 0</string>
 
+    <string name="multihasher_app">Приложение Мультихешер</string>
+
 </resources>

@@ -68,4 +68,6 @@
 
     <string name="multiplier">Hệ số nhân [%1$s]: 0</string>
 
+    <string name="multihasher_app">Ứng dụng Multihasher</string>
+
 </resources>

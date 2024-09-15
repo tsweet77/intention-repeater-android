@@ -68,4 +68,6 @@
 
     <string name="multiplier">Multiplicador [%1$s]: 0</string>
 
+    <string name="multihasher_app">Aplicativo Multihasher</string>
+
 </resources>

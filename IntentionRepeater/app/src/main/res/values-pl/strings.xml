@@ -68,4 +68,6 @@
 
     <string name="multiplier">Mnożnik [%1$s]: 0</string>
 
+    <string name="multihasher_app">Aplikacja Multihasher</string>
+
 </resources>

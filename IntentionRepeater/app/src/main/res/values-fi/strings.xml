@@ -68,4 +68,6 @@
 
     <string name="multiplier">Kertoja [%1$s]: 0</string>
 
+    <string name="multihasher_app">Multihasher-sovellus</string>
+
 </resources>

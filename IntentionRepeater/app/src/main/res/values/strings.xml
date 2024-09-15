@@ -67,5 +67,6 @@
     <string name="finished">Finished: %1$s</string>
 
     <string name="multiplier">Multiplier [%1$s]: 0</string>
+    <string name="multihasher_app">Multihasher App</string>
 
 </resources>

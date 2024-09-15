@@ -28,9 +28,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
@@ -264,9 +268,35 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        Button(
+            onClick = {
+                val url = "http://multihasher.intentionrepeater.com"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                context.startActivity(intent)
+            },
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.White,
+                containerColor = Color.Blue
+            ),
+            modifier = Modifier
+                .height(48.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.multihasher_app),
+                color = Color.White,
+                fontSize = 14.sp,
+                fontFamily = FontFamily.Serif
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         // Back Button
         Button(
-            onClick = { (context as? ComponentActivity)?.finish() }
+            onClick = { (context as? ComponentActivity)?.finish() },
+            modifier = Modifier
+                .width(175.dp)
+                .height(52.dp)
         ) {
             Text(stringResource(R.string.back))
         }

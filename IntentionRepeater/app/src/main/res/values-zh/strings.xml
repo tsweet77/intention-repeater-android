@@ -68,4 +68,6 @@
 
     <string name="multiplier">乘数 [%1$s]: 0</string>
 
+    <string name="multihasher_app">多哈希器应用</string>
+
 </resources>
