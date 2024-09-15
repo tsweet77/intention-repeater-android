@@ -51,4 +51,21 @@
     <string name="Q">ಕ್ವಿ</string> <!-- Q for ಕ್ವಿಂಟಿಲಿಯನ್ -->
     <string name="s">ಸೆ</string> <!-- s for ಸೆಕ್ಸ್ಟಿಲಿಯನ್ -->
     <string name="S">ಸೆಪ್ಟ</string> <!-- S for ಸೆಪ್ಟಿಲಿಯನ್ -->
+
+    <string name="show_intentions_update">ಉದ್ದೇಶಗಳನ್ನು ತೋರಿಸಲು ನವೀಕರಣ</string>
+
+    <string name="notifications_enabled">ಅಧಿಸೂಚನೆಗಳು \u0020ಚಾಲುಬದ\u0020ಕೊಳ್ಳಲಾಗಿದೆ. ಚಲಿಸುತ್ತಿರುವಾಗ, ಅಧಿಸೂಚನೆಯು ಪ್ರತಿದಿನವೂ ಕಳೆದ ಸಮಯ, ಪ್ರಸ್ತುತ ಆವೃತ್ತಿ ಮತ್ತು ಪುನರಾವೃತ್ತಿಗಳ ಸಂಖ್ಯೆಯೊಂದಿಗೆ ನವೀಕರಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="notifications_disabled">ಅಧಿಸೂಚನೆಗಳು \u0020ನಿಷ್ಕ್ರಿಯ\u0020ಮಾಡಲಾಗಿದೆ. ನೀವು ಅಧಿಸೂಚನೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು, ಇವೆ ಸಮಯ, ಪ್ರಸ್ತುತ ಆವೃತ್ತಿ ಮತ್ತು ಪುನರಾವೃತ್ತಿಗಳ ಸಂಖ್ಯೆಯನ್ನು ನೋಡಬಹುದು, ಏಕೆಂದರೆ ಅದು ಅಧಿಸೂಚನೆಯಂತೆ ನಡೆಯುತ್ತಿದೆ.</string>
+    <string name="three_herz_classic">3 Hz (ಕ್ಲಾಸಿಕ್)</string>
+    <string name="schumann_resonance">7.83 ಹರ್ಟ್ಸ್ ಶುಮಾನ ರೆಜೊನನ್ಸ್ (ಆದರ್ಶ)</string>
+    <string name="keep_device_awake">ಸಾಧನವನ್ನು ಜಾಗರೂಕವಾಗಿಟ್ಟುಕೊಳ್ಳಿ (ಮಾತ್ರ 3 ಹರ್ಟ್ಸ್ ಅಥವಾ 7.83 ಹರ್ಟ್ಸ್)</string>
+    <string name="prevents_device_sleeping">3 ಹರ್ಟ್ಸ್ ಅಥವಾ 7.83 ಹರ್ಟ್ಸ್ ಕಾರ್ಯಾಚರಣೆಯ ವೇಳೆ ಸಾಧನವನ್ನು ನಿದ್ರೆಗೆ ಹೋಗುವುದನ್ನು ತಡೆಯುತ್ತದೆ. ಬ್ಯಾಟರಿ ಬಳಕೆಯನ್ನು ಹೆಚ್ಚಿಸುತ್ತದೆ.</string>
+    <string name="iterations_zero_hz">0 ಪುನರಾವೃತ್ತಿಗಳು (0 ಹರ್ಟ್ಸ್)</string>
+    <string name="duration">ಕಾಲಾವಧಿ</string>
+    <string name="seconds">ಸೆಕೆಂಡುಗಳು</string>
+    <string name="intention_repeater_finished">ಇಂಟೆನ್ಷನ್ ರಿಪೀಟರ್ ಮುಕ್ತಾಯ</string>
+    <string name="finished">ಮುಗಿಯಿತು: %1$s</string>
+
+    <string name="multiplier">ಗುಣಕ [%1$s]: 0</string>
+
 </resources>

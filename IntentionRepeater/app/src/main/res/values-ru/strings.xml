@@ -51,4 +51,21 @@
     <string name="Q">квин</string> <!-- Q for квинтиллион -->
     <string name="s">секст</string> <!-- s for секстиллион -->
     <string name="S">септ</string> <!-- S for септиллион -->
+
+    <string name="show_intentions_update">Чтобы показать обновление намерений</string>
+
+    <string name="notifications_enabled">Уведомления \u0020ВКЛЮЧЕНЫ\u0020. Во время работы уведомление будет обновляться каждую секунду с информацией о прошедшем времени, текущей частоте и количестве итераций.</string>
+    <string name="notifications_disabled">Уведомления \u0020ВЫКЛЮЧЕНЫ\u0020. Вы можете включить уведомления, чтобы видеть прошедшее время, текущую частоту и количество итераций, когда оно работает как уведомление.</string>
+    <string name="three_herz_classic">3 Гц (Классический)</string>
+    <string name="schumann_resonance">7.83 Гц Резонанс Шумана (Оптимально)</string>
+    <string name="keep_device_awake">Держите устройство активным (только 3 Гц или 7.83 Гц)</string>
+    <string name="prevents_device_sleeping">Предотвращает переход устройства в спящий режим во время работы на 3 Гц или 7.83 Гц. Увеличивает использование батареи.</string>
+    <string name="iterations_zero_hz">0 Итераций (0 Гц)</string>
+    <string name="duration">Продолжительность</string>
+    <string name="seconds">Секунды</string>
+    <string name="intention_repeater_finished">Повторитель Намерений Завершен</string>
+    <string name="finished">Завершено: %1$s</string>
+
+    <string name="multiplier">Множитель [%1$s]: 0</string>
+
 </resources>

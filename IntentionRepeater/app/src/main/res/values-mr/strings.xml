@@ -51,4 +51,21 @@
     <string name="Q">क्विं</string> <!-- Q for क्विंटिलियन -->
     <string name="s">से</string> <!-- s for सेक्सटिलियन -->
     <string name="S">सेप</string> <!-- S for सेप्टिलियन -->
+
+    <string name="show_intentions_update">हे दाखवण्यासाठी उद्दिष्टे अद्यतनित करा</string>
+
+    <string name="notifications_enabled">सूचना \u0020सक्षम\u0020 आहेत. चालू असताना, सूचना प्रत्येक सेकंदाला कालावधी, वर्तमान वारंवारता, आणि पुनरावृत्तींची संख्या दर्शवून अद्ययावत केली जाईल.</string>
+    <string name="notifications_disabled">सूचना \u0020असक्षम\u0020 आहेत. सूचना सक्षम करून, चालू असताना कालावधी, वर्तमान वारंवारता, आणि पुनरावृत्तींची संख्या पाहू शकता.</string>
+    <string name="three_herz_classic">3 हर्ट्ज (क्लासिक)</string>
+    <string name="schumann_resonance">7.83 हर्ट्ज शुमान रेजोनन्स (आदर्श)</string>
+    <string name="keep_device_awake">डिव्हाइसला जागृत ठेवा (फक्त 3 हर्ट्ज किंवा 7.83 हर्ट्ज)</string>
+    <string name="prevents_device_sleeping">3 हर्ट्ज किंवा 7.83 हर्ट्ज ऑपरेशन्स दरम्यान डिव्हाइसला झोपण्यापासून थांबवते. बॅटरी वापर वाढवते.</string>
+    <string name="iterations_zero_hz">0 पुनरावृत्ती (0 हर्ट्ज)</string>
+    <string name="duration">कालावधी</string>
+    <string name="seconds">सेकंद</string>
+    <string name="intention_repeater_finished">उद्देश पुनरावृत्तक पूर्ण</string>
+    <string name="finished">पूर्ण: %1$s</string>
+
+    <string name="multiplier">गुणक [%1$s]: 0</string>
+
 </resources>

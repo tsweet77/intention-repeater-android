@@ -18,11 +18,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -69,6 +67,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -106,9 +105,8 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "1.52"
+const val version = "1.53"
 private const val SETTINGS_REQUEST_CODE = 100
-private var currentLanguage: String = "en" // Default to English
 
 class MainActivity : ComponentActivity() {
 
@@ -151,8 +149,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST-R", "resumed")
-
         // Reload and apply the saved locale when the activity resumes
         val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
@@ -163,6 +159,7 @@ class MainActivity : ComponentActivity() {
             setLocale(this, savedLanguage)
             recreate() // Only recreate if the language has changed
         }
+
 
         isChangingConfigurations = false
     }
@@ -206,13 +203,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Log.d("TEST-R", "configuration changed")
         isChangingConfigurations = true
     }
 
     override fun onDestroy() {
-        Log.d("TEST-R", "destroy called")
-
         if (!isChangingConfigurations && isFinishing) {
             val intent = Intent(applicationContext, TimerForegroundService::class.java)
             stopService(intent)
@@ -220,6 +214,7 @@ class MainActivity : ComponentActivity() {
 
         super.onDestroy()
     }
+
 }
 
 // Function to set the app's locale
@@ -250,8 +245,24 @@ fun Greeting(modifier: Modifier = Modifier) {
     //val newLocale = Locale("sa") // Example: Sanskrit
     //configuration.setLocale(newLocale)
     //resources.updateConfiguration(configuration, resources.displayMetrics)
-    val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
 
+    val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    val locale=Locale(sharedPref.getString("Language","en").toString())
+
+    val config = context.resources.configuration
+    if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.locales[0] != locale
+        } else {
+            config.locale !=locale
+        }
+    ) {
+        val newConfig = config.apply {
+            setLocale(locale)
+            setLayoutDirection(locale)
+        }
+        context.createConfigurationContext(newConfig)
+        context.resources.updateConfiguration(newConfig, context.resources.displayMetrics)
+    }
     val viewModel:TimerViewModel = viewModel()
 
     var selectedFrequency by rememberSaveable { mutableStateOf(sharedPref.getString("frequency", "7.83") ?: "7.83") }
@@ -259,7 +270,8 @@ fun Greeting(modifier: Modifier = Modifier) {
     var targetLength by remember { mutableLongStateOf(1L) }
     var time by remember { mutableStateOf("00:00:00") }
     val timerRunning by viewModel.timerRunning.observeAsState(false)
-    var formattedIterations by remember { mutableStateOf("0 Iterations (0 Hz)") }
+    var formattedIterations by remember { mutableStateOf(context.getString(R.string.iterations_zero_hz)) }
+    var formattedIterationsCount by remember { mutableStateOf(context.getString(R.string.iterations_zero_hz)) }
     var intention by remember { mutableStateOf(sharedPref.getString("intention", "") ?: "") }
     val focusManager = LocalFocusManager.current
     val savedSliderPosition = sharedPref.getFloat("sliderPosition", 0f)
@@ -268,14 +280,15 @@ fun Greeting(modifier: Modifier = Modifier) {
         Runtime.getRuntime().let { it.maxMemory() - (it.totalMemory() - it.freeMemory()) } * 0.5
     }
     val scrollState = rememberScrollState()
-    var intentionMultiplied by remember { mutableStateOf(StringBuilder()) }
-    var newIntention by remember { mutableStateOf("") }
     var multiplier by remember { mutableStateOf(0L) }
     var isIntentionProcessed by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
     // Initialize `isKeepAwakeEnabled` with a default value, saving its state across recompositions
     var isKeepAwakeEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("keep_awake_enabled", false)) }
 
+
+    val loadingText=context.getString(R.string.loading_intention)
+    val zeroIteration=context.getString(R.string.iterations_zero_hz)
 
     val resultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
@@ -323,20 +336,20 @@ fun Greeting(modifier: Modifier = Modifier) {
             buttonText = if (timerRunning) stringResource(R.string.str_stop) else stringResource(R.string.str_start),
             onStartStopButtonClick = {
                 focusManager.clearFocus()
+
                 if (timerRunning) {
                     viewModel.setTimerRunning(false)
                     val intent = Intent(context, TimerForegroundService::class.java)
                     context.stopService(intent)
 
-                    if (formattedIterations == context.getString(R.string.loading_intention)) {
-                        formattedIterations = context.getString(R.string._0_iterations_0_hz)
-                    }
+                    formattedIterations = context.getString(R.string.finished,formattedIterationsCount)
                 } else {
-                    formattedIterations = context.getString(R.string.loading_intention)
+                    formattedIterations = loadingText
                     time = "00:00:00"
-                    intentionMultiplied.clear()
                     multiplier = 0
                     targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
+
+
                     if (targetLength * 4 > fiftyPercentOfFreeMemory) {
                         targetLength = (fiftyPercentOfFreeMemory / 4).toLong()
                         sliderPosition = (4 * targetLength / 1024 / 1024).toFloat()
@@ -353,36 +366,21 @@ fun Greeting(modifier: Modifier = Modifier) {
                     viewModel.setTimerRunning(true)
                     isIntentionProcessed = true
 
-                    val intentionBuilder = StringBuilder()
-                    var localMultiplier = 0L
-
-                    if (targetLength > 0) {
-                        while (intentionBuilder.length < targetLength) {
-                            intentionBuilder.append(intention)
-                            localMultiplier++
-                        }
-                    } else {
-                        localMultiplier = 1
-                        intentionBuilder.append(intention)
-                    }
-
-                    val newIntention = intentionBuilder.toString()
-                    intentionMultiplied = StringBuilder(newIntention)
-                    multiplier = localMultiplier
 
                     val intent = Intent(context, TimerForegroundService::class.java)
-                    sharedPref.edit().putString("newIntention", newIntention).apply()
+                    intent.putExtra("intention",intention);
+                    intent.putExtra("targetLength",targetLength);
                     intent.putExtra("isBoostEnabled", isBoostEnabled)
                     intent.putExtra("timerRunning", timerRunning)
-                    intent.putExtra("multiplier", multiplier)
                     intent.putExtra("selectedFrequency", selectedFrequency)
                     intent.putExtra("isKeepAwakeEnabled", isKeepAwakeEnabled) // Pass keep awake state to the service
+
                     context.startService(intent)
                 }
             },
             onResetButtonClick = {
                 focusManager.clearFocus()
-                formattedIterations = context.getString(R.string._0_iterations_0_hz)
+                formattedIterations = zeroIteration
                 time = "00:00:00"
             },
             onInsertFileClick = handleInsertFileClick, // Pass the file selection logic
@@ -402,11 +400,29 @@ fun Greeting(modifier: Modifier = Modifier) {
     val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
             // Get extra data included in the Intent
-            val times = intent.getStringExtra("time")
-            val iterations = intent.getStringExtra("iterations")
 
-            time= times.toString();
-            formattedIterations= iterations.toString();
+            if(intent.hasExtra("stopTimer")){
+                viewModel.setTimerRunning(false)
+                val intents = Intent(context, TimerForegroundService::class.java)
+                context!!.stopService(intents)
+
+                formattedIterations = context.getString(R.string.finished,formattedIterationsCount)
+            }
+
+            if(timerRunning){
+                if(intent.hasExtra("time")){
+                    val times = intent.getStringExtra("time")
+                    time= times.toString();
+                }
+
+                if(intent.hasExtra("iterations")){
+                    val iterations = intent.getStringExtra("iterations")
+                    val iterationsCount=intent.getStringExtra("iterationsCount")
+
+                    formattedIterations= iterations.toString();
+                    formattedIterationsCount=iterationsCount.toString()
+                }
+            }
 
         }
     }
@@ -414,6 +430,14 @@ fun Greeting(modifier: Modifier = Modifier) {
     LocalBroadcastManager.getInstance(context).registerReceiver(
         mMessageReceiver, IntentFilter("IterationUpdate")
     );
+}
+
+fun getCurrentLocale(context: Context): Locale {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        context.resources.configuration.locales[0]
+    } else {
+        context.resources.configuration.locale
+    }
 }
 
 fun hashFileContent(context: Context, uri: Uri): String {
@@ -561,8 +585,6 @@ private fun SettingsButton() {
     }
 }
 
-private const val s = "Intention Repeater"
-
 @Composable
 private fun AppTitle() {
     Spacer(modifier = Modifier.size(16.dp))
@@ -598,7 +620,7 @@ private fun IntentionTextField(
         modifier = Modifier
             .fillMaxWidth()
             .height(192.dp),
-        label = { Text("Enter Intentions", color = Color.White) },
+        label = { Text(stringResource(R.string.enter_intentions), color = Color.White) },
         singleLine = false,
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Default
@@ -635,7 +657,7 @@ private fun MultiplierSlider(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = stringResource(R.string.mult_0, sliderPosition.roundToLong()),
+                text = stringResource(R.string.multiplier, sliderPosition.roundToLong()),
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Serif,
                 color = Color.White
@@ -673,8 +695,8 @@ fun FrequencyAndBoostSelector(
 ) {
     data class Option(val title: String, val value: String)
     val options = listOf(
-        Option(stringResource(R.string._3_hz_classic),"3"),
-        Option(stringResource(R.string._7_83_hz_schumann_resonance_optimal),"7.83"),
+        Option(stringResource(R.string.three_herz_classic),"3"),
+        Option(stringResource(R.string.schumann_resonance),"7.83"),
         Option(stringResource(R.string.str_maximum_frequency),"0")
     )
 
@@ -801,7 +823,7 @@ fun KeepDeviceAwakeCheckbox(
                 )
                 Spacer(modifier = Modifier.width(8.dp)) // Add spacing between the checkbox and text
                 Text(
-                    text = stringResource(R.string.keep_device_awake_3_hz_or_7_83_hz_only),
+                    text = stringResource(R.string.keep_device_awake),
                     color = if (isCheckboxEnabled) Color.White else Color.Gray,
                     fontSize = 14.sp, // Match the font size with "Power Boost"
                     fontFamily = FontFamily.Serif,
@@ -825,7 +847,7 @@ fun KeepDeviceAwakeCheckbox(
                     .padding(8.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.prevents_device_from_sleeping_during_3_hz_or_7_83_hz_operations_increases_battery_usage),
+                    text = stringResource(R.string.prevents_device_sleeping),
                     color = Color.White,
                     fontSize = 12.sp
                 )
@@ -1066,8 +1088,8 @@ fun PrivacyPolicyButton() {
     }
 }
 
-fun formatDecimalNumber(value:Float):String{
-    val units = arrayOf("Hz", "kHz", "MHz", "GHz", "THz", "PHz", "EHz")
+fun formatDecimalNumber(context: Context,value:Float):String{
+    val units = arrayOf(context.getString(R.string.Hz), context.getString(R.string.kHz), context.getString(R.string.MHz), context.getString(R.string.GHz), context.getString(R.string.THz), context.getString(R.string.PHz), context.getString(R.string.EHz))
     var adjustedValue = value
     var unitIndex = 0
 
@@ -1087,12 +1109,12 @@ fun formatDecimalNumber(value:Float):String{
 }
 
 
-fun formatLargeNumber(value: BigInteger): String {
+fun formatLargeNumber(context:Context,value: BigInteger): String {
     if (value < BigInteger("1000")) {
         return value.toString()
     }
 
-    val names = arrayOf("", "k", "M", "B", "T", "q", "Q", "s", "S")
+    val names = arrayOf("", context.getString(R.string.k), context.getString(R.string.M), context.getString(R.string.B), context.getString(R.string.T), context.getString(R.string.q), context.getString(R.string.Q), context.getString(R.string.s), context.getString(R.string.S))
     val magnitude = value.toString().length
     val index = (magnitude - 1) / 3
 
@@ -1107,8 +1129,8 @@ fun formatLargeNumber(value: BigInteger): String {
     return String.format("%.3f%s", formattedValue, names[index])
 }
 
-fun formatLargeFreq(value: Float): String {
-    val units = arrayOf("Hz", "kHz", "MHz", "GHz", "THz", "PHz", "EHz")
+fun formatLargeFreq(context: Context,value: Float): String {
+    val units = arrayOf(context.getString(R.string.Hz), context.getString(R.string.kHz), context.getString(R.string.MHz), context.getString(R.string.GHz), context.getString(R.string.THz), context.getString(R.string.PHz), context.getString(R.string.EHz))
     var adjustedValue = value
     var unitIndex = 0
 
@@ -1127,6 +1149,7 @@ fun formatLargeFreq(value: Float): String {
     }
 }
 
+
 class TimerForegroundService : Service() {
     companion object {
         const val NOTIFICATION_ID = 1
@@ -1138,6 +1161,28 @@ class TimerForegroundService : Service() {
         return null
     }
 
+
+    private lateinit var sharedPreferences:SharedPreferences
+    private lateinit var context:Context;
+
+    override fun onCreate() {
+        super.onCreate()
+        sharedPreferences=getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
+        context=this;
+
+        setLocale(context, savedLanguage)
+    }
+
+    fun updateLocale(locale: Locale) {
+        Locale.setDefault(locale)
+        val config = context.resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale) // Important for RTL languages
+        context= context.createConfigurationContext(config)
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
+    }
+
     private var timerRunning = false
     private var multiplier: Long = 0L
     private var selectedFrequency: String = "0"
@@ -1145,18 +1190,23 @@ class TimerForegroundService : Service() {
     private var isBoostEnabled: Boolean = false
 
     private var elapsedTime = 0L
+    private var durationSec=0L
     private var iterations = 0.0.toFloat()
     private var startTime = System.nanoTime()
-    private var lastUpdate = startTime
+    private var lastTime="00:00:00";
     private var mutableIntention = newIntention
+
+    private var updatedIterationCount="";
 
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
+        val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+
         // Use safe call operator and provide default values
         intent?.let { safeIntent ->
-            val notification = createNotification("Intention Repeater 00:00:00", "Loading Intention...")
+            val notification = createNotification(context.getString(R.string.intention_repeater_header)+" 00:00:00", context.getString(R.string.loading_intention))
             startForeground(NOTIFICATION_ID, notification)
 
             // Acquire a partial wake lock
@@ -1166,14 +1216,35 @@ class TimerForegroundService : Service() {
                 "TimerForegroundService::WakeLock"
             )
 
-            // Get the state of "Keep Device Awake" from the intent or shared preferences
-            val sharedPref = applicationContext.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-            newIntention = sharedPref.getString("newIntention", "").toString()
+            durationSec=sharedPreferences.getLong("Duration",0L) * 1000
+
             isBoostEnabled = intent.getBooleanExtra("isBoostEnabled", false)
             timerRunning = intent.getBooleanExtra("timerRunning", true)
             selectedFrequency = intent.getStringExtra("selectedFrequency").toString()
-            multiplier = intent.getLongExtra("multiplier", 0L)
             val keepAwake = intent.getBooleanExtra("isKeepAwakeEnabled", false)
+
+            val targetLength=intent.getLongExtra("targetLength",0);
+            val intention=intent.getStringExtra("intention");
+
+
+            val intentionBuilder = StringBuilder()
+            var localMultiplier = 0L
+
+            if (targetLength > 0) {
+                while (intentionBuilder.length < targetLength) {
+                    intentionBuilder.append(intention)
+                    localMultiplier++
+                }
+            } else {
+                localMultiplier = 1
+                intentionBuilder.append(intention)
+            }
+
+            newIntention = intentionBuilder.toString()
+            multiplier = localMultiplier
+
+            startTime = System.nanoTime()
+
 
             // Determine the wakelock duration based on the frequency and keep awake state
             if (selectedFrequency == "0") {
@@ -1195,8 +1266,13 @@ class TimerForegroundService : Service() {
                         intentUpdate.putExtra("time", it)
 
                         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
-                    }, onIterationsUpdate = {
-                        intentUpdate.putExtra("iterations", it)
+                    }, onIterationsUpdate ={ s: String, s1: String ->
+                        intentUpdate.putExtra("iterations", s)
+                        intentUpdate.putExtra("iterationsCount",s1);
+
+                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
+                    }, onTimerStop = {
+                        intentUpdate.putExtra("stopTimer",true);
 
                         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
                     })
@@ -1210,15 +1286,18 @@ class TimerForegroundService : Service() {
     }
 
 
-    suspend fun startTimer(onTimeUpdate: (String) -> Unit, onIterationsUpdate: (String) -> Unit){
+    suspend fun startTimer(onTimeUpdate: (String) -> Unit, onIterationsUpdate: (String,String) -> Unit,onTimerStop:(Boolean)->Unit){
         var iterationsInLastSecond = 0.0.toFloat()
         var lastSecond = System.nanoTime()
 
         while (timerRunning) {
-            val loopStartTime = System.nanoTime()
 
-            // Process the intention
-            var processIntention = newIntention
+            val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
+            if(savedLanguage!=context.resources.configuration.locale.toString()){
+                updateLocale(Locale(savedLanguage))
+            }
+
+            val loopStartTime = System.nanoTime()
 
             if (isBoostEnabled) {
                 mutableIntention = sha512("$mutableIntention: $newIntention")
@@ -1254,33 +1333,42 @@ class TimerForegroundService : Service() {
                 // Calculate frequency for the last second
                 val actualFrequency = iterationsInLastSecond.toFloat()
 
-                val updatedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                val updatedTime = String.format(Locale.ENGLISH,"%02d:%02d:%02d", hours, minutes, seconds)
+                lastTime=updatedTime;
 
-                val updatedIterations = getString(
+                val updatedIterations = context.getString(
                     R.string.str_iterations,
-                    formatLargeNumber(BigInteger.valueOf(iterations.toLong())),
-                    if (selectedFrequency == "7.83") formatDecimalNumber(7.83.toFloat() * multiplier) else formatLargeFreq(
+                    formatLargeNumber(context = this,BigInteger.valueOf(iterations.toLong())),
+                    if (selectedFrequency == "7.83") formatDecimalNumber(context = context,7.83.toFloat() * multiplier) else formatLargeFreq(context = context,
                         (if (selectedFrequency == "3") "3".toFloat() else actualFrequency) * multiplier
                     )
                 )
 
-                withContext(Dispatchers.Main) {
-                    onTimeUpdate(updatedTime)
-                    onIterationsUpdate(updatedIterations)
+                updatedIterationCount=formatLargeNumber(context = context,BigInteger.valueOf(iterations.toLong()))
 
-                    if(timerRunning){
-                        // do something
-                        val notification: Notification = createNotification("Intention Repeater "+updatedTime,updatedIterations)
-
-                        val mNotificationManager =
-                            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                        mNotificationManager.notify(NOTIFICATION_ID, notification)
+                if(durationSec>0&&elapsedTime-1000>=durationSec){
+                    withContext(Dispatchers.Main){
+                        onTimerStop(true)
                     }
-                }
+                }else{
+                    withContext(Dispatchers.Main) {
+                        onTimeUpdate(updatedTime)
+                        onIterationsUpdate(updatedIterations,updatedIterationCount)
 
-                // Reset for the next second
-                iterationsInLastSecond = 0.0.toFloat()
-                lastSecond = now
+                        if(timerRunning){
+                            // do something
+                            val notification: Notification = createNotification(context.getString(R.string.intention_repeater_header)+" "+updatedTime,updatedIterations)
+
+                            val mNotificationManager =
+                                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                            mNotificationManager.notify(NOTIFICATION_ID, notification)
+                        }
+                    }
+
+                    // Reset for the next second
+                    iterationsInLastSecond = 0.0.toFloat()
+                    lastSecond = now
+                }
             }
         }
     }
@@ -1306,10 +1394,15 @@ class TimerForegroundService : Service() {
         timerRunning=false
         stopForeground(true)
         stopSelf()
+        val notification=createNotification(context.getString(R.string.intention_repeater_finished),context.getString(R.string.str_iterations,updatedIterationCount,lastTime))
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        notificationManager.notify(100,notification)
     }
 
     private fun createNotification(title:String,text:String): Notification {
-        val notificationBuilder = NotificationCompat.Builder(this, "Intention Repeater")
+        val notificationBuilder = NotificationCompat.Builder(context, context.getString(R.string.app_name))
 
         if (Build.VERSION.SDK_INT >=
             Build.VERSION_CODES.S
@@ -1348,8 +1441,8 @@ class TimerForegroundService : Service() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
-                "Intention Repeater",
-                "Intention Repeater is running",
+                getString(R.string.app_name),
+                getString(R.string.show_intentions_update),
                 NotificationManager.IMPORTANCE_HIGH
             )
             val manager =

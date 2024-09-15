@@ -51,4 +51,21 @@
     <string name="Q">q</string> <!-- Q for quintillion -->
     <string name="s">s</string> <!-- s for sextillion -->
     <string name="S">s</string> <!-- S for septillion -->
+
+    <string name="show_intentions_update">For at vise hensigter opdatering</string>
+
+    <string name="notifications_enabled">Meddelelser er \u0020AKTIVERET\u0020. Når kørende, opdateres meddelelsen hvert sekund med forløbet tid, nuværende frekvens og antal gentagelser.</string>
+    <string name="notifications_disabled">Meddelelser er \u0020DEAKTIVERET\u0020. Du kan aktivere meddelelser for at se forløbet tid, nuværende frekvens og antal gentagelser under kørsel som en meddelelse.</string>
+    <string name="three_herz_classic">3 Hz (Klassisk)</string>
+    <string name="schumann_resonance">7.83 Hz Schumann Resonans (Optimal)</string>
+    <string name="keep_device_awake">Hold enheden vågen (kun 3 Hz eller 7.83 Hz)</string>
+    <string name="prevents_device_sleeping">Forhindrer enheden i at gå i dvale under 3 Hz eller 7.83 Hz operationer. Øger batteriforbruget.</string>
+    <string name="iterations_zero_hz">0 Iterationer (0 Hz)</string>
+    <string name="duration">Varighed</string>
+    <string name="seconds">Sekunder</string>
+    <string name="intention_repeater_finished">Intention Repeater Færdig</string>
+    <string name="finished">Færdig: %1$s</string>
+
+    <string name="multiplier">Multiplikator [%1$s]: 0</string>
+
 </resources>

@@ -51,4 +51,21 @@
     <string name="Q">Qt</string> <!-- Q for kentilyon -->
     <string name="s">St</string> <!-- s for sektilyon -->
     <string name="S">S</string> <!-- S for septilyon -->
+
+    <string name="show_intentions_update">Niyet güncellemesini göstermek için</string>
+
+    <string name="notifications_enabled">Bildirimler \u0020AKTİF\u0020. Çalışırken bildirim her saniye geçen süre, mevcut frekans ve yineleme sayısı ile güncellenecektir.</string>
+    <string name="notifications_disabled">Bildirimler \u0020PASİF\u0020. Bildirimleri etkinleştirerek çalışırken geçen süreyi, mevcut frekansı ve yineleme sayısını bir bildirim olarak görebilirsiniz.</string>
+    <string name="three_herz_classic">3 Hz (Klasik)</string>
+    <string name="schumann_resonance">7.83 Hz Schumann Rezonansı (Optimal)</string>
+    <string name="keep_device_awake">Cihazı Uyanık Tut (sadece 3 Hz veya 7.83 Hz)</string>
+    <string name="prevents_device_sleeping">3 Hz veya 7.83 Hz işlemleri sırasında cihazın uykuya geçmesini önler. Pil tüketimini artırır.</string>
+    <string name="iterations_zero_hz">0 Tekrar (0 Hz)</string>
+    <string name="duration">Süre</string>
+    <string name="seconds">Saniye</string>
+    <string name="intention_repeater_finished">Niyet Tekrarlayıcı Tamamlandı</string>
+    <string name="finished">Tamamlandı: %1$s</string>
+
+    <string name="multiplier">Çarpan [%1$s]: 0</string>
+
 </resources>

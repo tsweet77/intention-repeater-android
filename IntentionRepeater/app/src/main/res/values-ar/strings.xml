@@ -51,4 +51,21 @@
     <string name="Q">ك</string> <!-- Q for كوينتليون -->
     <string name="s">س</string> <!-- s for سكستيليون -->
     <string name="S">س</string> <!-- S for سبتيليون -->
+
+    <string name="show_intentions_update">لإظهار تحديث النوايا</string>
+
+    <string name="notifications_enabled">الإشعارات \u0020مُمَكّنة\u0020. عند التشغيل، سيتم تحديث الإشعار كل ثانية مع الوقت المنقضي، التردد الحالي، وعدد التكرارات.</string>
+    <string name="notifications_disabled">الإشعارات \u0020مَعطَّلة\u0020. يمكنك تمكين الإشعارات لعرض الوقت المنقضي، التردد الحالي، وعدد التكرارات أثناء التشغيل كإشعار.</string>
+    <string name="three_herz_classic">3 هرتز (كلاسيكي)</string>
+    <string name="schumann_resonance">رنين شومان 7.83 هرتز (مثالي)</string>
+    <string name="keep_device_awake">الحفاظ على الجهاز مستيقظًا (3 هرتز أو 7.83 هرتز فقط)</string>
+    <string name="prevents_device_sleeping">يمنع الجهاز من النوم أثناء عمليات 3 هرتز أو 7.83 هرتز. يزيد من استهلاك البطارية.</string>
+    <string name="iterations_zero_hz">0 تكرارات (0 هرتز)</string>
+    <string name="duration">المدة</string>
+    <string name="seconds">ثواني</string>
+    <string name="intention_repeater_finished">اكتمل مكرر النية</string>
+    <string name="finished">اكتمل: %1$s</string>
+
+    <string name="multiplier">المضاعف [%1$s]: 0</string>
+
 </resources>

@@ -15,6 +15,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
@@ -27,11 +28,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.anthroteacher.intentionrepeater.ui.theme.IntentionRepeaterTheme
@@ -59,6 +62,14 @@ class SettingsActivity : ComponentActivity() {
                         saveLanguageToPreferences(newLocale)
                         setLocale(this, newLocale) // Apply the new locale
                         recreate() // Recreate the activity to reflect changes
+                    },
+                    currentDuration = sharedPreferences.getLong("Duration",0L).toString(),
+                    onDurationChange = { newDuration ->
+                        var value=0L;
+                        if(newDuration.isNotEmpty()&&newDuration.isDigitsOnly()){
+                            value=newDuration.toLong();
+                        }
+                        sharedPreferences.edit().putLong("Duration",value).apply()
                     }
                 )
             }
@@ -102,7 +113,9 @@ class SettingsActivity : ComponentActivity() {
 @Composable
 fun SettingsScreen(
     currentLocale: String,
-    onLanguageChange: (String) -> Unit
+    onLanguageChange: (String) -> Unit,
+    currentDuration : String,
+    onDurationChange: (String)->Unit
 ) {
     val context = LocalContext.current
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -115,6 +128,7 @@ fun SettingsScreen(
 
     // State to keep track of selected language
     var selectedLanguage by remember { mutableStateOf(currentLocale) }
+    var selectedDuration by remember { mutableStateOf(currentDuration) }
 
     // Observe the lifecycle state of the composable
     DisposableEffect(lifecycleOwner) {
@@ -138,6 +152,7 @@ fun SettingsScreen(
             .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(24.dp))
         // Heading text in white
         Text(
             text = stringResource(R.string.intention_repeater_settings),
@@ -210,8 +225,18 @@ fun SettingsScreen(
         ) {
             Text(stringResource(R.string.update_language))
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ){
+            DurationInputField(duration = selectedDuration) { newDuration ->
+                selectedDuration=newDuration
+                onDurationChange(newDuration)
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
 
         // Row for Website and Forum buttons
         Row(
@@ -327,24 +352,38 @@ fun LanguageDropdown(
     }
 }
 
+
+@Composable
+fun DurationInputField(duration:String,onDurationChange:(String)->Unit) {
+    Column {
+        Text(
+            text = "Duration", // The label for the TextField
+            style = MaterialTheme.typography.bodyLarge, // Set the text style as per your theme
+            modifier = Modifier.fillMaxWidth()
+        )
+        TextField(
+            value = duration.toString(),
+            onValueChange = { newText ->
+                // Update the state with the new text
+                onDurationChange(newText)
+            },
+            label = { Text(stringResource(R.string.seconds)) },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+        )
+    }
+}
+
 @Composable
 fun NotificationStatusMessage(enabled: Boolean) {
     // Construct the message with color highlighting for ENABLED/ DISABLED and default white text
     val statusText = buildAnnotatedString {
         // Set the default color for the rest of the text to white
         withStyle(style = SpanStyle(color = Color.White)) {
-            append(stringResource(R.string.notifications_are))
-
             if (enabled) {
-                withStyle(style = SpanStyle(color = Color.Green)) {
-                    append(stringResource(R.string.enabled))
-                }
-                append(stringResource(R.string.notification_on_message))
+                append(stringResource(R.string.notifications_enabled))
             } else {
-                withStyle(style = SpanStyle(color = Color.Red)) {
-                    append(stringResource(R.string.disabled))
-                }
-                append(stringResource(R.string.notification_off_message))
+                append(stringResource(R.string.notifications_disabled))
             }
         }
     }

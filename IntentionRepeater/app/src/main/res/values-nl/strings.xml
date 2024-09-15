@@ -51,4 +51,21 @@
     <string name="Q">Qt</string> <!-- Q for kwintiljoen -->
     <string name="s">Sx</string> <!-- s for sextiljoen -->
     <string name="S">Sp</string> <!-- S for septiljoen -->
+
+    <string name="show_intentions_update">Om intenties bij te werken</string>
+
+    <string name="notifications_enabled">Meldingen zijn INGESCHAKELD. Tijdens het draaien wordt de melding elke seconde bijgewerkt met verstreken tijd, huidige frequentie en aantal herhalingen.</string>
+    <string name="notifications_disabled">Meldingen zijn UITGESCHAKELD. Je kunt meldingen inschakelen om de verstreken tijd, huidige frequentie en aantal herhalingen te bekijken terwijl het draait als een melding.</string>
+    <string name="three_herz_classic">3 Hz (Klassiek)</string>
+    <string name="schumann_resonance">7.83 Hz Schumann Resonantie (Optimaal)</string>
+    <string name="keep_device_awake">Apparaat wakker houden (alleen 3 Hz of 7.83 Hz)</string>
+    <string name="prevents_device_sleeping">Voorkomt dat het apparaat in slaap valt tijdens 3 Hz of 7.83 Hz operaties. Verhoogt het batterijverbruik.</string>
+    <string name="iterations_zero_hz">0 Herhalingen (0 Hz)</string>
+    <string name="duration">Duur</string>
+    <string name="seconds">Seconden</string>
+    <string name="intention_repeater_finished">Intentie Herhaler Voltooid</string>
+    <string name="finished">Voltooid: %1$s</string>
+
+    <string name="multiplier">Vermenigvuldiger [%1$s]: 0</string>
+
 </resources>

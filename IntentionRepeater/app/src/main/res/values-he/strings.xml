@@ -51,4 +51,21 @@
     <string name="Q">ק</string> <!-- Q for קווינטיליון -->
     <string name="s">ס</string> <!-- s for סקסטיליון -->
     <string name="S">ס</string> <!-- S for ספטיליון -->
+
+    <string name="show_intentions_update">כדי להציג עדכון כוונות</string>
+
+    <string name="notifications_enabled">התראות \u0020מופעלות\u0020. במהלך ההפעלה, ההתראה תתעדכן כל שנייה עם הזמן שחלף, התדר הנוכחי ומספר החזרות.</string>
+    <string name="notifications_disabled">התראות \u0020מושבתות\u0020. תוכל להפעיל את ההתראות כדי לצפות בזמן שחלף, בתדר הנוכחי ובמספר החזרות כאשר הפעלת אותן כהודעה.</string>
+    <string name="three_herz_classic">3 הרץ (קלאסי)</string>
+    <string name="schumann_resonance">7.83 הרץ תהודה של שומאן (אופטימלית)</string>
+    <string name="keep_device_awake">שמור על המכשיר ער (רק 3 הרץ או 7.83 הרץ)</string>
+    <string name="prevents_device_sleeping">מונע מהמכשיר להיכנס למצב שינה במהלך פעולות ב-3 הרץ או 7.83 הרץ. מגדיל את השימוש בסוללה.</string>
+    <string name="iterations_zero_hz">0 חזרות (0 הרץ)</string>
+    <string name="duration">משך זמן</string>
+    <string name="seconds">שניות</string>
+    <string name="intention_repeater_finished">חוזר כוונות הושלם</string>
+    <string name="finished">הושלם: %1$s</string>
+
+    <string name="multiplier">מכפיל [%1$s]: 0</string>
+
 </resources>

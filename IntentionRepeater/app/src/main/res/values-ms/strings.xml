@@ -51,4 +51,21 @@
     <string name="Q">Qt</string> <!-- Q for kuintilion -->
     <string name="s">s</string> <!-- s for sekstilion -->
     <string name="S">Sp</string> <!-- S for septilion -->
+
+    <string name="show_intentions_update">Untuk menunjukkan kemas kini niat</string>
+
+    <string name="notifications_enabled">Notifikasi \u0020DIHIDUPKAN\u0020. Semasa berjalan, notifikasi akan dikemas kini setiap saat dengan masa berlalu, kekerapan semasa, dan bilangan iterasi.</string>
+    <string name="notifications_disabled">Notifikasi \u0020DINYAHKAN\u0020. Anda boleh mengaktifkan notifikasi untuk melihat masa berlalu, kekerapan semasa, dan bilangan iterasi semasa ia berjalan sebagai notifikasi.</string>
+    <string name="three_herz_classic">3 Hz (Klasik)</string>
+    <string name="schumann_resonance">7.83 Hz Resonans Schumann (Optimum)</string>
+    <string name="keep_device_awake">Kekalkan Peranti Aktif (hanya 3 Hz atau 7.83 Hz)</string>
+    <string name="prevents_device_sleeping">Mencegah peranti daripada tidur semasa operasi 3 Hz atau 7.83 Hz. Meningkatkan penggunaan bateri.</string>
+    <string name="iterations_zero_hz">0 Iterasi (0 Hz)</string>
+    <string name="duration">Tempoh</string>
+    <string name="seconds">Saat</string>
+    <string name="intention_repeater_finished">Pengulang Niat Selesai</string>
+    <string name="finished">Selesai: %1$s</string>
+
+    <string name="multiplier">Pengganda [%1$s]: 0</string>
+
 </resources>

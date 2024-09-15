@@ -51,4 +51,21 @@
     <string name="Q">క్వి</string> <!-- Q for క్వింటిలియన్ -->
     <string name="s">సె</string> <!-- s for సెక్స్టిలియన్ -->
     <string name="S">సెప్</string> <!-- S for సెప్టిలియన్ -->
+
+    <string name="show_intentions_update">ఉద్దేశాల అప్డేట్‌ను చూపించడానికి</string>
+
+    <string name="notifications_enabled">సూచనలు సక్రియంగా ఉన్నాయి. ఇది పనిచేసేటప్పుడు, ప్రతి సెకనుకు సూచన సమయాన్ని, ప్రస్తుత ఫ్రీక్వెన్సీని మరియు పునరావృతాల సంఖ్యను నవీకరిస్తుంది.</string>
+    <string name="notifications_disabled">సూచనలు నిలిపివేయబడ్డాయి. మీరు సూచనలను చల్లారు మరియు ఇది పనిచేసేటప్పుడు సమయాన్ని, ప్రస్తుత ఫ్రీక్వెన్సీని మరియు పునరావృతాల సంఖ్యను చూడవచ్చు.</string>
+    <string name="three_herz_classic">3 Hz (క్లాసిక్)</string>
+    <string name="schumann_resonance">7.83 హర్ట్జ్ షూమాన్ రెసొనెన్స్ (అత్యుత్తమ)</string>
+    <string name="keep_device_awake">పరికరాన్ని నిద్రలో లేకుండా ఉంచండి (3 హర్ట్జ్ లేదా 7.83 హర్ట్జ్ మాత్రమే)</string>
+    <string name="prevents_device_sleeping">3 హర్ట్జ్ లేదా 7.83 హర్ట్జ్ ఆపరేషన్ల సమయంలో పరికరాన్ని నిద్రపోవడానికి అడ్డుకుంటుంది. బ్యాటరీ వినియోగాన్ని పెంచుతుంది.</string>
+    <string name="iterations_zero_hz">0 పునరావృతాలు (0 హర్ట్జ్)</string>
+    <string name="duration">కాలం</string>
+    <string name="seconds">సెకండ్లు</string>
+    <string name="intention_repeater_finished">ఉద్దేశ్య పునరావర్తకము ముగిసింది</string>
+    <string name="finished">ముగిసింది: %1$s</string>
+
+    <string name="multiplier">గుణక [%1$s]: 0</string>
+
 </resources>
