@@ -51,4 +51,21 @@
     <string name="Q">ક્વિ</string> <!-- Q for ક્વિન્ટિલિયન -->
     <string name="s">સે</string> <!-- s for સેકસ્ટિલિયન -->
     <string name="S">સેપ</string> <!-- S for સેપ્ટિલિયન -->
+
+    <string name="show_intentions_update">ઉદ્દેશ અપડેટ બતાવવા માટે</string>
+
+    <string name="notifications_enabled">સૂચનાઓ \u0020સક્ષમ\u0020 છે. ચાલી રહેલી છે ત્યારે, સૂચના દરેક સેકંડે પસાર થયેલ સમય, વર્તમાન તીવ્રતા, અને પુનરાવૃતિઓની સંખ્યા સાથે અપડેટ થશે.</string>
+    <string name="notifications_disabled">સૂચનાઓ \u0020અસક્રિય\u0020 છે. સૂચનાઓને સક્રિય કરીને પસાર થયેલ સમય, વર્તમાન તીવ્રતા અને પુનરાવૃતિઓની સંખ્યા જુઓ જ્યારે તેને સૂચના તરીકે ચલાવવામાં આવે છે.</string>
+    <string name="three_herz_classic">3 હર્ટ્ઝ (ક્લાસિક)</string>
+    <string name="schumann_resonance">7.83 હર્ટઝ શુમેન રેઝોનન્સ (આદર્શ)</string>
+    <string name="keep_device_awake">ડિવાઇસને જાગતા રાખો (ફક્ત 3 હર્ટઝ અથવા 7.83 હર્ટઝ)</string>
+    <string name="prevents_device_sleeping">3 હર્ટઝ અથવા 7.83 હર્ટઝ ઓપરેશન્સ દરમિયાન ડિવાઇસને સૂવવામાંથી રોકે છે. બેટરીની વપરાશ વધે છે.</string>
+    <string name="iterations_zero_hz">0 પુનરાવૃત્તિઓ (0 હર્ટઝ)</string>
+    <string name="duration">સમયગાળો</string>
+    <string name="seconds">સેકંડ</string>
+    <string name="intention_repeater_finished">ઈરાદા પુનરાવર્તક પૂર્ણ થયો</string>
+    <string name="finished">સમાપ્ત: %1$s</string>
+
+    <string name="multiplier">ગુણક [%1$s]: 0</string>
+
 </resources>

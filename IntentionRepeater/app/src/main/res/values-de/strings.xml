@@ -51,4 +51,21 @@
     <string name="Q">Q</string> <!-- Q for Quintillion -->
     <string name="s">S</string> <!-- s for Sextillion -->
     <string name="S">S</string> <!-- S for Septillion -->
+
+    <string name="show_intentions_update">Um Absichten anzuzeigen, aktualisieren</string>
+
+    <string name="notifications_enabled">Benachrichtigungen sind \u0020AKTIVIERT\u0020. Während des Betriebs wird die Benachrichtigung jede Sekunde mit der verstrichenen Zeit, der aktuellen Frequenz und der Anzahl der Wiederholungen aktualisiert.</string>
+    <string name="notifications_disabled">Benachrichtigungen sind \u0020DEAKTIVIERT\u0020. Sie können Benachrichtigungen aktivieren, um die verstrichene Zeit, die aktuelle Frequenz und die Anzahl der Wiederholungen während des Betriebs als Benachrichtigung anzuzeigen.</string>
+    <string name="three_herz_classic">3 Hz (Klassisch)</string>
+    <string name="schumann_resonance">7,83 Hz Schumann-Resonanz (Optimal)</string>
+    <string name="keep_device_awake">Gerät wach halten (nur 3 Hz oder 7,83 Hz)</string>
+    <string name="prevents_device_sleeping">Verhindert, dass das Gerät während des Betriebs bei 3 Hz oder 7,83 Hz in den Ruhezustand wechselt. Erhöht den Batterieverbrauch.</string>
+    <string name="iterations_zero_hz">0 Iterationen (0 Hz)</string>
+    <string name="duration">Dauer</string>
+    <string name="seconds">Sekunden</string>
+    <string name="intention_repeater_finished">Intention Repeater Fertig</string>
+    <string name="finished">Fertig: %1$s</string>
+
+    <string name="multiplier">Multiplikator [%1$s]: 0</string>
+
 </resources>

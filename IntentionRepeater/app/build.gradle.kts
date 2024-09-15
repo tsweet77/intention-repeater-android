@@ -11,8 +11,8 @@ android {
         applicationId = "com.anthroteacher.intentionrepeater"
         minSdk = 21
         targetSdk = 34
-        versionCode = 53
-        versionName = "1.52"
+        versionCode = 54
+        versionName = "1.53"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

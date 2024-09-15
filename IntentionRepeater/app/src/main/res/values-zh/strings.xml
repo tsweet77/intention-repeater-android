@@ -51,4 +51,21 @@
     <string name="Q">千万亿</string> <!-- Q for 千万亿 -->
     <string name="s">百亿亿</string> <!-- s for 百亿亿 -->
     <string name="S">千亿亿</string> <!-- S for 千亿亿 -->
+
+    <string name="show_intentions_update">显示意图更新</string>
+
+    <string name="notifications_enabled">通知 \u0020已启用\u0020。运行时，通知将每秒更新一次，显示经过的时间、当前频率和迭代次数。</string>
+    <string name="notifications_disabled">通知 \u0020已禁用\u0020。您可以启用通知，以便在运行时作为通知查看经过的时间、当前频率和迭代次数。</string>
+    <string name="three_herz_classic">3 赫兹 (经典)</string>
+    <string name="schumann_resonance">7.83 赫兹 舒曼共振（最佳）</string>
+    <string name="keep_device_awake">保持设备唤醒（仅限 3 赫兹 或 7.83 赫兹）</string>
+    <string name="prevents_device_sleeping">防止设备在 3 赫兹 或 7.83 赫兹 操作期间进入睡眠模式。增加电池消耗。</string>
+    <string name="iterations_zero_hz">0 次迭代（0 赫兹）</string>
+    <string name="duration">持续时间</string>
+    <string name="seconds">秒</string>
+    <string name="intention_repeater_finished">意图重复器已完成</string>
+    <string name="finished">完成：%1$s</string>
+
+    <string name="multiplier">乘数 [%1$s]: 0</string>
+
 </resources>

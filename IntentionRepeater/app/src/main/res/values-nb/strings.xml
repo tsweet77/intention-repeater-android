@@ -51,4 +51,21 @@
     <string name="Q">kvin</string> <!-- Q for kvintillion -->
     <string name="s">seks</string> <!-- s for sekstiljon -->
     <string name="S">sept</string> <!-- S for septillion -->
+
+    <string name="show_intentions_update">For å vise intensjonsoppdatering</string>
+
+    <string name="notifications_enabled">Varsler er \u0020AKTIVERT\u0020. Når du kjører, vil varslingen oppdateres hvert sekund med forløpt tid, gjeldende frekvens og antall iterasjoner.</string>
+    <string name="notifications_disabled">Varsler er \u0020DEAKTIVERT\u0020. Du kan aktivere varsler for å se forløpt tid, gjeldende frekvens og antall iterasjoner når det kjører som et varsel.</string>
+    <string name="three_herz_classic">3 Hz (Klassisk)</string>
+    <string name="schumann_resonance">7.83 Hz Schumann Resonance (Optimal)</string>
+    <string name="keep_device_awake">Hold enheten våken (bare 3 Hz eller 7.83 Hz)</string>
+    <string name="prevents_device_sleeping">Forhindrer enheten fra å gå i hvilemodus under 3 Hz eller 7.83 Hz operasjoner. Øker batteriforbruket.</string>
+    <string name="iterations_zero_hz">0 Iterasjoner (0 Hz)</string>
+    <string name="duration">Varighet</string>
+    <string name="seconds">Sekunder</string>
+    <string name="intention_repeater_finished">Intensjonsrepeater ferdig</string>
+    <string name="finished">Ferdig: %1$s</string>
+
+    <string name="multiplier">Multipliserer [%1$s]: 0</string>
+
 </resources>

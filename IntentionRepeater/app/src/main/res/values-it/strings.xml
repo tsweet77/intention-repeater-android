@@ -51,4 +51,21 @@
     <string name="Q">Qt</string> <!-- Q for quintilione -->
     <string name="s">Sx</string> <!-- s for sestilione -->
     <string name="S">St</string> <!-- S for settilione -->
+
+    <string name="show_intentions_update">Per mostrare l\'aggiornamento delle intenzioni</string>
+
+    <string name="notifications_enabled">Le notifiche sono \u0020ABILITATE\u0020. Durante l\'esecuzione, la notifica verrà aggiornata ogni secondo con il tempo trascorso, la frequenza attuale e il numero di iterazioni.</string>
+    <string name="notifications_disabled">Le notifiche sono \u0020DISABILITATE\u0020. Puoi abilitare le notifiche per visualizzare il tempo trascorso, la frequenza attuale e il numero di iterazioni quando è in esecuzione come notifica.</string>
+    <string name="three_herz_classic">3 Hz (Classico)</string>
+    <string name="schumann_resonance">7.83 Hz Risonanza di Schumann (Ottimale)</string>
+    <string name="keep_device_awake">Mantieni il dispositivo attivo (solo 3 Hz o 7.83 Hz)</string>
+    <string name="prevents_device_sleeping">Impedisce al dispositivo di entrare in modalità standby durante le operazioni a 3 Hz o 7.83 Hz. Aumenta l\'uso della batteria.</string>
+    <string name="iterations_zero_hz">0 Iterazioni (0 Hz)</string>
+    <string name="duration">Durata</string>
+    <string name="seconds">Secondi</string>
+    <string name="intention_repeater_finished">Ripetitore di Intenzioni Completato</string>
+    <string name="finished">Completato: %1$s</string>
+
+    <string name="multiplier">Moltiplicatore [%1$s]: 0</string>
+
 </resources>

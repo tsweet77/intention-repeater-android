@@ -51,4 +51,21 @@
     <string name="Q">ค</string> <!-- Q for ควินทิลเลี่ยน -->
     <string name="s">เ</string> <!-- s for เซ็กทิลเลี่ยน -->
     <string name="S">เ</string> <!-- S for เซปทิลเลี่ยน -->
+
+    <string name="show_intentions_update">เพื่อแสดงการอัปเดตเจตนา</string>
+
+    <string name="notifications_enabled">การแจ้งเตือน \u0020เปิดใช้งาน\u0020. ขณะทำงาน การแจ้งเตือนจะอัปเดตทุกวินาทีด้วยเวลาที่ผ่านไป ความถี่ปัจจุบัน และจำนวนรอบ.</string>
+    <string name="notifications_disabled">การแจ้งเตือน \u0020ปิดใช้งาน\u0020. คุณสามารถเปิดใช้งานการแจ้งเตือนเพื่อดูเวลาที่ผ่านไป ความถี่ปัจจุบัน และจำนวนรอบขณะทำงานเป็นการแจ้งเตือน.</string>
+    <string name="three_herz_classic">3 เฮิรตซ์ (คลาสสิก)</string>
+    <string name="schumann_resonance">7.83 เฮิรตซ์ เรโซแนนซ์ของชูมัน (เหมาะสม)</string>
+    <string name="keep_device_awake">ทำให้เครื่องมือไม่เข้าสู่โหมดสลีป (เฉพาะ 3 เฮิรตซ์ หรือ 7.83 เฮิรตซ์)</string>
+    <string name="prevents_device_sleeping">ป้องกันไม่ให้เครื่องมือเข้าสู่โหมดสลีปในระหว่างการทำงานที่ 3 เฮิรตซ์ หรือ 7.83 เฮิรตซ์ เพิ่มการใช้พลังงานแบตเตอรี่.</string>
+    <string name="iterations_zero_hz">0 การทำซ้ำ (0 เฮิรตซ์)</string>
+    <string name="duration">ระยะเวลา</string>
+    <string name="seconds">วินาที</string>
+    <string name="intention_repeater_finished">ตัวทำซ้ำเจตนาสิ้นสุด</string>
+    <string name="finished">เสร็จสิ้น: %1$s</string>
+
+    <string name="multiplier">ตัวคูณ [%1$s]: 0</string>
+
 </resources>

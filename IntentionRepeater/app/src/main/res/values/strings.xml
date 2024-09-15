@@ -51,4 +51,21 @@
     <string name="Q">Q</string>
     <string name="s">s</string>
     <string name="S">S</string>
+
+    <string name="show_intentions_update">To show intentions update</string>
+
+    <string name="notifications_enabled">Notifications are \u0020ENABLED\u0020. When running, the notification will update each second with elapsed time, current frequency, and number of iterations.</string>
+    <string name="notifications_disabled">Notifications are \u0020DISABLED\u0020. You can enable notifications to view elapsed time, current frequency, and number of iterations when running as a notification.</string>
+    <string name="three_herz_classic">3 Hz (Classic)</string>
+    <string name="schumann_resonance">7.83 Hz Schumann Resonance (Optimal)</string>
+    <string name="keep_device_awake">Keep Device Awake (3 Hz or 7.83 Hz only)</string>
+    <string name="prevents_device_sleeping">Prevents device from sleeping during 3 Hz or 7.83 Hz operations. Increases battery usage.</string>
+    <string name="iterations_zero_hz">0 Iterations (0 Hz)</string>
+    <string name="duration">Duration</string>
+    <string name="seconds">Seconds</string>
+    <string name="intention_repeater_finished">Intention Repeater Finished</string>
+    <string name="finished">Finished: %1$s</string>
+
+    <string name="multiplier">Multiplier [%1$s]: 0</string>
+
 </resources>

@@ -51,4 +51,21 @@
     <string name="Q">백경</string> <!-- Q for 백경 -->
     <string name="s">천해</string> <!-- s for 천해 -->
     <string name="S">백양</string> <!-- S for 백양 -->
+
+    <string name="show_intentions_update">의도를 보여주기 위한 업데이트</string>
+
+    <string name="notifications_enabled">알림이 \u0020활성화됨\u0020. 실행 중에는 알림이 매초 경과 시간, 현재 주파수 및 반복 횟수로 업데이트됩니다.</string>
+    <string name="notifications_disabled">알림이 \u0020비활성화됨\u0020. 알림을 활성화하여 실행 중 경과 시간, 현재 주파수 및 반복 횟수를 알림으로 확인할 수 있습니다.</string>
+    <string name="three_herz_classic">3 Hz (클래식)</string>
+    <string name="schumann_resonance">7.83 헤르츠 슈만 공명 (최적)</string>
+    <string name="keep_device_awake">장치를 깨우기 (3 헤르츠 또는 7.83 헤르츠 만)</string>
+    <string name="prevents_device_sleeping">3 헤르츠 또는 7.83 헤르츠 작업 중 장치가 수면 상태에 들어가는 것을 방지합니다. 배터리 사용량이 증가합니다.</string>
+    <string name="iterations_zero_hz">0 반복 (0 헤르츠)</string>
+    <string name="duration">지속 시간</string>
+    <string name="seconds">초</string>
+    <string name="intention_repeater_finished">의도 반복기 완료</string>
+    <string name="finished">완료: %1$s</string>
+
+    <string name="multiplier">승수 [%1$s]: 0</string>
+
 </resources>

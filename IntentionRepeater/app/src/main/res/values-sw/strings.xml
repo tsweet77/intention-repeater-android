@@ -51,4 +51,21 @@
     <string name="Q">Qt</string> <!-- Q for quintilioni -->
     <string name="s">Sx</string> <!-- s for sextilioni -->
     <string name="S">Sp</string> <!-- S for septilioni -->
+
+    <string name="show_intentions_update">Ili kuonyesha nia sasisha</string>
+
+    <string name="notifications_enabled">Taarifa zimesanidiwa. Wakati inapofanya kazi, taarifa itasasishwa kila sekunde na muda uliopita, mzunguko wa sasa, na idadi ya kurudiwa.</string>
+    <string name="notifications_disabled">Taarifa zimezimwa. Unaweza kuziwashia taarifa ili kuona muda uliopita, mzunguko wa sasa, na idadi ya kurudiwa wakati inapokuwa ikifanya kazi kama taarifa.</string>
+    <string name="three_herz_classic">3 Hz (Classic)</string>
+    <string name="schumann_resonance">7.83 Hz Resonansi ya Schumann (Inayopendekezwa)</string>
+    <string name="keep_device_awake">Hifadhi Kifaa Kikiwa na Kazi (3 Hz au 7.83 Hz pekee)</string>
+    <string name="prevents_device_sleeping">Huzuia kifaa kulala wakati wa shughuli za 3 Hz au 7.83 Hz. Inaongeza matumizi ya betri.</string>
+    <string name="iterations_zero_hz">Kurudiwa 0 (0 Hz)</string>
+    <string name="duration">Muda</string>
+    <string name="seconds">Sekunde</string>
+    <string name="intention_repeater_finished">Muda wa Kurudia Nia Umemalizika</string>
+    <string name="finished">Imeisha: %1$s</string>
+
+    <string name="multiplier">Kipachikaji [%1$s]: 0</string>
+
 </resources>

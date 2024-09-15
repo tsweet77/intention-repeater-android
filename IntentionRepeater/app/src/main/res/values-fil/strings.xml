@@ -51,4 +51,21 @@
     <string name="Q">Q</string> <!-- Q for quintillion -->
     <string name="s">s</string> <!-- s for sextillion -->
     <string name="S">S</string> <!-- S for septillion -->
+
+    <string name="show_intentions_update">Upang ipakita ang intensyon na i-update</string>
+
+    <string name="notifications_enabled">Ang mga abiso ay \u0020NAKTIBO\u0020. Kapag tumatakbo, ia-update ng abiso bawat segundo ang lumipas na oras, kasalukuyang dalas, at bilang ng mga ulit.</string>
+    <string name="notifications_disabled">Ang mga abiso ay \u0020NAKABALIK\u0020. Maaari mong paganahin ang mga abiso upang makita ang lumipas na oras, kasalukuyang dalas, at bilang ng mga ulit kapag tumatakbo bilang isang abiso.</string>
+    <string name="three_herz_classic">3 Hz (Klasikal)</string>
+    <string name="schumann_resonance">7.83 Hz Schumann Resonance (Optimum)</string>
+    <string name="keep_device_awake">Panatilihing gising ang Device (3 Hz o 7.83 Hz lamang)</string>
+    <string name="prevents_device_sleeping">Pinipigilan ang device mula sa pagtulog sa panahon ng 3 Hz o 7.83 Hz na operasyon. Nagpapataas ng paggamit ng baterya.</string>
+    <string name="iterations_zero_hz">0 Ulit (0 Hz)</string>
+    <string name="duration">Tagal</string>
+    <string name="seconds">Mga Sekunda</string>
+    <string name="intention_repeater_finished">Tapos na ang Intention Repeater</string>
+    <string name="finished">Tapos na: %1$s</string>
+
+    <string name="multiplier">Multiplikador [%1$s]: 0</string>
+
 </resources>

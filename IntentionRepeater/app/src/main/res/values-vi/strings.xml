@@ -51,4 +51,21 @@
     <string name="Q">Q</string> <!-- Q for tứ thập -->
     <string name="s">s</string> <!-- s for thập phân -->
     <string name="S">S</string> <!-- S for thập lục -->
+
+    <string name="show_intentions_update">Để hiển thị cập nhật ý định</string>
+
+    <string name="notifications_enabled">Thông báo \u0020ĐƯỢC BẬT\u0020. Khi đang chạy, thông báo sẽ được cập nhật mỗi giây với thời gian trôi qua, tần số hiện tại và số lần lặp lại.</string>
+    <string name="notifications_disabled">Thông báo \u0020ĐÃ TẮT\u0020. Bạn có thể bật thông báo để xem thời gian trôi qua, tần số hiện tại và số lần lặp lại khi nó hoạt động như một thông báo.</string>
+    <string name="three_herz_classic">3 Hz (Cổ điển)</string>
+    <string name="schumann_resonance">7.83 Hz Resonance Schumann (Tối ưu)</string>
+    <string name="keep_device_awake">Giữ thiết bị tỉnh (chỉ 3 Hz hoặc 7.83 Hz)</string>
+    <string name="prevents_device_sleeping">Ngăn thiết bị vào chế độ ngủ trong khi hoạt động ở 3 Hz hoặc 7.83 Hz. Tăng cường tiêu thụ pin.</string>
+    <string name="iterations_zero_hz">0 Lần lặp lại (0 Hz)</string>
+    <string name="duration">Thời gian</string>
+    <string name="seconds">Giây</string>
+    <string name="intention_repeater_finished">Bộ lặp lại ý định đã hoàn tất</string>
+    <string name="finished">Hoàn tất: %1$s</string>
+
+    <string name="multiplier">Hệ số nhân [%1$s]: 0</string>
+
 </resources>

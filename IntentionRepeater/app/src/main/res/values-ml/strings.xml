@@ -51,4 +51,21 @@
     <string name="Q">ക്വി</string> <!-- Q for ക്വിന്റില്യൺ -->
     <string name="s">സെ</string> <!-- s for സെക്സ്റ്റില്യൺ -->
     <string name="S">സെപ്</string> <!-- S for സെപ്റ്റില്യൺ -->
+
+    <string name="show_intentions_update">ഉദ്ദേശങ്ങൾ കാണിക്കാൻ അപ്‌ഡേറ്റ്</string>
+
+    <string name="notifications_enabled">അറിയിപ്പുകൾ \u0020ചാലിത\u0020 ആണ്. പ്രവർത്തിക്കുന്ന സമയത്ത്, അറിയിപ്പ് ഓരോ സെക്കൻഡിലും ചെലവായ സമയം, നിലവിലെ ഫ്രീക്വൻസി, ആവർത്തനങ്ങളുടെ എണ്ണം എന്നിവയെക്കുറിച്ച് അപ്ഡേറ്റ് ചെയ്യപ്പെടും.</string>
+    <string name="notifications_disabled">അറിയിപ്പുകൾ \u0020അപ്രവർത്തിത\u0020 ആണ്. അറിയിപ്പുകൾ പ്രവർത്തിപ്പിച്ച്, പ്രവർത്തനസമയത്ത് ചെലവായ സമയം, നിലവിലെ ഫ്രീക്വൻസി, ആവർത്തനങ്ങളുടെ എണ്ണം എന്നിവ കാണാം.</string>
+    <string name="three_herz_classic">3 Hz (ക്ലാസിക്)</string>
+    <string name="schumann_resonance">7.83 ഹർട്ട്സ് ഷുമാൻ റെസോണൻസ് (ആദർശം)</string>
+    <string name="keep_device_awake">ഡിവൈസിനെ ഉറങ്ങാത്ത നിലയിൽ സൂക്ഷിക്കുക (മാത്രം 3 ഹർട്ട്സ് അല്ലെങ്കിൽ 7.83 ഹർട്ട്സ്)</string>
+    <string name="prevents_device_sleeping">3 ഹർട്ട്സ് അല്ലെങ്കിൽ 7.83 ഹർട്ട്സ് പ്രവർത്തന സമയത്ത് ഡിവൈസിന്റെ ഉറങ്ങുന്നത് തടയുന്നു. ബാറ്ററി ഉപയോഗം വർധിക്കും.</string>
+    <string name="iterations_zero_hz">0 ആവർത്തനങ്ങൾ (0 ഹർട്ട്സ്)</string>
+    <string name="duration">കാലാവധി</string>
+    <string name="seconds">സെക്കൻഡുകൾ</string>
+    <string name="intention_repeater_finished">ഉദ്ദേശം ആവർത്തകിയ വസ്തുത</string>
+    <string name="finished">പൂർണമായത്: %1$s</string>
+
+    <string name="multiplier">ഗുണകം [%1$s]: 0</string>
+
 </resources>
