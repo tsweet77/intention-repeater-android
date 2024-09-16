@@ -67,7 +67,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -105,7 +104,7 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "1.55.1"
+const val version = "1.55.2"
 private const val SETTINGS_REQUEST_CODE = 100
 
 class MainActivity : ComponentActivity() {
