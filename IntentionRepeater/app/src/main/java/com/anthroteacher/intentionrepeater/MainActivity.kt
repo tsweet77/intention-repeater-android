@@ -104,7 +104,7 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "1.55.2"
+const val version = "1.55.3"
 private const val SETTINGS_REQUEST_CODE = 100
 
 class MainActivity : ComponentActivity() {
