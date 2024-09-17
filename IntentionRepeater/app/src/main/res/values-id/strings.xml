@@ -69,5 +69,6 @@
     <string name="multiplier">Pengganda [%1$s]: 0</string>
 
     <string name="multihasher_app">Aplikasi Multihasher</string>
+    <string name="links">Tautan...</string>
 
 </resources>
