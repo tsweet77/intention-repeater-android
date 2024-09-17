@@ -310,22 +310,22 @@ fun SettingsScreen(
                 // Using button composables from MainActivity
                 WebsiteButton(Modifier
                     //.fillMaxWidth(0.4f)
-                    .width(200.dp)
+                    .width(220.dp)
                     .height(48.dp))
                 Spacer(modifier = Modifier.height(16.dp)) // Spacer between Website and Forum buttons
                 ForumButton(Modifier
                     //.fillMaxWidth(0.4f)
-                    .width(200.dp)
+                    .width(220.dp)
                     .height(48.dp))
                 Spacer(modifier = Modifier.height(16.dp)) // Spacer between Website and Forum buttons
                 EulaButton(Modifier
                     //.fillMaxWidth(0.4f)
-                    .width(200.dp)
+                    .width(220.dp)
                     .height(48.dp))
                 Spacer(modifier = Modifier.height(16.dp)) // Spacer between EULA and Privacy buttons
                 PrivacyPolicyButton(Modifier
                     //.fillMaxWidth(0.4f)
-                    .width(200.dp)
+                    .width(220.dp)
                     .height(48.dp))
             }
 
@@ -343,7 +343,7 @@ fun SettingsScreen(
                 containerColor = Color.Blue
             ),
             modifier = Modifier
-                .width(200.dp)
+                .width(220.dp)
                 .height(48.dp)
         ) {
             Text(
@@ -360,7 +360,7 @@ fun SettingsScreen(
         Button(
             onClick = { (context as? ComponentActivity)?.finish() },
             modifier = Modifier
-                .width(200.dp)
+                .width(220.dp)
                 .height(52.dp)
         ) {
             Text(stringResource(R.string.back))
