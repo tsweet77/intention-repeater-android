@@ -30,8 +30,10 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -104,7 +106,7 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "1.55.3"
+const val version = "1.55.4"
 private const val SETTINGS_REQUEST_CODE = 100
 
 class MainActivity : ComponentActivity() {
@@ -892,8 +894,10 @@ private fun StartStopResetButtons(
         Button(
             onClick = onStartStopButtonClick,
             enabled = intention.isNotBlank(),
+            contentPadding = PaddingValues(all = 8.dp),
             modifier = Modifier
                 .weight(1f)
+                .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
                 .height(48.dp),
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
@@ -912,9 +916,11 @@ private fun StartStopResetButtons(
         Button(
             onClick = onResetButtonClick,
             enabled = !timerRunning,
+            contentPadding = PaddingValues(all = 8.dp),
             modifier = Modifier
                 .weight(1f)
-                .height(48.dp),
+                .height(48.dp)
+                .defaultMinSize(minHeight = 1.dp, minWidth = 1.dp),
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
                 containerColor = Color.Blue
@@ -940,8 +946,10 @@ private fun StartStopResetButtons(
         Button(
             onClick = onInsertFileClick,
             enabled = !timerRunning,
+            contentPadding = PaddingValues(all = 8.dp),
             modifier = Modifier
                 .weight(1f)
+                .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
                 .height(48.dp),
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
@@ -960,7 +968,7 @@ private fun StartStopResetButtons(
 }
 
 @Composable
-fun WebsiteButton() {
+fun WebsiteButton(modifier: Modifier) {
     val context = LocalContext.current
     Button(
         onClick = {
@@ -972,10 +980,7 @@ fun WebsiteButton() {
             contentColor = Color.Black,
             containerColor = Color.Green
         ),
-        modifier = Modifier
-            //.fillMaxWidth(0.4f)
-            .width(175.dp)
-            .height(48.dp)
+        modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.website),
@@ -988,7 +993,7 @@ fun WebsiteButton() {
 }
 
 @Composable
-fun ForumButton() {
+fun ForumButton(modifier: Modifier) {
     val context = LocalContext.current
 
     Button(
@@ -1001,9 +1006,7 @@ fun ForumButton() {
             contentColor = Color.Black,
             containerColor = Color.Green
         ),
-        modifier = Modifier
-            .width(175.dp)
-            .height(48.dp)
+        modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.forum),
@@ -1032,7 +1035,7 @@ private fun VersionDisplay() {
 }
 
 @Composable
-fun EulaButton() {
+fun EulaButton(modifier: Modifier) {
     val context = LocalContext.current
 
     Button(
@@ -1045,9 +1048,7 @@ fun EulaButton() {
             contentColor = Color.Black,
             containerColor = Color.Green
         ),
-        modifier = Modifier
-            .width(175.dp)
-            .height(48.dp)
+        modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.eula),
@@ -1060,7 +1061,7 @@ fun EulaButton() {
 }
 
 @Composable
-fun PrivacyPolicyButton() {
+fun PrivacyPolicyButton(modifier: Modifier) {
     val context = LocalContext.current
 
     Button(
@@ -1073,9 +1074,7 @@ fun PrivacyPolicyButton() {
             contentColor = Color.Black,
             containerColor = Color.Green
         ),
-        modifier = Modifier
-            .width(175.dp)
-            .height(48.dp)
+        modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.privacy),
