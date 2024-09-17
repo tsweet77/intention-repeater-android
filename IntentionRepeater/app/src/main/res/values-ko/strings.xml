@@ -69,5 +69,6 @@
     <string name="multiplier">승수 [%1$s]: 0</string>
 
     <string name="multihasher_app">멀티해셔 앱</string>
+    <string name="links">링크...</string>
 
 </resources>

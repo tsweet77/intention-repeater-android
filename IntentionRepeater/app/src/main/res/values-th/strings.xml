@@ -69,5 +69,6 @@
     <string name="multiplier">ตัวคูณ [%1$s]: 0</string>
 
     <string name="multihasher_app">แอปมัลติแฮชเชอร์</string>
+    <string name="links">ลิงก์...</string>
 
 </resources>
