@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Les notifications sont \u0020DÉSACTIVÉES\u0020. Vous pouvez activer les notifications pour voir le temps écoulé, la fréquence actuelle et le nombre d\'itérations lors de l\'exécution en tant que notification.</string>
     <string name="three_herz_classic">3 Hz (Classique)</string>
     <string name="schumann_resonance">Résonance de Schumann 7.83 Hz (Optimale)</string>
-    <string name="keep_device_awake">Garder l\'appareil éveillé (seulement 3 Hz ou 7.83 Hz)</string>
     <string name="prevents_device_sleeping">Empêche l\'appareil de dormir pendant les opérations à 3 Hz ou 7.83 Hz. Augmente la consommation de la batterie.</string>
     <string name="iterations_zero_hz">0 Itérations (0 Hz)</string>
     <string name="duration">Durée</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Application Multihasher</string>
     <string name="links">Liens...</string>
+
+
+    <string name="keep_device_awake">Garder l\'appareil éveillé (3 Hz, 7,83 Hz ou une fois par heure seulement)</string>
+    <string name="once_per_hour">Une fois par heure (Optimal)</string>
+    <string name="record_voice_intention">Enregistrer l\'intention vocale</string>
+    <string name="record_voice_description">Cela enregistre votre voix (qui a de l\'émotion et de l\'énergie derrière) et l\'insère dans l\'intention. Il offre une meilleure méthode pour répéter votre intention que le texte. Enregistre jusqu\'à 5 minutes.</string>
+    <string name="recording">Enregistrement...</string>
+    <string name="playing">Lecture...</string>
+    <string name="paused">En pause</string>
+    <string name="tap_play_listen">Appuyez sur Lecture pour écouter</string>
+    <string name="tap_mic_record">Appuyez sur le micro pour enregistrer</string>
+    <string name="record">Enregistrer</string>
+    <string name="stop">Arrêter</string>
+    <string name="play">Lecture</string>
+    <string name="pause">Pause</string>
+    <string name="stop_playback">Arrêter la lecture</string>
+    <string name="save">Sauvegarder</string>
+    <string name="cancel">Annuler</string>
+    <string name="mic_permission_required">Permission requise</string>
+    <string name="mic_permission_description">Cette application a besoin d\'accéder au microphone pour enregistrer votre voix. Veuillez l\'activer dans les paramètres de l\'application.</string>
+    <string name="open_settings">Ouvrir les paramètres</string>
 
 </resources>

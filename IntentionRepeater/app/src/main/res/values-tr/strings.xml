@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Bildirimler \u0020PASİF\u0020. Bildirimleri etkinleştirerek çalışırken geçen süreyi, mevcut frekansı ve yineleme sayısını bir bildirim olarak görebilirsiniz.</string>
     <string name="three_herz_classic">3 Hz (Klasik)</string>
     <string name="schumann_resonance">7.83 Hz Schumann Rezonansı (Optimal)</string>
-    <string name="keep_device_awake">Cihazı Uyanık Tut (sadece 3 Hz veya 7.83 Hz)</string>
     <string name="prevents_device_sleeping">3 Hz veya 7.83 Hz işlemleri sırasında cihazın uykuya geçmesini önler. Pil tüketimini artırır.</string>
     <string name="iterations_zero_hz">0 Tekrar (0 Hz)</string>
     <string name="duration">Süre</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Multihasher Uygulaması</string>
     <string name="links">Bağlantılar...</string>
+
+
+    <string name="keep_device_awake">Cihazı Uyanık Tutun (3 Hz, 7.83 Hz veya saatte bir kez sadece)</string>
+    <string name="once_per_hour">Saate Bir Kez (Optimal)</string>
+    <string name="record_voice_intention">Ses Niyetini Kaydet</string>
+    <string name="record_voice_description">Bu, sesinizi (duygular ve enerji içeren) kaydeder ve bunu Niyete ekler. Metinden daha iyi bir şekilde niyetinizi tekrar etmenin bir yolunu sağlar. 5 dakikaya kadar kaydeder.</string>
+    <string name="recording">Kaydediliyor...</string>
+    <string name="playing">Çalıyor...</string>
+    <string name="paused">Duraklatıldı</string>
+    <string name="tap_play_listen">Dinlemek için Çal\'a dokunun</string>
+    <string name="tap_mic_record">Kaydetmek için Mikrofona dokunun</string>
+    <string name="record">Kaydet</string>
+    <string name="stop">Durdur</string>
+    <string name="play">Oynat</string>
+    <string name="pause">Duraklat</string>
+    <string name="stop_playback">Oynatmayı Durdur</string>
+    <string name="save">Kaydet</string>
+    <string name="cancel">İptal Et</string>
+    <string name="mic_permission_required">İzin Gerekli</string>
+    <string name="mic_permission_description">Bu uygulama sesinizi kaydetmek için mikrofon erişimine ihtiyaç duyar. Lütfen bunu uygulama ayarlarında etkinleştirin.</string>
+    <string name="open_settings">Ayarları Aç</string>
 
 </resources>

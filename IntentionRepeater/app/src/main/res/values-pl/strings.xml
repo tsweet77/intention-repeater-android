@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Powiadomienia są \u0020WYŁĄCZONE\u0020. Możesz włączyć powiadomienia, aby zobaczyć upływający czas, bieżącą częstotliwość i liczbę iteracji, gdy działają jako powiadomienie.</string>
     <string name="three_herz_classic">3 Hz (Klasyczny)</string>
     <string name="schumann_resonance">7.83 Hz Rezonsans Schumanna (Optymalny)</string>
-    <string name="keep_device_awake">Zachowaj urządzenie aktywne (tylko 3 Hz lub 7.83 Hz)</string>
     <string name="prevents_device_sleeping">Zapobiega uśpieniu urządzenia podczas operacji 3 Hz lub 7.83 Hz. Zwiększa zużycie baterii.</string>
     <string name="iterations_zero_hz">0 Iteracji (0 Hz)</string>
     <string name="duration">Czas trwania</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Aplikacja Multihasher</string>
     <string name="links">Linki...</string>
+
+
+    <string name="keep_device_awake">Utrzymaj urządzenie włączone (3 Hz, 7,83 Hz lub tylko raz na godzinę)</string>
+    <string name="once_per_hour">Raz na godzinę (optymalne)</string>
+    <string name="record_voice_intention">Nagraj intencję głosową</string>
+    <string name="record_voice_description">To nagrywa Twój głos (który zawiera emocje i energię) i wstawia go do intencji. Zapewnia lepszy sposób powtarzania intencji niż tekst. Nagrywa do 5 minut.</string>
+    <string name="recording">Nagrywanie...</string>
+    <string name="playing">Odtwarzanie...</string>
+    <string name="paused">Wstrzymano</string>
+    <string name="tap_play_listen">Dotknij Odtwarzaj, aby posłuchać</string>
+    <string name="tap_mic_record">Dotknij Mikrofonu, aby nagrać</string>
+    <string name="record">Nagraj</string>
+    <string name="stop">Zatrzymaj</string>
+    <string name="play">Odtwórz</string>
+    <string name="pause">Wstrzymaj</string>
+    <string name="stop_playback">Zatrzymaj odtwarzanie</string>
+    <string name="save">Zapisz</string>
+    <string name="cancel">Anuluj</string>
+    <string name="mic_permission_required">Wymagana zgoda</string>
+    <string name="mic_permission_description">Ta aplikacja potrzebuje dostępu do mikrofonu, aby nagrać Twój głos. Proszę włączyć to w ustawieniach aplikacji.</string>
+    <string name="open_settings">Otwórz ustawienia</string>
 
 </resources>

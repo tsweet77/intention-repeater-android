@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Le notifiche sono \u0020DISABILITATE\u0020. Puoi abilitare le notifiche per visualizzare il tempo trascorso, la frequenza attuale e il numero di iterazioni quando è in esecuzione come notifica.</string>
     <string name="three_herz_classic">3 Hz (Classico)</string>
     <string name="schumann_resonance">7.83 Hz Risonanza di Schumann (Ottimale)</string>
-    <string name="keep_device_awake">Mantieni il dispositivo attivo (solo 3 Hz o 7.83 Hz)</string>
     <string name="prevents_device_sleeping">Impedisce al dispositivo di entrare in modalità standby durante le operazioni a 3 Hz o 7.83 Hz. Aumenta l\'uso della batteria.</string>
     <string name="iterations_zero_hz">0 Iterazioni (0 Hz)</string>
     <string name="duration">Durata</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">App Multihasher</string>
     <string name="links">Collegamenti...</string>
+
+
+    <string name="keep_device_awake">Mantieni il dispositivo attivo (3 Hz, 7,83 Hz o solo una volta all\'ora)</string>
+    <string name="once_per_hour">Una volta all\'ora (Ottimale)</string>
+    <string name="record_voice_intention">Registra l\'intenzione vocale</string>
+    <string name="record_voice_description">Questo registra la tua voce (che ha emozione e energia dietro) e la inserisce nell\'Intenzione. Fornisce un metodo migliore per ripetere la tua intenzione rispetto al testo. Registra fino a 5 minuti.</string>
+    <string name="recording">Registrazione...</string>
+    <string name="playing">Riproduzione...</string>
+    <string name="paused">In pausa</string>
+    <string name="tap_play_listen">Tocca Riproduci per ascoltare</string>
+    <string name="tap_mic_record">Tocca Mic per registrare</string>
+    <string name="record">Registra</string>
+    <string name="stop">Ferma</string>
+    <string name="play">Riproduci</string>
+    <string name="pause">Pausa</string>
+    <string name="stop_playback">Ferma la riproduzione</string>
+    <string name="save">Salva</string>
+    <string name="cancel">Annulla</string>
+    <string name="mic_permission_required">Autorizzazione richiesta</string>
+    <string name="mic_permission_description">Questa app ha bisogno di accedere al microfono per registrare la tua voce. Si prega di abilitarlo nelle impostazioni dell\'app.</string>
+    <string name="open_settings">Apri Impostazioni</string>
 
 </resources>

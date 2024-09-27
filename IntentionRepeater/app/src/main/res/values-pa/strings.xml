@@ -58,7 +58,6 @@
     <string name="notifications_disabled">ਸੂਚਨਾਵਾਂ ਬੰਦ ਹਨ। ਤੁਸੀਂ ਸੂਚਨਾਵਾਂ ਨੂੰ ਚਾਲੂ ਕਰ ਸਕਦੇ ਹੋ ਤਾਂ ਜੋ ਚੱਲਦੇ ਸਮੇਂ ਵਿੱਚ ਅਗੇਤ ਸਮਾਂ, ਮੌਜੂਦਾ ਫ੍ਰੀਕਵੰਸੀ, ਅਤੇ ਅਧਿਆਇ ਦੀ ਗਿਣਤੀ ਦੇਖ ਸਕੋ।</string>
     <string name="three_herz_classic">3 Hz (ਕਲਾਸਿਕ)</string>
     <string name="schumann_resonance">7.83 ਹਰਟਜ਼ ਸ਼ੁਮਨ ਰੇਜ਼ੋਨੈਂਸ (ਉੱਤਮ)</string>
-    <string name="keep_device_awake">ਉਪਕਰਣ ਨੂੰ ਜਾਗਦੇ ਰੱਖੋ (ਸਿਰਫ 3 ਹਰਟਜ਼ ਜਾਂ 7.83 ਹਰਟਜ਼)</string>
     <string name="prevents_device_sleeping">3 ਹਰਟਜ਼ ਜਾਂ 7.83 ਹਰਟਜ਼ ਕਾਰਜਾਂ ਦੌਰਾਨ ਉਪਕਰਣ ਨੂੰ ਸੌਣ ਤੋਂ ਰੋਕਦਾ ਹੈ। ਬੈਟਰੀ ਦੀ ਵਰਤੋਂ ਵਧਾਈ ਜਾਂਦੀ ਹੈ।</string>
     <string name="iterations_zero_hz">0 ਦੌਰਾਨ (0 ਹਰਟਜ਼)</string>
     <string name="duration">ਅਵਧੀ</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">ਮਲਟੀਹੈਸ਼ਰ ਐਪ</string>
     <string name="links">ਲਿੰਕ...</string>
+
+
+    <string name="keep_device_awake">ਡਿਵਾਈਸ ਨੂੰ ਜਾਗਰੂਕ ਰੱਖੋ (3 Hz, 7.83 Hz ਜਾਂ ਘੰਟੇ ਵਿੱਚ ਇੱਕ ਵਾਰ ਹੀ)</string>
+    <string name="once_per_hour">ਘੰਟੇ ਵਿੱਚ ਇੱਕ ਵਾਰ (ਸਰਵੋਤਮ)</string>
+    <string name="record_voice_intention">ਆਵਾਜ਼ ਦੀ ਨੀਅਤ ਰਿਕਾਰਡ ਕਰੋ</string>
+    <string name="record_voice_description">ਇਹ ਤੁਹਾਡੀ ਆਵਾਜ਼ ਨੂੰ ਰਿਕਾਰਡ ਕਰਦਾ ਹੈ (ਜਿਸ ਦੇ ਪਿੱਛੇ ਭਾਵਨਾਵਾਂ ਅਤੇ ਊਰਜਾ ਹੁੰਦੀ ਹੈ) ਅਤੇ ਇਸ ਨੂੰ ਨੀਅਤ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਦਾ ਹੈ। ਇਹ ਪਾਠ ਦੇ ਮੁਕਾਬਲੇ ਤੁਹਾਡੀ ਨੀਅਤ ਨੂੰ ਦੁਹਰਾਉਣ ਦਾ ਇਕ ਵਧੀਆ ਤਰੀਕਾ ਦਿੰਦਾ ਹੈ। 5 ਮਿੰਟ ਤੱਕ ਰਿਕਾਰਡ ਕਰਦਾ ਹੈ।</string>
+    <string name="recording">ਰਿਕਾਰਡ ਕਰ ਰਿਹਾ ਹੈ...</string>
+    <string name="playing">ਚਲਾ ਰਿਹਾ ਹੈ...</string>
+    <string name="paused">ਰੋਕਿਆ ਹੋਇਆ ਹੈ</string>
+    <string name="tap_play_listen">ਸੁਣਨ ਲਈ ਪਲੇ ਨੂੰ ਟੈਪ ਕਰੋ</string>
+    <string name="tap_mic_record">ਰਿਕਾਰਡ ਕਰਨ ਲਈ ਮਾਈਕ ਨੂੰ ਟੈਪ ਕਰੋ</string>
+    <string name="record">ਰਿਕਾਰਡ ਕਰੋ</string>
+    <string name="stop">ਰੋਕੋ</string>
+    <string name="play">ਪਲੇ ਕਰੋ</string>
+    <string name="pause">ਰੋਕੋ</string>
+    <string name="stop_playback">ਪਲੇਬੈਕ ਰੋਕੋ</string>
+    <string name="save">ਸੰਭਾਲੋ</string>
+    <string name="cancel">ਰੱਦ ਕਰੋ</string>
+    <string name="mic_permission_required">ਆਗਿਆ ਚਾਹੀਦੀ ਹੈ</string>
+    <string name="mic_permission_description">ਇਹ ਐਪ ਤੁਹਾਡੀ ਆਵਾਜ਼ ਨੂੰ ਰਿਕਾਰਡ ਕਰਨ ਲਈ ਮਾਈਕਰੋਫੋਨ ਤੱਕ ਪਹੁੰਚ ਦੀ ਲੋੜ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਐਪ ਸੈਟਿੰਗਜ਼ ਵਿੱਚ ਇਸਨੂੰ ਸਮਰੱਥ ਕਰੋ।</string>
+    <string name="open_settings">ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.anthroteacher.intentionrepeater
 
 import android.Manifest.permission.POST_NOTIFICATIONS
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -18,6 +19,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -47,6 +49,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.AttachFile
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -79,6 +85,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -86,6 +93,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -99,6 +107,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.bouncycastle.jcajce.provider.digest.SHA3
 import java.io.InputStream
 import java.math.BigInteger
 import java.math.RoundingMode
@@ -106,14 +115,15 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "1.55.4"
+const val version = "1.55.5"
 private const val SETTINGS_REQUEST_CODE = 100
+private const val VOICE_INTENTION_REQUEST_CODE = 101
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var isChangingConfigurations = false
-    private var currentLanguage: String = "en" // Default to English
+    private var currentLanguage: String = "en"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,6 +191,10 @@ class MainActivity : ComponentActivity() {
                     recreate() // Only recreate if the language has changed
                 }
             }
+        }else if(requestCode == VOICE_INTENTION_REQUEST_CODE){
+            if(resultCode== RESULT_OK){
+                Log.d("TESTH","Coming in traditional");
+            }
         }
     }
 
@@ -229,7 +243,7 @@ fun setLocale(context: Context, languageCode: String) {
 }
 
 fun sha512(input: String): String {
-    val bytes = MessageDigest.getInstance("SHA-512").digest(input.toByteArray())
+    val bytes = SHA3.Digest512().digest(input.toByteArray())
     return bytes.joinToString("") { "%02x".format(it) }
 }
 
@@ -266,7 +280,7 @@ fun Greeting(modifier: Modifier = Modifier) {
     }
     val viewModel:TimerViewModel = viewModel()
 
-    var selectedFrequency by rememberSaveable { mutableStateOf(sharedPref.getString("frequency", "7.83") ?: "7.83") }
+    var selectedFrequency by rememberSaveable { mutableStateOf(sharedPref.getString("frequency", "1") ?: "1") }
     var isBoostEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("boost_enabled", false)) }
     var targetLength by remember { mutableLongStateOf(1L) }
     var time by remember { mutableStateOf("00:00:00") }
@@ -301,8 +315,28 @@ fun Greeting(modifier: Modifier = Modifier) {
         }
     )
 
+
+    Log.d("TESTH","Composer recreated");
+    val audioRecordLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result ->
+            Log.d("TESTH","In reult");
+            if (result.resultCode == Activity.RESULT_OK) {
+                Log.d("TESTH","Result ok");
+                val savedAudioHash = sharedPref.getString("audioHash", "").toString()
+                Log.d("TESTH",savedAudioHash);
+                intention += savedAudioHash
+            }
+        }
+    )
+
     val handleInsertFileClick = {
         resultLauncher.launch(arrayOf("*/*")) // Allow any file type
+    }
+
+    val onRecordVoiceIntentionClicked={
+        val intent = Intent(context, RecordVoiceIntentionActivity::class.java)
+        audioRecordLauncher.launch(intent)
     }
 
     val maxMemoryUsageMB = 100f // Set the maximum allowed memory usage to 100 MB
@@ -385,6 +419,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                 time = "00:00:00"
             },
             onInsertFileClick = handleInsertFileClick, // Pass the file selection logic
+            onRecordVoiceIntentionClicked= onRecordVoiceIntentionClicked,
             scrollState = scrollState,
             expanded = expanded,
             onExpandChange = {
@@ -447,7 +482,7 @@ fun hashFileContent(context: Context, uri: Uri): String {
         inputStream = context.contentResolver.openInputStream(uri)
         inputStream?.use { stream ->
             val bytes = stream.readBytes()
-            val digest = MessageDigest.getInstance("SHA-512").digest(bytes)
+            val digest = SHA3.Digest512().digest(bytes)
             digest.joinToString("") { "%02x".format(it) }.uppercase()
         } ?: ""
     } catch (e: Exception) {
@@ -475,6 +510,7 @@ fun hashFileContent(context: Context, uri: Uri): String {
     onStartStopButtonClick: () -> Unit,
     onResetButtonClick: () -> Unit,
     onInsertFileClick: () -> Unit,
+    onRecordVoiceIntentionClicked: ()->Unit,
     scrollState: ScrollState,
     expanded: Boolean,
     onExpandChange: (Boolean) -> Unit,
@@ -496,6 +532,7 @@ fun hashFileContent(context: Context, uri: Uri): String {
             onIntentionChange = onIntentionChange,
             timerRunning = timerRunning
         )
+        FileVoiceSelector(timerRunning=timerRunning,onInsertFileClick = onInsertFileClick, onRecordVoiceIntentionClicked = onRecordVoiceIntentionClicked)
         MultiplierSlider(
             sliderPosition = sliderPosition,
             onSliderPositionChange = onSliderPositionChange,
@@ -524,7 +561,6 @@ fun hashFileContent(context: Context, uri: Uri): String {
             buttonText = buttonText,
             onStartStopButtonClick = onStartStopButtonClick,
             onResetButtonClick = onResetButtonClick,
-            onInsertFileClick = onInsertFileClick, // Pass the onInsertFileClick here
             timerRunning = timerRunning,
             intention = intention
         )
@@ -616,7 +652,7 @@ private fun IntentionTextField(
 
     OutlinedTextField(
         value = intention,
-        enabled = !timerRunning,
+        readOnly = timerRunning,
         onValueChange = onIntentionChange,
         modifier = Modifier
             .fillMaxWidth()
@@ -640,6 +676,30 @@ private fun IntentionTextField(
         textStyle = LocalTextStyle.current.copy(color = Color.White, lineHeight = 24.sp),
         maxLines = Int.MAX_VALUE
     )
+}
+
+
+@Composable
+private fun FileVoiceSelector(timerRunning: Boolean, onInsertFileClick: () -> Unit,onRecordVoiceIntentionClicked: () -> Unit){
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        IconButton(
+            onClick = onInsertFileClick,
+            enabled = !timerRunning,
+            modifier = Modifier.size(52.dp)
+        ) {
+            Icon(Icons.Filled.UploadFile,  contentDescription = "Load File", tint = if(!timerRunning) Color.White else Color.Gray)
+        }
+        IconButton(
+            onClick = onRecordVoiceIntentionClicked,
+            enabled = !timerRunning,
+            modifier = Modifier.size(52.dp)
+        ) {
+            Icon(Icons.Filled.Mic,  contentDescription = "Load File", tint = if(!timerRunning) Color.White else Color.Gray)
+        }
+    }
 }
 
 @Composable
@@ -698,7 +758,8 @@ fun FrequencyAndBoostSelector(
     val options = listOf(
         Option(stringResource(R.string.three_herz_classic),"3"),
         Option(stringResource(R.string.schumann_resonance),"7.83"),
-        Option(stringResource(R.string.str_maximum_frequency),"0")
+        Option(stringResource(R.string.str_maximum_frequency),"0"),
+        Option(stringResource(R.string.once_per_hour),"1")
     )
 
     Column(
@@ -716,7 +777,7 @@ fun FrequencyAndBoostSelector(
         ) {
             TextField(
                 readOnly = true,
-                value = if(selectedFrequency=="3") options[0].title else if(selectedFrequency=="7.83") options[1].title else options[2].title,
+                value = if(selectedFrequency=="3") options[0].title else if(selectedFrequency=="7.83") options[1].title else if(selectedFrequency=="0") options[2].title else options[3].title,
                 onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
@@ -786,7 +847,7 @@ fun KeepDeviceAwakeCheckbox(
     timerRunning: Boolean
 ) {
     // Determine if the checkbox should be enabled or disabled
-    val isCheckboxEnabled = (selectedFrequency == "3" || selectedFrequency == "7.83") && !timerRunning
+    val isCheckboxEnabled = (selectedFrequency == "3" || selectedFrequency == "7.83" || selectedFrequency == "1") && !timerRunning
 
     // Tooltip state
     var showTooltip by remember { mutableStateOf(false) }
@@ -872,6 +933,7 @@ private fun IterationsDisplay(formattedIterations: String) {
     Text(
         text = formattedIterations,
         fontSize = 20.sp,
+        textAlign = TextAlign.Center,
         fontFamily = FontFamily.Serif,
         color = Color.White
     )
@@ -882,7 +944,6 @@ private fun StartStopResetButtons(
     buttonText: String,
     onStartStopButtonClick: () -> Unit,
     onResetButtonClick: () -> Unit,
-    onInsertFileClick: () -> Unit,
     timerRunning: Boolean,
     intention: String
 ) {
@@ -939,32 +1000,23 @@ private fun StartStopResetButtons(
     Spacer(modifier = Modifier.size(8.dp))
 
     // Insert File button on its own line
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Button(
-            onClick = onInsertFileClick,
-            enabled = !timerRunning,
-            contentPadding = PaddingValues(all = 8.dp),
-            modifier = Modifier
-                .weight(1f)
-                .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White,
-                containerColor = Color.Blue
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.str_load_file),
-                color = Color.White,
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
+//    Row(
+//        modifier = Modifier.fillMaxWidth(),
+//        horizontalArrangement = Arrangement.Center
+//    ) {
+//        IconButton(
+//            onClick = onInsertFileClick,
+//            modifier = Modifier.size(52.dp)
+//        ) {
+//            Icon(Icons.Filled.UploadFile,  contentDescription = "Load File", tint = Color.White)
+//        }
+//        IconButton(
+//            onClick = onRecordVoiceIntentionClicked,
+//            modifier = Modifier.size(52.dp)
+//        ) {
+//            Icon(Icons.Filled.Mic,  contentDescription = "Load File", tint = Color.White)
+//        }
+//    }
 }
 
 @Composable
@@ -1204,7 +1256,7 @@ class TimerForegroundService : Service() {
 
         // Use safe call operator and provide default values
         intent?.let { safeIntent ->
-            val notification = createNotification(context.getString(R.string.intention_repeater_header)+" 00:00:00", context.getString(R.string.loading_intention))
+            val notification = createNotification(context.getString(R.string.intention_repeater_header)+" 00:00:00", context.getString(R.string.loading_intention),true)
             startForeground(NOTIFICATION_ID, notification)
 
             // Acquire a partial wake lock
@@ -1287,6 +1339,7 @@ class TimerForegroundService : Service() {
     suspend fun startTimer(onTimeUpdate: (String) -> Unit, onIterationsUpdate: (String,String) -> Unit,onTimerStop:(Boolean)->Unit){
         var iterationsInLastSecond = 0.0.toFloat()
         var lastSecond = System.nanoTime()
+        var isFirstIterationSet=false;
 
         while (timerRunning) {
 
@@ -1301,16 +1354,25 @@ class TimerForegroundService : Service() {
                 mutableIntention = sha512("$mutableIntention: $newIntention")
             }
 
-             if(selectedFrequency!="3"&&selectedFrequency!="7.83"){
+             if(selectedFrequency!="3"&&selectedFrequency!="7.83"&&selectedFrequency!="1"){
                  iterationsInLastSecond++
              }else{
                  val timeTakenForHashingNs = System.nanoTime() - loopStartTime
-                 val frequency=if(selectedFrequency=="3") 3 else 7.83
+                 val frequency=if(selectedFrequency=="3") 3 else if(selectedFrequency=="7.83") 7.83 else 1
                  val delayMilliseconds = (1.toFloat() / frequency.toDouble()) * 1000.0
 
                  val remainingDelayMilliseconds = delayMilliseconds - (timeTakenForHashingNs / 1_000_000.0)
                  preciseDelay(remainingDelayMilliseconds)
              }
+
+            if(selectedFrequency=="1" && !isFirstIterationSet){
+                Log.d("TESTHH","In frequency 1");
+                iterationsInLastSecond=1.0.toFloat();
+                iterations += (iterationsInLastSecond.toFloat() * multiplier)
+
+                Log.d("TESTHH",iterations.toString());
+                isFirstIterationSet=true;
+            }
 
             // Update every second
             val now = System.nanoTime()
@@ -1321,6 +1383,15 @@ class TimerForegroundService : Service() {
                     iterationsInLastSecond=7.83.toFloat()
                 }
                 elapsedTime = (now - startTime) / 1_000_000L // Convert to ms
+
+                if(selectedFrequency=="1"){
+                    val ets=elapsedTime/1_000L;
+                    if((ets%3600).toInt() == 0){
+                        iterationsInLastSecond=1.0.toFloat();
+                    }else{
+                        iterationsInLastSecond=0.0.toFloat();
+                    }
+                }
 
                 val hours = elapsedTime / 3600000
                 val minutes = (elapsedTime / 60000) % 60
@@ -1337,9 +1408,10 @@ class TimerForegroundService : Service() {
                 val updatedIterations = context.getString(
                     R.string.str_iterations,
                     formatLargeNumber(context = this,BigInteger.valueOf(iterations.toLong())),
-                    if (selectedFrequency == "7.83") formatDecimalNumber(context = context,7.83.toFloat() * multiplier) else formatLargeFreq(context = context,
-                        (if (selectedFrequency == "3") "3".toFloat() else actualFrequency) * multiplier
-                    )
+                    if (selectedFrequency == "7.83") formatDecimalNumber(context = context,7.83.toFloat() * multiplier) else
+                        if(selectedFrequency=="3") formatLargeFreq(context = context, "3".toFloat() *multiplier) else
+                        if(selectedFrequency=="1") formatLargeNumber(context=context,BigInteger.valueOf(("1".toFloat()*multiplier).toLong())) +"/hr" else
+                        formatLargeFreq(context=context,actualFrequency*multiplier)
                 )
 
                 updatedIterationCount=formatLargeNumber(context = context,BigInteger.valueOf(iterations.toLong()))
@@ -1355,7 +1427,7 @@ class TimerForegroundService : Service() {
 
                         if(timerRunning){
                             // do something
-                            val notification: Notification = createNotification(context.getString(R.string.intention_repeater_header)+" "+updatedTime,updatedIterations)
+                            val notification: Notification = createNotification(context.getString(R.string.intention_repeater_header)+" "+updatedTime,updatedIterations,true)
 
                             val mNotificationManager =
                                 getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -1392,14 +1464,14 @@ class TimerForegroundService : Service() {
         timerRunning=false
         stopForeground(true)
         stopSelf()
-        val notification=createNotification(context.getString(R.string.intention_repeater_finished),context.getString(R.string.str_iterations,updatedIterationCount,lastTime))
+        val notification=createNotification(context.getString(R.string.intention_repeater_finished),context.getString(R.string.str_iterations,updatedIterationCount,lastTime),false)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         notificationManager.notify(100,notification)
     }
 
-    private fun createNotification(title:String,text:String): Notification {
+    private fun createNotification(title:String,text:String,isSticky:Boolean): Notification {
         val notificationBuilder = NotificationCompat.Builder(context, context.getString(R.string.app_name))
 
         if (Build.VERSION.SDK_INT >=
@@ -1417,7 +1489,7 @@ class TimerForegroundService : Service() {
             .setContentIntent(pendingIntent)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setOnlyAlertOnce(true)
-            .setOngoing(true)
+            .setOngoing(isSticky)
             .setAutoCancel(false)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()

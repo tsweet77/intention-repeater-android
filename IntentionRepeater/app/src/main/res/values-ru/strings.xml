@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Уведомления \u0020ВЫКЛЮЧЕНЫ\u0020. Вы можете включить уведомления, чтобы видеть прошедшее время, текущую частоту и количество итераций, когда оно работает как уведомление.</string>
     <string name="three_herz_classic">3 Гц (Классический)</string>
     <string name="schumann_resonance">7.83 Гц Резонанс Шумана (Оптимально)</string>
-    <string name="keep_device_awake">Держите устройство активным (только 3 Гц или 7.83 Гц)</string>
     <string name="prevents_device_sleeping">Предотвращает переход устройства в спящий режим во время работы на 3 Гц или 7.83 Гц. Увеличивает использование батареи.</string>
     <string name="iterations_zero_hz">0 Итераций (0 Гц)</string>
     <string name="duration">Продолжительность</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Приложение Мультихешер</string>
     <string name="links">Ссылки...</string>
+
+
+    <string name="keep_device_awake">Держите устройство активным (3 Гц, 7,83 Гц или только раз в час)</string>
+    <string name="once_per_hour">Раз в час (Оптимально)</string>
+    <string name="record_voice_intention">Записать голосовое намерение</string>
+    <string name="record_voice_description">Это записывает ваш голос (в котором есть эмоции и энергия) и вставляет его в намерение. Это обеспечивает лучший способ повторения вашего намерения, чем текст. Записывает до 5 минут.</string>
+    <string name="recording">Запись...</string>
+    <string name="playing">Воспроизведение...</string>
+    <string name="paused">Пауза</string>
+    <string name="tap_play_listen">Нажмите «Воспроизвести», чтобы прослушать</string>
+    <string name="tap_mic_record">Нажмите «Микрофон», чтобы записать</string>
+    <string name="record">Записать</string>
+    <string name="stop">Стоп</string>
+    <string name="play">Играть</string>
+    <string name="pause">Пауза</string>
+    <string name="stop_playback">Остановить воспроизведение</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отменить</string>
+    <string name="mic_permission_required">Требуется разрешение</string>
+    <string name="mic_permission_description">Это приложение нуждается в доступе к микрофону для записи вашего голоса. Пожалуйста, активируйте его в настройках приложения.</string>
+    <string name="open_settings">Открыть настройки</string>
 
 </resources>

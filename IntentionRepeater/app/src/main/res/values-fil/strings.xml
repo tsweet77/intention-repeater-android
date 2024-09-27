@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Ang mga abiso ay \u0020NAKABALIK\u0020. Maaari mong paganahin ang mga abiso upang makita ang lumipas na oras, kasalukuyang dalas, at bilang ng mga ulit kapag tumatakbo bilang isang abiso.</string>
     <string name="three_herz_classic">3 Hz (Klasikal)</string>
     <string name="schumann_resonance">7.83 Hz Schumann Resonance (Optimum)</string>
-    <string name="keep_device_awake">Panatilihing gising ang Device (3 Hz o 7.83 Hz lamang)</string>
     <string name="prevents_device_sleeping">Pinipigilan ang device mula sa pagtulog sa panahon ng 3 Hz o 7.83 Hz na operasyon. Nagpapataas ng paggamit ng baterya.</string>
     <string name="iterations_zero_hz">0 Ulit (0 Hz)</string>
     <string name="duration">Tagal</string>
@@ -70,5 +69,25 @@
 
     <string name="multihasher_app">Multihasher App</string>
     <string name="links">Mga Link...</string>
+
+    <string name="keep_device_awake">Panatilihing Gising ang Device (3 Hz, 7.83 Hz o isang beses kada oras lang)</string>
+    <string name="once_per_hour">Isang beses kada oras (Optimal)</string>
+    <string name="record_voice_intention">I-record ang Boses na Layunin</string>
+    <string name="record_voice_description">Nirerecord nito ang iyong boses (na may damdamin at enerhiya) at inilalagay sa Layunin. Ito ay mas mainam kaysa text para ulitin ang iyong layunin. Nirerecord hanggang 5 minuto.</string>
+    <string name="recording">Nagre-record...</string>
+    <string name="playing">Nagtutugtog...</string>
+    <string name="paused">Pina-stop</string>
+    <string name="tap_play_listen">Pindutin ang Play para makinig</string>
+    <string name="tap_mic_record">Pindutin ang Mic para mag-record</string>
+    <string name="record">I-record</string>
+    <string name="stop">Itigil</string>
+    <string name="play">Patugtugin</string>
+    <string name="pause">Pahinga</string>
+    <string name="stop_playback">Itigil ang Playback</string>
+    <string name="save">I-save</string>
+    <string name="cancel">Ikansela</string>
+    <string name="mic_permission_required">Kailangan ng Pahintulot</string>
+    <string name="mic_permission_description">Kailangan ng app na ito ang access sa mikropono para ma-record ang iyong boses. Paki-enable sa app settings.</string>
+    <string name="open_settings">Buksan ang Settings</string>
 
 </resources>

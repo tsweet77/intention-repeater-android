@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Benachrichtigungen sind \u0020DEAKTIVIERT\u0020. Sie können Benachrichtigungen aktivieren, um die verstrichene Zeit, die aktuelle Frequenz und die Anzahl der Wiederholungen während des Betriebs als Benachrichtigung anzuzeigen.</string>
     <string name="three_herz_classic">3 Hz (Klassisch)</string>
     <string name="schumann_resonance">7,83 Hz Schumann-Resonanz (Optimal)</string>
-    <string name="keep_device_awake">Gerät wach halten (nur 3 Hz oder 7,83 Hz)</string>
     <string name="prevents_device_sleeping">Verhindert, dass das Gerät während des Betriebs bei 3 Hz oder 7,83 Hz in den Ruhezustand wechselt. Erhöht den Batterieverbrauch.</string>
     <string name="iterations_zero_hz">0 Iterationen (0 Hz)</string>
     <string name="duration">Dauer</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Multihasher-App</string>
     <string name="links">Links...</string>
+
+
+    <string name="keep_device_awake">Gerät wach halten (3 Hz, 7,83 Hz oder nur einmal pro Stunde)</string>
+    <string name="once_per_hour">Einmal pro Stunde (Optimal)</string>
+    <string name="record_voice_intention">Sprachabsicht aufnehmen</string>
+    <string name="record_voice_description">Dies nimmt Ihre Stimme auf (die Emotionen und Energie enthält) und fügt sie der Absicht hinzu. Es bietet eine bessere Methode, Ihre Absicht zu wiederholen, als Text. Nimmt bis zu 5 Minuten auf.</string>
+    <string name="recording">Aufnahme...</string>
+    <string name="playing">Wiedergabe...</string>
+    <string name="paused">Pausiert</string>
+    <string name="tap_play_listen">Zum Anhören auf Wiedergabe tippen</string>
+    <string name="tap_mic_record">Zum Aufnehmen auf Mikrofon tippen</string>
+    <string name="record">Aufnehmen</string>
+    <string name="stop">Stopp</string>
+    <string name="play">Wiedergabe</string>
+    <string name="pause">Pause</string>
+    <string name="stop_playback">Wiedergabe stoppen</string>
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="mic_permission_required">Erlaubnis erforderlich</string>
+    <string name="mic_permission_description">Diese App benötigt Mikrofonzugriff, um Ihre Stimme aufzuzeichnen. Bitte aktivieren Sie es in den App-Einstellungen.</string>
+    <string name="open_settings">Einstellungen öffnen</string>
 
 </resources>

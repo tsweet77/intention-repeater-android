@@ -58,7 +58,6 @@
     <string name="notifications_disabled">通知は\u0020無効\u0020です。通知を有効にして、実行中の経過時間、現在の周波数、および繰り返し回数を通知として表示することができます。</string>
     <string name="three_herz_classic">3 Hz (クラシック)</string>
     <string name="schumann_resonance">7.83 ヘルツ シューマン共鳴（最適）</string>
-    <string name="keep_device_awake">デバイスを起動状態に保つ（3 ヘルツまたは7.83 ヘルツのみ）</string>
     <string name="prevents_device_sleeping">3 ヘルツまたは7.83 ヘルツの操作中にデバイスがスリープ状態になるのを防ぎます。バッテリーの使用が増加します。</string>
     <string name="iterations_zero_hz">0 イテレーション（0 ヘルツ）</string>
     <string name="duration">期間</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">マルチハッシャーアプリ</string>
     <string name="links">リンク...</string>
+
+
+    <string name="keep_device_awake">デバイスをアクティブに保つ (3 Hz、7.83 Hz、または毎時1回のみ)</string>
+    <string name="once_per_hour">1時間に1回 (最適)</string>
+    <string name="record_voice_intention">声の意図を録音する</string>
+    <string name="record_voice_description">これはあなたの声（感情とエネルギーを持っている）を録音し、意図に挿入します。テキストよりも意図を繰り返すためのより良い方法を提供します。最大5分まで録音します。</string>
+    <string name="recording">録音中...</string>
+    <string name="playing">再生中...</string>
+    <string name="paused">一時停止中</string>
+    <string name="tap_play_listen">再生をタップして聴く</string>
+    <string name="tap_mic_record">録音するにはマイクをタップ</string>
+    <string name="record">録音</string>
+    <string name="stop">停止</string>
+    <string name="play">再生</string>
+    <string name="pause">一時停止</string>
+    <string name="stop_playback">再生を停止</string>
+    <string name="save">保存</string>
+    <string name="cancel">キャンセル</string>
+    <string name="mic_permission_required">許可が必要です</string>
+    <string name="mic_permission_description">このアプリは、音声を録音するためにマイクへのアクセスが必要です。アプリの設定で有効にしてください。</string>
+    <string name="open_settings">設定を開く</string>
 
 </resources>

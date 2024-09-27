@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Thông báo \u0020ĐÃ TẮT\u0020. Bạn có thể bật thông báo để xem thời gian trôi qua, tần số hiện tại và số lần lặp lại khi nó hoạt động như một thông báo.</string>
     <string name="three_herz_classic">3 Hz (Cổ điển)</string>
     <string name="schumann_resonance">7.83 Hz Resonance Schumann (Tối ưu)</string>
-    <string name="keep_device_awake">Giữ thiết bị tỉnh (chỉ 3 Hz hoặc 7.83 Hz)</string>
     <string name="prevents_device_sleeping">Ngăn thiết bị vào chế độ ngủ trong khi hoạt động ở 3 Hz hoặc 7.83 Hz. Tăng cường tiêu thụ pin.</string>
     <string name="iterations_zero_hz">0 Lần lặp lại (0 Hz)</string>
     <string name="duration">Thời gian</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Ứng dụng Multihasher</string>
     <string name="links">Liên kết...</string>
+
+
+    <string name="keep_device_awake">Giữ thiết bị luôn hoạt động (3 Hz, 7,83 Hz hoặc chỉ một lần mỗi giờ)</string>
+    <string name="once_per_hour">Một lần mỗi giờ (Tối ưu)</string>
+    <string name="record_voice_intention">Ghi lại ý định giọng nói</string>
+    <string name="record_voice_description">Điều này ghi âm giọng nói của bạn (có cảm xúc và năng lượng đằng sau) và chèn vào ý định. Nó cung cấp một cách tốt hơn để lặp lại ý định của bạn hơn là văn bản. Ghi âm lên đến 5 phút.</string>
+    <string name="recording">Đang ghi âm...</string>
+    <string name="playing">Đang phát...</string>
+    <string name="paused">Tạm dừng</string>
+    <string name="tap_play_listen">Nhấn Phát để nghe</string>
+    <string name="tap_mic_record">Nhấn Micro để ghi âm</string>
+    <string name="record">Ghi âm</string>
+    <string name="stop">Dừng</string>
+    <string name="play">Phát</string>
+    <string name="pause">Tạm dừng</string>
+    <string name="stop_playback">Dừng phát lại</string>
+    <string name="save">Lưu</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="mic_permission_required">Cần có quyền truy cập</string>
+    <string name="mic_permission_description">Ứng dụng này cần quyền truy cập vào micrô để ghi âm giọng nói của bạn. Vui lòng kích hoạt nó trong cài đặt ứng dụng.</string>
+    <string name="open_settings">Mở Cài đặt</string>
 
 </resources>

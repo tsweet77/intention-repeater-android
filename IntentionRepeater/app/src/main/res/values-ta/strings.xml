@@ -58,7 +58,6 @@
     <string name="notifications_disabled">அறிக்கைகள் செயலற்றன. நீங்கள் அறிவிப்புகளை செயல்படுத்தி, இயக்கப்படும் போது மொத்த காலம், தற்போதைய அலைவரிசை மற்றும் மடக்கப்பட்ட எண்ணிக்கைகளைப் பார்க்கலாம்.</string>
     <string name="three_herz_classic">3 Hz (கிளாசிக்)</string>
     <string name="schumann_resonance">7.83 ஹெர்ட்ஸ் சுஹ்மன் ஒலிப்பு (சிறந்தது)</string>
-    <string name="keep_device_awake">சாதனத்தை எழ alert வைக்கவும் (3 ஹெர்ட்ஸ் அல்லது 7.83 ஹெர்ட்ஸ் மட்டுமே)</string>
     <string name="prevents_device_sleeping">3 ஹெர்ட்ஸ் அல்லது 7.83 ஹெர்ட்ஸ் செயல்பாட்டின் போது சாதனத்தை தூங்கும் வரையறுக்கும். பேட்டரி பயன்பாட்டை அதிகரிக்கும்.</string>
     <string name="iterations_zero_hz">0 மடக்கங்கள் (0 ஹெர்ட்ஸ்)</string>
     <string name="duration">காலம்</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">மல்டிஹேஷர் பயன்பாடு</string>
     <string name="links">இணைப்புகள்...</string>
+
+
+    <string name="keep_device_awake">கருவியை விழித்திருக்க விடுங்கள் (3 Hz, 7.83 Hz அல்லது ஒவ்வொரு மணிக்கு ஒருமுறை மட்டும்)</string>
+    <string name="once_per_hour">ஒரு மணிக்கு ஒருமுறை (சரியானது)</string>
+    <string name="record_voice_intention">சொல்லும் எண்ணத்தை பதிவு செய்</string>
+    <string name="record_voice_description">இது உங்கள் குரலை (உள்ள உணர்வுகள் மற்றும் ஆற்றல்) பதிவு செய்கிறது மற்றும் அதை எண்ணத்தில் சேர்க்கிறது. உரை என்பது உங்கள் எண்ணத்தை மீண்டும் கூறுவதற்கான சிறந்த வழியாக வழங்குகிறது. 5 நிமிடங்கள் வரை பதிவு செய்கிறது.</string>
+    <string name="recording">பதிவு செய்யப்படுகிறது...</string>
+    <string name="playing">விளம்பரம் செய்கிறார்...</string>
+    <string name="paused">நிறுத்தப்பட்டது</string>
+    <string name="tap_play_listen">எதிர்காலத்திற்கு தொடுங்கள்</string>
+    <string name="tap_mic_record">பதிவு செய்ய மைக்ரோஃபோனை தொடுங்கள்</string>
+    <string name="record">பதிவு செய்</string>
+    <string name="stop">நிறுத்து</string>
+    <string name="play">விளம்பரம் செய்</string>
+    <string name="pause">நிறுத்து</string>
+    <string name="stop_playback">விளம்பரத்தை நிறுத்து</string>
+    <string name="save">சேமிக்க</string>
+    <string name="cancel">இல்லை</string>
+    <string name="mic_permission_required">அனுமதி தேவை</string>
+    <string name="mic_permission_description">இந்த செயலி உங்கள் குரலினை பதிவு செய்ய மைக்ரோஃபான் அணுகுமுறையை தேவைப்படுகிறது. தயவுசெய்து செயலியின் அமைப்புகளில் இதைப் செயல்படுத்தவும்.</string>
+    <string name="open_settings">அமைப்புகளை திறக்கவும்</string>
 
 </resources>

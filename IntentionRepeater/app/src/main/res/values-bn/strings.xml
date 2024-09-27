@@ -58,7 +58,6 @@
     <string name="notifications_disabled">বিজ্ঞপ্তিগুলি \u0020নিষ্ক্রিয়\u0020 রয়েছে। বিজ্ঞপ্তি চালু থাকলে সময়ের সাথে সাথে বর্তমান ফ্রিকোয়েন্সি এবং পুনরাবৃত্তির সংখ্যা দেখতে বিজ্ঞপ্তিগুলি সক্ষম করতে পারেন।</string>
     <string name="three_herz_classic">3 হার্জ (ক্লাসিক)</string>
     <string name="schumann_resonance">7.83 হার্জ শুমান অনুনাদ (সেরা)</string>
-    <string name="keep_device_awake">ডিভাইস জাগ্রত রাখুন (শুধু 3 হার্জ বা 7.83 হার্জ)</string>
     <string name="prevents_device_sleeping">3 হার্জ বা 7.83 হার্জ অপারেশনের সময় ডিভাইসটিকে ঘুম থেকে বাধা দেয়। ব্যাটারির ব্যবহার বাড়ায়।</string>
     <string name="iterations_zero_hz">0 পুনরাবৃত্তি (0 হার্জ)</string>
     <string name="duration">সময়কাল</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">মাল্টিহ্যাশার অ্যাপ</string>
     <string name="links">লিঙ্ক...</string>
+
+
+    <string name="keep_device_awake">ডিভাইস জাগ্রত রাখুন (৩ হার্জ, ৭.৮৩ হার্জ বা প্রতি ঘন্টায় একবার)</string>
+    <string name="once_per_hour">প্রতি ঘন্টায় একবার (অপ্টিমাল)</string>
+    <string name="record_voice_intention">ভয়েস ইচ্ছা রেকর্ড করুন</string>
+    <string name="record_voice_description">এটি আপনার কণ্ঠস্বর রেকর্ড করে (যার পেছনে আবেগ এবং শক্তি রয়েছে) এবং এটিকে ইচ্ছায় সন্নিবেশ করে। এটি পাঠ্যের চেয়ে আপনার ইচ্ছা পুনরাবৃত্তি করার একটি ভাল পদ্ধতি প্রদান করে। সর্বোচ্চ ৫ মিনিট রেকর্ড করে।</string>
+    <string name="recording">রেকর্ডিং চলছে...</string>
+    <string name="playing">প্লেয়িং চলছে...</string>
+    <string name="paused">বিরত</string>
+    <string name="tap_play_listen">শোনার জন্য প্লে চাপুন</string>
+    <string name="tap_mic_record">রেকর্ড করতে মাইক চাপুন</string>
+    <string name="record">রেকর্ড করুন</string>
+    <string name="stop">থামান</string>
+    <string name="play">প্লে করুন</string>
+    <string name="pause">বিরতি</string>
+    <string name="stop_playback">প্লেব্যাক থামান</string>
+    <string name="save">সংরক্ষণ করুন</string>
+    <string name="cancel">বাতিল</string>
+    <string name="mic_permission_required">অনুমতি প্রয়োজন</string>
+    <string name="mic_permission_description">এই অ্যাপ্লিকেশনটির আপনার কণ্ঠস্বর রেকর্ড করতে মাইক্রোফোন অ্যাক্সেস প্রয়োজন। অনুগ্রহ করে অ্যাপ সেটিংসে এটি সক্ষম করুন।</string>
+    <string name="open_settings">সেটিংস খুলুন</string>
 
 </resources>
