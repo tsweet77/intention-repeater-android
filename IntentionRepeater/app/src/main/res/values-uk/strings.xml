@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Сповіщення \u0020ВИМКНЕНІ\u0020. Ви можете ввімкнути сповіщення, щоб переглядати пройдений час, поточну частоту та кількість ітерацій, коли вони працюють як сповіщення.</string>
     <string name="three_herz_classic">3 Гц (Класичний)</string>
     <string name="schumann_resonance">7.83 Гц Резонанс Шумана (Оптимальний)</string>
-    <string name="keep_device_awake">Тримайте пристрій активним (тільки 3 Гц або 7.83 Гц)</string>
     <string name="prevents_device_sleeping">Перешкоджає переходу пристрою в режим сну під час роботи на 3 Гц або 7.83 Гц. Збільшує споживання батареї.</string>
     <string name="iterations_zero_hz">0 Ітерацій (0 Гц)</string>
     <string name="duration">Тривалість</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Додаток Multihasher</string>
     <string name="links">Посилання...</string>
+
+
+    <string name="keep_device_awake">Тримайте пристрій активним (3 Гц, 7,83 Гц або лише раз на годину)</string>
+    <string name="once_per_hour">Один раз на годину (Оптимально)</string>
+    <string name="record_voice_intention">Записати голосове намірення</string>
+    <string name="record_voice_description">Це записує ваш голос (у якому є емоції та енергія) і вставляє його в намірення. Це забезпечує кращий спосіб повторення вашого намірення, ніж текст. Записує до 5 хвилин.</string>
+    <string name="recording">Записується...</string>
+    <string name="playing">Відтворюється...</string>
+    <string name="paused">На паузі</string>
+    <string name="tap_play_listen">Натисніть Відтворити, щоб прослухати</string>
+    <string name="tap_mic_record">Натисніть Мікрофон, щоб записати</string>
+    <string name="record">Записати</string>
+    <string name="stop">Зупинити</string>
+    <string name="play">Відтворити</string>
+    <string name="pause">Пауза</string>
+    <string name="stop_playback">Зупинити відтворення</string>
+    <string name="save">Зберегти</string>
+    <string name="cancel">Скасувати</string>
+    <string name="mic_permission_required">Потрібно дозвіл</string>
+    <string name="mic_permission_description">Ця програма потребує доступу до мікрофона для запису вашого голосу. Будь ласка, увімкніть це в налаштуваннях програми.</string>
+    <string name="open_settings">Відкрити налаштування</string>
 
 </resources>

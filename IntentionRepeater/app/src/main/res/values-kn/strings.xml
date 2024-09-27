@@ -58,7 +58,6 @@
     <string name="notifications_disabled">ಅಧಿಸೂಚನೆಗಳು \u0020ನಿಷ್ಕ್ರಿಯ\u0020ಮಾಡಲಾಗಿದೆ. ನೀವು ಅಧಿಸೂಚನೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು, ಇವೆ ಸಮಯ, ಪ್ರಸ್ತುತ ಆವೃತ್ತಿ ಮತ್ತು ಪುನರಾವೃತ್ತಿಗಳ ಸಂಖ್ಯೆಯನ್ನು ನೋಡಬಹುದು, ಏಕೆಂದರೆ ಅದು ಅಧಿಸೂಚನೆಯಂತೆ ನಡೆಯುತ್ತಿದೆ.</string>
     <string name="three_herz_classic">3 Hz (ಕ್ಲಾಸಿಕ್)</string>
     <string name="schumann_resonance">7.83 ಹರ್ಟ್ಸ್ ಶುಮಾನ ರೆಜೊನನ್ಸ್ (ಆದರ್ಶ)</string>
-    <string name="keep_device_awake">ಸಾಧನವನ್ನು ಜಾಗರೂಕವಾಗಿಟ್ಟುಕೊಳ್ಳಿ (ಮಾತ್ರ 3 ಹರ್ಟ್ಸ್ ಅಥವಾ 7.83 ಹರ್ಟ್ಸ್)</string>
     <string name="prevents_device_sleeping">3 ಹರ್ಟ್ಸ್ ಅಥವಾ 7.83 ಹರ್ಟ್ಸ್ ಕಾರ್ಯಾಚರಣೆಯ ವೇಳೆ ಸಾಧನವನ್ನು ನಿದ್ರೆಗೆ ಹೋಗುವುದನ್ನು ತಡೆಯುತ್ತದೆ. ಬ್ಯಾಟರಿ ಬಳಕೆಯನ್ನು ಹೆಚ್ಚಿಸುತ್ತದೆ.</string>
     <string name="iterations_zero_hz">0 ಪುನರಾವೃತ್ತಿಗಳು (0 ಹರ್ಟ್ಸ್)</string>
     <string name="duration">ಕಾಲಾವಧಿ</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">ಮಲ್ಟಿಹ್ಯಾಶರ್ ಅಪ್ಲಿಕೇಶನ್</string>
     <string name="links">ಲಿಂಕ್ಸ್...</string>
+
+
+    <string name="keep_device_awake">ಸಂಗ್ರಹವನ್ನು ಸಜೀವವಾಗಿರಿಸಿ (3 Hz, 7.83 Hz ಅಥವಾ ತಾಸಿಗೆ ಒಮ್ಮೆ ಮಾತ್ರ)</string>
+    <string name="once_per_hour">ತಾಸಿಗೆ ಒಮ್ಮೆ (ಅತ್ಯುತ್ತಮ)</string>
+    <string name="record_voice_intention">ವಾಣಿ ಉದ್ದೇಶವನ್ನು ದಾಖಲಿಸಿ</string>
+    <string name="record_voice_description">ಇದು ನಿಮ್ಮ ಶಬ್ದವನ್ನು (ಅದರ ಹಿಂದೆ ಭಾವನೆ ಮತ್ತು ಶಕ್ತಿಯಿರುವ) ದಾಖಲಿಸುತ್ತದೆ ಮತ್ತು ಉದ್ದೇಶಕ್ಕೆ ಸೇರಿಸುತ್ತದೆ. ಇದು ನಿಮ್ಮ ಉದ್ದೇಶವನ್ನು ಪಠ್ಯದಿಗಿಂತ ಉತ್ತಮವಾಗಿ ಪುನರಾವೃತ್ತಿ ಮಾಡಲು ಒಂದು ಉತ್ತಮ ವಿಧಾನವನ್ನು ಒದಗಿಸುತ್ತದೆ. 5 ನಿಮಿಷಗಳವರೆಗೆ ದಾಖಲೆ ಮಾಡುತ್ತದೆ.</string>
+    <string name="recording">ದಾಖಲಾಗುತ್ತಿದೆ...</string>
+    <string name="playing">ಆಡುತ್ತಿದೆ...</string>
+    <string name="paused">ಥಮ್ತಿ</string>
+    <string name="tap_play_listen">ಕೇಳಲು ಪ್ಲೇ ಅನ್ನು ತಟ್ಟಿರಿ</string>
+    <string name="tap_mic_record">ದಾಖಲು ಮಾಡಲು ಮೈಕ್ ಅನ್ನು ತಟ್ಟಿರಿ</string>
+    <string name="record">ದಾಖಲೆ ಮಾಡಿ</string>
+    <string name="stop">ನಿಲ್ಲಿಸಿ</string>
+    <string name="play">ಆಟವನ್ನು ಪ್ರಾರಂಭಿಸಿ</string>
+    <string name="pause">ಥಮ್ತಿ</string>
+    <string name="stop_playback">ಪ್ಲೇಬ್ಯಾಕ್ ನಿಲ್ಲಿಸಿ</string>
+    <string name="save">ಉಳಿಸಿ</string>
+    <string name="cancel">ರದ್ದು ಮಾಡಿ</string>
+    <string name="mic_permission_required">ಅನುಮತಿ ಅಗತ್ಯವಿದೆ</string>
+    <string name="mic_permission_description">ಈ ಆಪ್ ಅನ್ನು ನಿಮ್ಮ ಶಬ್ದವನ್ನು ದಾಖಲಿಸಲು ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶ ಅಗತ್ಯವಿದೆ. ದಯವಿಟ್ಟು ಆಪ್ ಸೆಟ್ಟಿಂಗ್ಗಳಲ್ಲಿ ಇದನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ.</string>
+    <string name="open_settings">ಸೆಟ್ಟಿಂಗ್ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
 
 </resources>

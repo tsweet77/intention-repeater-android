@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Meldingen zijn UITGESCHAKELD. Je kunt meldingen inschakelen om de verstreken tijd, huidige frequentie en aantal herhalingen te bekijken terwijl het draait als een melding.</string>
     <string name="three_herz_classic">3 Hz (Klassiek)</string>
     <string name="schumann_resonance">7.83 Hz Schumann Resonantie (Optimaal)</string>
-    <string name="keep_device_awake">Apparaat wakker houden (alleen 3 Hz of 7.83 Hz)</string>
     <string name="prevents_device_sleeping">Voorkomt dat het apparaat in slaap valt tijdens 3 Hz of 7.83 Hz operaties. Verhoogt het batterijverbruik.</string>
     <string name="iterations_zero_hz">0 Herhalingen (0 Hz)</string>
     <string name="duration">Duur</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Multihasher-app</string>
     <string name="links">Links...</string>
+
+
+    <string name="keep_device_awake">Houd apparaat wakker (3 Hz, 7.83 Hz of slechts één keer per uur)</string>
+    <string name="once_per_hour">Eén keer per uur (Optimaal)</string>
+    <string name="record_voice_intention">Neem stemintentie op</string>
+    <string name="record_voice_description">Dit neemt uw stem op (met emotie en energie erachter) en voegt het in de intentie in. Het biedt een betere manier om uw intentie te herhalen dan tekst. Neemt tot 5 minuten op.</string>
+    <string name="recording">Opname bezig...</string>
+    <string name="playing">Afspelen...</string>
+    <string name="paused">Gepauzeerd</string>
+    <string name="tap_play_listen">Tik op Afspelen om te luisteren</string>
+    <string name="tap_mic_record">Tik op Microfoon om op te nemen</string>
+    <string name="record">Opnemen</string>
+    <string name="stop">Stoppen</string>
+    <string name="play">Afspelen</string>
+    <string name="pause">Pauze</string>
+    <string name="stop_playback">Stop Afspelen</string>
+    <string name="save">Opslaan</string>
+    <string name="cancel">Annuleren</string>
+    <string name="mic_permission_required">Toestemming vereist</string>
+    <string name="mic_permission_description">Deze app heeft microfoontoegang nodig om uw stem op te nemen. Schakel het in de app-instellingen in.</string>
+    <string name="open_settings">Open Instellingen</string>
 
 </resources>

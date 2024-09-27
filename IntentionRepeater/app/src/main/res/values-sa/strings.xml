@@ -58,7 +58,6 @@
     <string name="notifications_disabled">सूचनायाः निष्क्रियाः। यद्यपि सूचनायाः सक्रिययितुं शक्नुयात्, यदा सञ्चालितं अस्ति, व्यतीतकालं, वर्तमानफ्रिक्वेन्सी, च पुनरावृत्तिप्रमाणं दृश्यते।</string>
     <string name="three_herz_classic">3 हर्ट्ज (क्लासिक)</string>
     <string name="schumann_resonance">7.83 हेर्त्झ शूमन् गूंज (सर्वश्रेष्ठम्)</string>
-    <string name="keep_device_awake">यंत्रं जागरूकं यथातथं रक्षतु (3 हेर्त्झ अथवा 7.83 हेर्त्झ केवलम्)</string>
     <string name="prevents_device_sleeping">यंत्रं 3 हेर्त्झ अथवा 7.83 हेर्त्झ क्रियायाम् निद्रायाम् अकल्पयति। बैटरीवापरं वर्धयति।</string>
     <string name="iterations_zero_hz">0 पुनरावृत्तयः (0 हेर्त्झ)</string>
     <string name="duration">कालावधिः</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">बहुहेशर अनुप्रयोग</string>
     <string name="links">लिङ्काः...</string>
+
+
+    <string name="keep_device_awake">यन्त्रं जाग्रतं कुरुत (3 Hz, 7.83 Hz वा प्रति एकवारं केवलम्)</string>
+    <string name="once_per_hour">प्रतिघण्टायामेकं (उत्तमम्)</string>
+    <string name="record_voice_intention">स्वरस्य अभिप्रायं लिखतु</string>
+    <string name="record_voice_description">अयं भवतः स्वर्णं (यस्य अनुग्रहः च ऊर्जा च अस्ति) लेख्यते च तद् अभिप्रायस्य अन्तर्भावयति। लेखं उपरि अभिप्रायं पुनः प्रदर्शयितुं उत्तमः उपायः अस्ति। 5 मिंटपर्यन्तं लेख्यते।</string>
+    <string name="recording">लेख्यते...</string>
+    <string name="playing">विनिर्गच्छति...</string>
+    <string name="paused">विश्रामितम्</string>
+    <string name="tap_play_listen">श्रवणाय खेलं स्पर्शयतु</string>
+    <string name="tap_mic_record">लेखनाय माइक्रोफोन्म् स्पर्शयतु</string>
+    <string name="record">लेखयतु</string>
+    <string name="stop">निवारयतु</string>
+    <string name="play">विनिर्गच्छतु</string>
+    <string name="pause">विश्रामयतु</string>
+    <string name="stop_playback">विनिर्गच्छनं निवारयतु</string>
+    <string name="save">संरक्षितुम्</string>
+    <string name="cancel">निष्कासयतु</string>
+    <string name="mic_permission_required">अनुमतिः आवश्यकः</string>
+    <string name="mic_permission_description">अयं अनुप्रयोगः स्वर्णं लेखनाय माइक्रोफोनस्य प्रवेशं आवश्यकं। कृपया अनुप्रयोगस्य विन्यासे तं उपयोजयतु।</string>
+    <string name="open_settings">विन्यासानाम् उद्घाटनं</string>
 
 </resources>

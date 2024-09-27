@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Notifications are \u0020DISABLED\u0020. You can enable notifications to view elapsed time, current frequency, and number of iterations when running as a notification.</string>
     <string name="three_herz_classic">3 Hz (Classic)</string>
     <string name="schumann_resonance">7.83 Hz Schumann Resonance (Optimal)</string>
-    <string name="keep_device_awake">Keep Device Awake (3 Hz or 7.83 Hz only)</string>
     <string name="prevents_device_sleeping">Prevents device from sleeping during 3 Hz or 7.83 Hz operations. Increases battery usage.</string>
     <string name="iterations_zero_hz">0 Iterations (0 Hz)</string>
     <string name="duration">Duration</string>
@@ -70,4 +69,25 @@
     <string name="multihasher_app">Multihasher App</string>
     <string name="links">Links...</string>
 
+
+    <string name="keep_device_awake">Keep Device Awake (3 Hz, 7.83 Hz or once per hour only)</string>
+    <string name="once_per_hour">Once per Hour (Optimal)</string>
+    <string name="record_voice_intention">Record Voice Intention</string>
+    <string name="record_voice_description">This records your voice (which has emotion and energy behind it) and inserts it into the Intention. It provides a better method of repeating your intention than text. Records up to 5 minutes.</string>
+    <string name="recording">Recording...</string>
+    <string name="playing">Playing...</string>
+    <string name="paused">Paused</string>
+    <string name="tap_play_listen">Tap Play to listen</string>
+    <string name="tap_mic_record">Tap Mic to record</string>
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="stop_playback">Stop Playback</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="mic_permission_required">Permission Required</string>
+    <string name="mic_permission_description">This app needs microphone access to record your voice. Please enable it in app settings.</string>
+    <string name="open_settings">Open Settings</string>
 </resources>

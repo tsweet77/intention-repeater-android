@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Taarifa zimezimwa. Unaweza kuziwashia taarifa ili kuona muda uliopita, mzunguko wa sasa, na idadi ya kurudiwa wakati inapokuwa ikifanya kazi kama taarifa.</string>
     <string name="three_herz_classic">3 Hz (Classic)</string>
     <string name="schumann_resonance">7.83 Hz Resonansi ya Schumann (Inayopendekezwa)</string>
-    <string name="keep_device_awake">Hifadhi Kifaa Kikiwa na Kazi (3 Hz au 7.83 Hz pekee)</string>
     <string name="prevents_device_sleeping">Huzuia kifaa kulala wakati wa shughuli za 3 Hz au 7.83 Hz. Inaongeza matumizi ya betri.</string>
     <string name="iterations_zero_hz">Kurudiwa 0 (0 Hz)</string>
     <string name="duration">Muda</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Programu ya Multihasher</string>
     <string name="links">Viungo...</string>
+
+
+    <string name="keep_device_awake">Fanya kifaa kibaki wazi (3 Hz, 7.83 Hz au mara moja kwa saa)</string>
+    <string name="once_per_hour">Mara moja kwa saa (Bora)</string>
+    <string name="record_voice_intention">Rekodi Nia ya Sauti</string>
+    <string name="record_voice_description">Hii inarekodi sauti yako (ambayo ina hisia na nishati nyuma yake) na kuiweka ndani ya nia. Inatoa njia bora zaidi ya kurudia nia yako kuliko maandiko. Inarekodi hadi dakika 5.</string>
+    <string name="recording">Inarekodi...</string>
+    <string name="playing">Inacheza...</string>
+    <string name="paused">Imehamasishwa</string>
+    <string name="tap_play_listen">Gusa Cheza kusikiliza</string>
+    <string name="tap_mic_record">Gusa Microphone kurekodi</string>
+    <string name="record">Rekodi</string>
+    <string name="stop">Acha</string>
+    <string name="play">Cheza</string>
+    <string name="pause">Pausa</string>
+    <string name="stop_playback">Acha Uchezaji</string>
+    <string name="save">Hifadhi</string>
+    <string name="cancel">Batilisha</string>
+    <string name="mic_permission_required">Ruhusa Inahitajika</string>
+    <string name="mic_permission_description">Programu hii inahitaji ufikiaji wa kipaza sauti ili kurekodi sauti yako. Tafadhali iwezeshe katika mipangilio ya programu.</string>
+    <string name="open_settings">Fungua Mipangilio</string>
 
 </resources>

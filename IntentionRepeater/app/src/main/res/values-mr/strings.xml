@@ -58,7 +58,6 @@
     <string name="notifications_disabled">सूचना \u0020असक्षम\u0020 आहेत. सूचना सक्षम करून, चालू असताना कालावधी, वर्तमान वारंवारता, आणि पुनरावृत्तींची संख्या पाहू शकता.</string>
     <string name="three_herz_classic">3 हर्ट्ज (क्लासिक)</string>
     <string name="schumann_resonance">7.83 हर्ट्ज शुमान रेजोनन्स (आदर्श)</string>
-    <string name="keep_device_awake">डिव्हाइसला जागृत ठेवा (फक्त 3 हर्ट्ज किंवा 7.83 हर्ट्ज)</string>
     <string name="prevents_device_sleeping">3 हर्ट्ज किंवा 7.83 हर्ट्ज ऑपरेशन्स दरम्यान डिव्हाइसला झोपण्यापासून थांबवते. बॅटरी वापर वाढवते.</string>
     <string name="iterations_zero_hz">0 पुनरावृत्ती (0 हर्ट्ज)</string>
     <string name="duration">कालावधी</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">मल्टिहॅशर अॅप</string>
     <string name="links">लिंक्स...</string>
+
+
+    <string name="keep_device_awake">डिव्हाइस जागृत ठेवा (3 Hz, 7.83 Hz किंवा तासात एकदा फक्त)</string>
+    <string name="once_per_hour">तासात एकदा (सर्वोत्तम)</string>
+    <string name="record_voice_intention">आवाजाचा उद्देश रेकॉर्ड करा</string>
+    <string name="record_voice_description">हे तुमचा आवाज (जो भावना आणि उर्जेसह आहे) रेकॉर्ड करते आणि उद्देशात समाविष्ट करते. हे तुमच्या उद्देशाला पुन्हा सांगण्यासाठी मजकूरापेक्षा चांगली पद्धत प्रदान करते. 5 मिनिटांपर्यंत रेकॉर्ड करते.</string>
+    <string name="recording">रेकॉर्डिंग...</string>
+    <string name="playing">प्ले करत आहे...</string>
+    <string name="paused">थांबलेले</string>
+    <string name="tap_play_listen">ऐकण्यासाठी प्ले टॅप करा</string>
+    <string name="tap_mic_record">रेकॉर्ड करण्यासाठी माइक टॅप करा</string>
+    <string name="record">रेकॉर्ड करा</string>
+    <string name="stop">थांबवा</string>
+    <string name="play">प्ले करा</string>
+    <string name="pause">विराम</string>
+    <string name="stop_playback">प्लेबॅक थांबवा</string>
+    <string name="save">जतन करा</string>
+    <string name="cancel">रद्द करा</string>
+    <string name="mic_permission_required">परवानगी आवश्यक</string>
+    <string name="mic_permission_description">तुमचा आवाज रेकॉर्ड करण्यासाठी या अ‍ॅपला मायक्रोफोनची परवानगी आवश्यक आहे. कृपया ते अ‍ॅप सेटिंग्जमध्ये सक्षम करा.</string>
+    <string name="open_settings">सेटिंग्ज उघडा</string>
 
 </resources>

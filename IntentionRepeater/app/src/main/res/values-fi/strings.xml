@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Ilmoitukset ovat \u0020POISSA\u0020 käytöstä. Voit ottaa ilmoitukset käyttöön nähdäksesi kuluneen ajan, nykyisen taajuuden ja toistojen määrän, kun ohjelma on ilmoituksena.</string>
     <string name="three_herz_classic">3 Hz (Klassinen)</string>
     <string name="schumann_resonance">7.83 Hz Schumannin resonanssi (Optimaalinen)</string>
-    <string name="keep_device_awake">Pidä laite hereillä (vain 3 Hz tai 7.83 Hz)</string>
     <string name="prevents_device_sleeping">Estää laitteen nukahtamasta 3 Hz tai 7.83 Hz -toimintojen aikana. Lisää akun käyttöä.</string>
     <string name="iterations_zero_hz">0 Toistoa (0 Hz)</string>
     <string name="duration">Kesto</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Multihasher-sovellus</string>
     <string name="links">Linkit...</string>
+
+
+    <string name="keep_device_awake">Pidä laite hereillä (3 Hz, 7,83 Hz tai vain kerran tunnissa)</string>
+    <string name="once_per_hour">Kerran tunnissa (Optimaalinen)</string>
+    <string name="record_voice_intention">Tallenna äänitarkoitus</string>
+    <string name="record_voice_description">Tämä tallentaa äänesi (jolla on tunteita ja energiaa takanaan) ja lisää sen aikomukseen. Se tarjoaa paremman tavan toistaa aikomuksesi kuin teksti. Tallentaa enintään 5 minuuttia.</string>
+    <string name="recording">Tallennetaan...</string>
+    <string name="playing">Toistetaan...</string>
+    <string name="paused">Tauolla</string>
+    <string name="tap_play_listen">Napauta toista kuunnellaksesi</string>
+    <string name="tap_mic_record">Napauta mikkiä tallentaaksesi</string>
+    <string name="record">Tallenna</string>
+    <string name="stop">Pysäytä</string>
+    <string name="play">Toista</string>
+    <string name="pause">Tauko</string>
+    <string name="stop_playback">Pysäytä toisto</string>
+    <string name="save">Tallenna</string>
+    <string name="cancel">Peruuta</string>
+    <string name="mic_permission_required">Lupa vaaditaan</string>
+    <string name="mic_permission_description">Tämä sovellus tarvitsee mikrofonin käyttöoikeuden äänesi tallentamiseen. Ota se käyttöön sovellusasetuksissa.</string>
+    <string name="open_settings">Avaa asetukset</string>
 
 </resources>

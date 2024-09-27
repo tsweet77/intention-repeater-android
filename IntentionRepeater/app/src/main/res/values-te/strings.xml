@@ -58,7 +58,6 @@
     <string name="notifications_disabled">సూచనలు నిలిపివేయబడ్డాయి. మీరు సూచనలను చల్లారు మరియు ఇది పనిచేసేటప్పుడు సమయాన్ని, ప్రస్తుత ఫ్రీక్వెన్సీని మరియు పునరావృతాల సంఖ్యను చూడవచ్చు.</string>
     <string name="three_herz_classic">3 Hz (క్లాసిక్)</string>
     <string name="schumann_resonance">7.83 హర్ట్జ్ షూమాన్ రెసొనెన్స్ (అత్యుత్తమ)</string>
-    <string name="keep_device_awake">పరికరాన్ని నిద్రలో లేకుండా ఉంచండి (3 హర్ట్జ్ లేదా 7.83 హర్ట్జ్ మాత్రమే)</string>
     <string name="prevents_device_sleeping">3 హర్ట్జ్ లేదా 7.83 హర్ట్జ్ ఆపరేషన్ల సమయంలో పరికరాన్ని నిద్రపోవడానికి అడ్డుకుంటుంది. బ్యాటరీ వినియోగాన్ని పెంచుతుంది.</string>
     <string name="iterations_zero_hz">0 పునరావృతాలు (0 హర్ట్జ్)</string>
     <string name="duration">కాలం</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">మల్టిహ్యాషర్ యాప్</string>
     <string name="links">లింక్స్...</string>
+
+
+    <string name="keep_device_awake">పరికరాన్ని మేల醒ంగా ఉంచండి (3 Hz, 7.83 Hz లేదా గంటకు ఒక్కసారిగా మాత్రమే)</string>
+    <string name="once_per_hour">ఒక గంటకు ఒక్కసారిగా (ఆప్టిమల్)</string>
+    <string name="record_voice_intention">కథనం ఉద్దేశ్యాన్ని నమోదు చేయండి</string>
+    <string name="record_voice_description">ఇది మీ స్వరాన్ని (ఇది భావం మరియు శక్తిని కలిగి ఉంది) నమోదు చేస్తుంది మరియు దీన్ని ఉద్దేశ్యంలో చేర్చుతుంది. ఇది మీ ఉద్దేశ్యాన్ని పునరావృతించడానికి వాస్తవంగా మెరుగైన పద్ధతి అందిస్తుంది. 5 నిమిషాల వరకు నమోదు చేస్తుంది.</string>
+    <string name="recording">నమోదు చేస్తున్నది...</string>
+    <string name="playing">ప్రదర్శన చేస్తోంది...</string>
+    <string name="paused">నిష్క్రియ</string>
+    <string name="tap_play_listen">వినడానికి ప్లే నొక్కండి</string>
+    <string name="tap_mic_record">నమోదు చేయడానికి మైక్రోఫోన్ నొక్కండి</string>
+    <string name="record">నమోదు చేయండి</string>
+    <string name="stop">ఆపండి</string>
+    <string name="play">చరిత్ర</string>
+    <string name="pause">నిష్క్రియ</string>
+    <string name="stop_playback">ప్లేబ్యాక్ ఆపండి</string>
+    <string name="save">కాపీ చేయండి</string>
+    <string name="cancel">రద్దు చేయండి</string>
+    <string name="mic_permission_required">అనుమతి అవసరం</string>
+    <string name="mic_permission_description">ఈ అనువర్తనం మీ స్వరం నమోదు చేయడానికి మైక్రోఫోన్ యాక్సెస్ అవసరం. దయచేసి అప్లికేషన్ సెట్టింగ్స్‌లో ఇది చేర్చండి.</string>
+    <string name="open_settings">సెట్టింగ్స్‌ని తెరవండి</string>
 
 </resources>

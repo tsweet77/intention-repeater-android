@@ -58,7 +58,6 @@
     <string name="notifications_disabled">അറിയിപ്പുകൾ \u0020അപ്രവർത്തിത\u0020 ആണ്. അറിയിപ്പുകൾ പ്രവർത്തിപ്പിച്ച്, പ്രവർത്തനസമയത്ത് ചെലവായ സമയം, നിലവിലെ ഫ്രീക്വൻസി, ആവർത്തനങ്ങളുടെ എണ്ണം എന്നിവ കാണാം.</string>
     <string name="three_herz_classic">3 Hz (ക്ലാസിക്)</string>
     <string name="schumann_resonance">7.83 ഹർട്ട്സ് ഷുമാൻ റെസോണൻസ് (ആദർശം)</string>
-    <string name="keep_device_awake">ഡിവൈസിനെ ഉറങ്ങാത്ത നിലയിൽ സൂക്ഷിക്കുക (മാത്രം 3 ഹർട്ട്സ് അല്ലെങ്കിൽ 7.83 ഹർട്ട്സ്)</string>
     <string name="prevents_device_sleeping">3 ഹർട്ട്സ് അല്ലെങ്കിൽ 7.83 ഹർട്ട്സ് പ്രവർത്തന സമയത്ത് ഡിവൈസിന്റെ ഉറങ്ങുന്നത് തടയുന്നു. ബാറ്ററി ഉപയോഗം വർധിക്കും.</string>
     <string name="iterations_zero_hz">0 ആവർത്തനങ്ങൾ (0 ഹർട്ട്സ്)</string>
     <string name="duration">കാലാവധി</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">മൾട്ടിഹാഷർ ആപ്പ്</string>
     <string name="links">ലിങ്കുകൾ...</string>
+
+
+    <string name="keep_device_awake">ഉപകരണം സജ്ജമാക്കി വയ്ക്കുക (3 Hz, 7.83 Hz അല്ലെങ്കിൽ ഒരു മണിക്കൂറിൽ ഒന്നു മാത്രം)</string>
+    <string name="once_per_hour">ഓരോ മണിക്കൂറിലും (അപ്റ്റിമൽ)</string>
+    <string name="record_voice_intention">ശബ്ദ ഉദ്ദേശം രേഖപ്പെടുത്തുക</string>
+    <string name="record_voice_description">ഇത് നിങ്ങളുടെ ശബ്ദം (അത് പിന്നിൽ വികാരംയും ഊർജ്ജവുമുള്ളതായിരിക്കും) റെക്കോർഡ് ചെയ്യുകയും ഉദ്ദേശത്തിൽ ചേർക്കുകയും ചെയ്യുന്നു. നിങ്ങളുടെ ഉദ്ദേശം ടെക്സ്റ്റിനേക്കാൾ പുനരാവർത്തിക്കാൻ മികച്ച മാർഗ്ഗമാണ് ഇത്. 5 മിനിറ്റുവരെ റെക്കോർഡ് ചെയ്യുന്നു.</string>
+    <string name="recording">റെക്കോർഡ് ചെയ്യുന്നു...</string>
+    <string name="playing">കഴിക്കുന്നു...</string>
+    <string name="paused">താല്‍ക്കാലികമായി നിര്‍ത്തിയിരിക്കുന്നു</string>
+    <string name="tap_play_listen">കേൾക്കാൻ പ്ലേ ടാപ്പ് ചെയ്യുക</string>
+    <string name="tap_mic_record">റെക്കോർഡ് ചെയ്യാൻ മൈക്ക് ടാപ്പ് ചെയ്യുക</string>
+    <string name="record">റെക്കോർഡ് ചെയ്യുക</string>
+    <string name="stop">നിര്‍ത്തുക</string>
+    <string name="play">പ്ലേ ചെയ്യുക</string>
+    <string name="pause">താല്‍ക്കാലികമായി നിര്‍ത്തുക</string>
+    <string name="stop_playback">പ്ലേബാക്ക് നിര്‍ത്തുക</string>
+    <string name="save">സേവ് ചെയ്യുക</string>
+    <string name="cancel">റദ്ദാക്കുക</string>
+    <string name="mic_permission_required">അനുമതി ആവശ്യമാണ്</string>
+    <string name="mic_permission_description">നിങ്ങളുടെ ശബ്ദം റെക്കോർഡ് ചെയ്യാൻ ഈ ആപ്പിന് മൈക്രോഫോൺ അനുമതി ആവശ്യമാണ്. ദയവായി ഇത് ആപ്പ് സജ്ജീകരണങ്ങളിൽ പ്രവർത്തനക്ഷമമാക്കുക.</string>
+    <string name="open_settings">സജ്ജീകരണങ്ങൾ തുറക്കുക</string>
 
 </resources>

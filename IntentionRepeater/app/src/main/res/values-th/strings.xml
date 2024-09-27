@@ -58,7 +58,6 @@
     <string name="notifications_disabled">การแจ้งเตือน \u0020ปิดใช้งาน\u0020. คุณสามารถเปิดใช้งานการแจ้งเตือนเพื่อดูเวลาที่ผ่านไป ความถี่ปัจจุบัน และจำนวนรอบขณะทำงานเป็นการแจ้งเตือน.</string>
     <string name="three_herz_classic">3 เฮิรตซ์ (คลาสสิก)</string>
     <string name="schumann_resonance">7.83 เฮิรตซ์ เรโซแนนซ์ของชูมัน (เหมาะสม)</string>
-    <string name="keep_device_awake">ทำให้เครื่องมือไม่เข้าสู่โหมดสลีป (เฉพาะ 3 เฮิรตซ์ หรือ 7.83 เฮิรตซ์)</string>
     <string name="prevents_device_sleeping">ป้องกันไม่ให้เครื่องมือเข้าสู่โหมดสลีปในระหว่างการทำงานที่ 3 เฮิรตซ์ หรือ 7.83 เฮิรตซ์ เพิ่มการใช้พลังงานแบตเตอรี่.</string>
     <string name="iterations_zero_hz">0 การทำซ้ำ (0 เฮิรตซ์)</string>
     <string name="duration">ระยะเวลา</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">แอปมัลติแฮชเชอร์</string>
     <string name="links">ลิงก์...</string>
+
+
+    <string name="keep_device_awake">ทำให้เครื่องมือเปิดอยู่ (3 Hz, 7.83 Hz หรือเพียงครั้งเดียวต่อชั่วโมง)</string>
+    <string name="once_per_hour">ครั้งต่อชั่วโมง (เหมาะสมที่สุด)</string>
+    <string name="record_voice_intention">บันทึกเจตนาของเสียง</string>
+    <string name="record_voice_description">นี่บันทึกเสียงของคุณ (ซึ่งมีอารมณ์และพลังงานอยู่เบื้องหลัง) และใส่มันเข้าไปในเจตนา มันให้วิธีที่ดีกว่าในการทำซ้ำเจตนาของคุณมากกว่าข้อความ บันทึกได้นานถึง 5 นาที</string>
+    <string name="recording">กำลังบันทึก...</string>
+    <string name="playing">กำลังเล่น...</string>
+    <string name="paused">หยุดชั่วคราว</string>
+    <string name="tap_play_listen">แตะเล่นเพื่อฟัง</string>
+    <string name="tap_mic_record">แตะไมโครโฟนเพื่อบันทึก</string>
+    <string name="record">บันทึก</string>
+    <string name="stop">หยุด</string>
+    <string name="play">เล่น</string>
+    <string name="pause">หยุดชั่วคราว</string>
+    <string name="stop_playback">หยุดการเล่น</string>
+    <string name="save">บันทึก</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="mic_permission_required">ต้องการการอนุญาต</string>
+    <string name="mic_permission_description">แอปนี้ต้องการการเข้าถึงไมโครโฟนเพื่อบันทึกเสียงของคุณ โปรดเปิดใช้งานในการตั้งค่าแอปพลิเคชัน</string>
+    <string name="open_settings">เปิดการตั้งค่า</string>
 
 </resources>

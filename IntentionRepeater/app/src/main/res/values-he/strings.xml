@@ -58,7 +58,6 @@
     <string name="notifications_disabled">התראות \u0020מושבתות\u0020. תוכל להפעיל את ההתראות כדי לצפות בזמן שחלף, בתדר הנוכחי ובמספר החזרות כאשר הפעלת אותן כהודעה.</string>
     <string name="three_herz_classic">3 הרץ (קלאסי)</string>
     <string name="schumann_resonance">7.83 הרץ תהודה של שומאן (אופטימלית)</string>
-    <string name="keep_device_awake">שמור על המכשיר ער (רק 3 הרץ או 7.83 הרץ)</string>
     <string name="prevents_device_sleeping">מונע מהמכשיר להיכנס למצב שינה במהלך פעולות ב-3 הרץ או 7.83 הרץ. מגדיל את השימוש בסוללה.</string>
     <string name="iterations_zero_hz">0 חזרות (0 הרץ)</string>
     <string name="duration">משך זמן</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">אפליקציית רב-האש</string>
     <string name="links">קישורים...</string>
+
+
+    <string name="keep_device_awake">לשמור על המכשיר ער (3 Hz, 7.83 Hz או רק פעם בשעה)</string>
+    <string name="once_per_hour">פעם בשעה (אופטימלי)</string>
+    <string name="record_voice_intention">הקלט כוונת קול</string>
+    <string name="record_voice_description">זה מקליט את קולך (שיש מאחוריו רגש ואנרגיה) ומכניס אותו לכוונה. הוא מספק דרך טובה יותר לחזור על כוונתך מאשר טקסט. מקליט עד 5 דקות.</string>
+    <string name="recording">מקליט...</string>
+    <string name="playing">מנגן...</string>
+    <string name="paused">בהשהיה</string>
+    <string name="tap_play_listen">הקש על הפעלה כדי להאזין</string>
+    <string name="tap_mic_record">הקש על המיקרופון להקלטה</string>
+    <string name="record">הקלט</string>
+    <string name="stop">עצור</string>
+    <string name="play">הפעל</string>
+    <string name="pause">השהה</string>
+    <string name="stop_playback">עצור השמעה</string>
+    <string name="save">שמור</string>
+    <string name="cancel">בטל</string>
+    <string name="mic_permission_required">דרושה הרשאה</string>
+    <string name="mic_permission_description">האפליקציה צריכה גישה למיקרופון כדי להקליט את קולך. הפעל אותה בהגדרות האפליקציה.</string>
+    <string name="open_settings">פתח הגדרות</string>
 
 </resources>

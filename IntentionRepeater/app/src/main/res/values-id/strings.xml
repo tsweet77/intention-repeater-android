@@ -58,7 +58,6 @@
     <string name="notifications_disabled">Notifikasi \u0020DINonaktifkan\u0020. Anda dapat mengaktifkan notifikasi untuk melihat waktu yang berlalu, frekuensi saat ini, dan jumlah iterasi saat berjalan sebagai notifikasi.</string>
     <string name="three_herz_classic">3 Hz (Klasik)</string>
     <string name="schumann_resonance">7.83 Hz Resonansi Schumann (Optimal)</string>
-    <string name="keep_device_awake">Jaga Perangkat Tetap Aktif (hanya 3 Hz atau 7.83 Hz)</string>
     <string name="prevents_device_sleeping">Mencegah perangkat tidur selama operasi 3 Hz atau 7.83 Hz. Meningkatkan penggunaan baterai.</string>
     <string name="iterations_zero_hz">0 Iterasi (0 Hz)</string>
     <string name="duration">Durasi</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">Aplikasi Multihasher</string>
     <string name="links">Tautan...</string>
+
+
+    <string name="keep_device_awake">Jaga Perangkat Tetap Aktif (3 Hz, 7.83 Hz atau sekali per jam saja)</string>
+    <string name="once_per_hour">Sekali per Jam (Optimal)</string>
+    <string name="record_voice_intention">Rekam Suara Niat</string>
+    <string name="record_voice_description">Ini merekam suara Anda (yang memiliki emosi dan energi di belakangnya) dan memasukkannya ke dalam Niat. Ini memberikan metode yang lebih baik untuk mengulangi niat Anda daripada teks. Merekam hingga 5 menit.</string>
+    <string name="recording">Merekam...</string>
+    <string name="playing">Memutar...</string>
+    <string name="paused">Jeda</string>
+    <string name="tap_play_listen">Ketuk Putar untuk mendengarkan</string>
+    <string name="tap_mic_record">Ketuk Mic untuk merekam</string>
+    <string name="record">Rekam</string>
+    <string name="stop">Berhenti</string>
+    <string name="play">Putar</string>
+    <string name="pause">Jeda</string>
+    <string name="stop_playback">Hentikan Pemutaran</string>
+    <string name="save">Simpan</string>
+    <string name="cancel">Batal</string>
+    <string name="mic_permission_required">Izin Diperlukan</string>
+    <string name="mic_permission_description">Aplikasi ini membutuhkan akses mikrofon untuk merekam suara Anda. Harap aktifkan di pengaturan aplikasi.</string>
+    <string name="open_settings">Buka Pengaturan</string>
 
 </resources>

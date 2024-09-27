@@ -66,6 +66,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.Lifecycle
@@ -152,13 +153,13 @@ fun SettingsScreen(
     onDurationChange: (String)->Unit
 ) {
     val context = LocalContext.current
-    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    val notificationManagerCompat = NotificationManagerCompat.from(context)
     var linksVisible by remember { mutableStateOf(false)}
     val focusManager = LocalFocusManager.current
     var maxWidth by remember { mutableStateOf(0) }
 
     // Mutable state to track the notification status
-    var notificationEnabled by remember { mutableStateOf(notificationManager.areNotificationsEnabled()) }
+    var notificationEnabled by remember { mutableStateOf(notificationManagerCompat.areNotificationsEnabled()) }
 
     // Get the lifecycle owner to observe lifecycle changes
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -172,7 +173,7 @@ fun SettingsScreen(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 // Recheck the notification status when the user returns to the screen
-                notificationEnabled = notificationManager.areNotificationsEnabled()
+                notificationEnabled = notificationManagerCompat.areNotificationsEnabled()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -198,7 +199,7 @@ fun SettingsScreen(
             }, // Make the Column scrollable vertically
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         // Heading text in white
         Text(
             text = stringResource(R.string.intention_repeater_settings),

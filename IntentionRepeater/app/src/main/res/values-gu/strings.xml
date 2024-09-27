@@ -58,7 +58,6 @@
     <string name="notifications_disabled">સૂચનાઓ \u0020અસક્રિય\u0020 છે. સૂચનાઓને સક્રિય કરીને પસાર થયેલ સમય, વર્તમાન તીવ્રતા અને પુનરાવૃતિઓની સંખ્યા જુઓ જ્યારે તેને સૂચના તરીકે ચલાવવામાં આવે છે.</string>
     <string name="three_herz_classic">3 હર્ટ્ઝ (ક્લાસિક)</string>
     <string name="schumann_resonance">7.83 હર્ટઝ શુમેન રેઝોનન્સ (આદર્શ)</string>
-    <string name="keep_device_awake">ડિવાઇસને જાગતા રાખો (ફક્ત 3 હર્ટઝ અથવા 7.83 હર્ટઝ)</string>
     <string name="prevents_device_sleeping">3 હર્ટઝ અથવા 7.83 હર્ટઝ ઓપરેશન્સ દરમિયાન ડિવાઇસને સૂવવામાંથી રોકે છે. બેટરીની વપરાશ વધે છે.</string>
     <string name="iterations_zero_hz">0 પુનરાવૃત્તિઓ (0 હર્ટઝ)</string>
     <string name="duration">સમયગાળો</string>
@@ -70,5 +69,26 @@
 
     <string name="multihasher_app">મલ્ટિહૅશર એપ</string>
     <string name="links">લિંક્સ...</string>
+
+
+    <string name="keep_device_awake">ડિવાઇસને સક્રિય રાખો (3 Hz, 7.83 Hz અથવા ફક્ત એક કલાકમાં એકવાર)</string>
+    <string name="once_per_hour">એક કલાકમાં એકવાર (ઉત્તમ)</string>
+    <string name="record_voice_intention">વૉઇસ ઇરાદા રેકોર્ડ કરો</string>
+    <string name="record_voice_description">આ તમારા અવાજને રેકોર્ડ કરે છે (જે પાછળ લાગણી અને ઊર્જા ધરાવે છે) અને તેને ઇરાદામાં દાખલ કરે છે. તે તમારા ઇરાદાને ટેક્સ્ટ કરતાં પુનરાવર્તિત કરવા માટે શ્રેષ્ઠ પદ્ધતિ પ્રદાન કરે છે. 5 મિનિટ સુધી રેકોર્ડ કરે છે.</string>
+    <string name="recording">રેકોર્ડિંગ...</string>
+    <string name="playing">પ્લે થઈ રહ્યું છે...</string>
+    <string name="paused">રોકી દીધું છે</string>
+    <string name="tap_play_listen">સાંભળવા માટે પ્લે દબાવો</string>
+    <string name="tap_mic_record">રેકોર્ડ કરવા માટે માઇક દબાવો</string>
+    <string name="record">રેકોર્ડ</string>
+    <string name="stop">બંધ કરો</string>
+    <string name="play">પ્લે કરો</string>
+    <string name="pause">વિરામ</string>
+    <string name="stop_playback">પ્લેબેક રોકો</string>
+    <string name="save">સાચવો</string>
+    <string name="cancel">રદ્દ કરો</string>
+    <string name="mic_permission_required">પરવાનગી જરૂરી છે</string>
+    <string name="mic_permission_description">આ એપ્લિકેશનને તમારો અવાજ રેકોર્ડ કરવા માટે માઇક્રોફોન ઍક્સેસની જરૂર છે. કૃપા કરીને એપ્લિકેશન સેટિંગ્સમાં તેને સક્ષમ કરો.</string>
+    <string name="open_settings">સેટિંગ્સ ખોલો</string>
 
 </resources>

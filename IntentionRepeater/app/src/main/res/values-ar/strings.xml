@@ -58,7 +58,6 @@
     <string name="notifications_disabled">الإشعارات \u0020مَعطَّلة\u0020. يمكنك تمكين الإشعارات لعرض الوقت المنقضي، التردد الحالي، وعدد التكرارات أثناء التشغيل كإشعار.</string>
     <string name="three_herz_classic">3 هرتز (كلاسيكي)</string>
     <string name="schumann_resonance">رنين شومان 7.83 هرتز (مثالي)</string>
-    <string name="keep_device_awake">الحفاظ على الجهاز مستيقظًا (3 هرتز أو 7.83 هرتز فقط)</string>
     <string name="prevents_device_sleeping">يمنع الجهاز من النوم أثناء عمليات 3 هرتز أو 7.83 هرتز. يزيد من استهلاك البطارية.</string>
     <string name="iterations_zero_hz">0 تكرارات (0 هرتز)</string>
     <string name="duration">المدة</string>
@@ -70,5 +69,25 @@
 
     <string name="multihasher_app">تطبيق متعدد التجزئة</string>
     <string name="links">روابط...</string>
+
+    <string name="keep_device_awake">إبقاء الجهاز مستيقظًا (3 هرتز، 7.83 هرتز أو مرة واحدة في الساعة فقط)</string>
+    <string name="once_per_hour">مرة في الساعة (مثالي)</string>
+    <string name="record_voice_intention">سجل نية الصوت</string>
+    <string name="record_voice_description">يسجل هذا التطبيق صوتك (الذي يحمل العاطفة والطاقة) ويُدرجه في النية. إنه يوفر طريقة أفضل لتكرار نيتك من النص. يسجل حتى 5 دقائق.</string>
+    <string name="recording">جارٍ التسجيل...</string>
+    <string name="playing">جارٍ التشغيل...</string>
+    <string name="paused">مؤقتًا</string>
+    <string name="tap_play_listen">اضغط تشغيل للاستماع</string>
+    <string name="tap_mic_record">اضغط على الميكروفون للتسجيل</string>
+    <string name="record">سجل</string>
+    <string name="stop">توقف</string>
+    <string name="play">تشغيل</string>
+    <string name="pause">إيقاف مؤقت</string>
+    <string name="stop_playback">إيقاف التشغيل</string>
+    <string name="save">احفظ</string>
+    <string name="cancel">إلغاء</string>
+    <string name="mic_permission_required">مطلوب إذن</string>
+    <string name="mic_permission_description">يحتاج هذا التطبيق إلى إذن الوصول إلى الميكروفون لتسجيل صوتك. يرجى تمكينه في إعدادات التطبيق.</string>
+    <string name="open_settings">افتح الإعدادات</string>
 
 </resources>

@@ -58,7 +58,6 @@
   <string name="notifications_disabled">Las notificaciones están \u0020DESHABILITADAS\u0020. Puedes habilitar las notificaciones para ver el tiempo transcurrido, la frecuencia actual y el número de iteraciones al ejecutarse como notificación.</string>
   <string name="three_herz_classic">3 Hz (Clásico)</string>
   <string name="schumann_resonance">7.83 Hz Resonancia de Schumann (Óptima)</string>
-  <string name="keep_device_awake">Mantener el dispositivo activo (solo 3 Hz o 7.83 Hz)</string>
   <string name="prevents_device_sleeping">Evita que el dispositivo entre en suspensión durante operaciones a 3 Hz o 7.83 Hz. Aumenta el uso de la batería.</string>
   <string name="iterations_zero_hz">0 Iteraciones (0 Hz)</string>
   <string name="duration">Duración</string>
@@ -70,5 +69,26 @@
 
   <string name="multihasher_app">Aplicación Multihasher</string>
   <string name="links">Enlaces...</string>
+
+
+  <string name="keep_device_awake">Mantener el dispositivo activo (3 Hz, 7.83 Hz o solo una vez por hora)</string>
+  <string name="once_per_hour">Una vez por hora (Óptimo)</string>
+  <string name="record_voice_intention">Grabar intención de voz</string>
+  <string name="record_voice_description">Esto graba tu voz (que tiene emoción y energía detrás) e inserta en la Intención. Proporciona un mejor método para repetir tu intención que el texto. Graba hasta 5 minutos.</string>
+  <string name="recording">Grabando...</string>
+  <string name="playing">Reproduciendo...</string>
+  <string name="paused">Pausado</string>
+  <string name="tap_play_listen">Toca reproducir para escuchar</string>
+  <string name="tap_mic_record">Toca el micrófono para grabar</string>
+  <string name="record">Grabar</string>
+  <string name="stop">Detener</string>
+  <string name="play">Reproducir</string>
+  <string name="pause">Pausa</string>
+  <string name="stop_playback">Detener reproducción</string>
+  <string name="save">Guardar</string>
+  <string name="cancel">Cancelar</string>
+  <string name="mic_permission_required">Permiso requerido</string>
+  <string name="mic_permission_description">Esta aplicación necesita acceso al micrófono para grabar tu voz. Por favor, habilítalo en la configuración de la aplicación.</string>
+  <string name="open_settings">Abrir configuración</string>
 
 </resources>
