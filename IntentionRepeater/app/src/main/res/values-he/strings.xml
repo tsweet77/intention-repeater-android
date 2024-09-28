@@ -57,7 +57,7 @@
     <string name="notifications_enabled">התראות \u0020מופעלות\u0020. במהלך ההפעלה, ההתראה תתעדכן כל שנייה עם הזמן שחלף, התדר הנוכחי ומספר החזרות.</string>
     <string name="notifications_disabled">התראות \u0020מושבתות\u0020. תוכל להפעיל את ההתראות כדי לצפות בזמן שחלף, בתדר הנוכחי ובמספר החזרות כאשר הפעלת אותן כהודעה.</string>
     <string name="three_herz_classic">3 הרץ (קלאסי)</string>
-    <string name="schumann_resonance">7.83 הרץ תהודה של שומאן (אופטימלית)</string>
+    <string name="schumann_resonance">7.83 הרץ תהודה של שומאן</string>
     <string name="prevents_device_sleeping">מונע מהמכשיר להיכנס למצב שינה במהלך פעולות ב-3 הרץ או 7.83 הרץ. מגדיל את השימוש בסוללה.</string>
     <string name="iterations_zero_hz">0 חזרות (0 הרץ)</string>
     <string name="duration">משך זמן</string>

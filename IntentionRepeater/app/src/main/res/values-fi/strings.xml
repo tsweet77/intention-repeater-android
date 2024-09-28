@@ -57,7 +57,7 @@
     <string name="notifications_enabled">Ilmoitukset ovat \u0020KÄYTÖSSÄ\u0020. Kun ohjelma on käynnissä, ilmoitus päivittää joka sekunti kuluneen ajan, nykyisen taajuuden ja toistojen määrän.</string>
     <string name="notifications_disabled">Ilmoitukset ovat \u0020POISSA\u0020 käytöstä. Voit ottaa ilmoitukset käyttöön nähdäksesi kuluneen ajan, nykyisen taajuuden ja toistojen määrän, kun ohjelma on ilmoituksena.</string>
     <string name="three_herz_classic">3 Hz (Klassinen)</string>
-    <string name="schumann_resonance">7.83 Hz Schumannin resonanssi (Optimaalinen)</string>
+    <string name="schumann_resonance">7.83 Hz Schumannin resonanssi</string>
     <string name="prevents_device_sleeping">Estää laitteen nukahtamasta 3 Hz tai 7.83 Hz -toimintojen aikana. Lisää akun käyttöä.</string>
     <string name="iterations_zero_hz">0 Toistoa (0 Hz)</string>
     <string name="duration">Kesto</string>

@@ -57,7 +57,7 @@
     <string name="notifications_enabled">বিজ্ঞপ্তিগুলি \u0020সক্রিয়\u0020 রয়েছে। চালু হলে, বিজ্ঞপ্তিটি প্রতি সেকেন্ডে সময়ের সাথে সাথে বর্তমান ফ্রিকোয়েন্সি এবং পুনরাবৃত্তির সংখ্যা আপডেট করবে।</string>
     <string name="notifications_disabled">বিজ্ঞপ্তিগুলি \u0020নিষ্ক্রিয়\u0020 রয়েছে। বিজ্ঞপ্তি চালু থাকলে সময়ের সাথে সাথে বর্তমান ফ্রিকোয়েন্সি এবং পুনরাবৃত্তির সংখ্যা দেখতে বিজ্ঞপ্তিগুলি সক্ষম করতে পারেন।</string>
     <string name="three_herz_classic">3 হার্জ (ক্লাসিক)</string>
-    <string name="schumann_resonance">7.83 হার্জ শুমান অনুনাদ (সেরা)</string>
+    <string name="schumann_resonance">৭.৮৩ হার্জ শুমান রেজোনেন্স</string>
     <string name="prevents_device_sleeping">3 হার্জ বা 7.83 হার্জ অপারেশনের সময় ডিভাইসটিকে ঘুম থেকে বাধা দেয়। ব্যাটারির ব্যবহার বাড়ায়।</string>
     <string name="iterations_zero_hz">0 পুনরাবৃত্তি (0 হার্জ)</string>
     <string name="duration">সময়কাল</string>

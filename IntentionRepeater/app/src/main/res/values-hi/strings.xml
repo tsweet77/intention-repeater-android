@@ -57,7 +57,7 @@
     <string name="notifications_enabled">सूचनाएँ \u0020सक्षम\u0020 हैं। चलाते समय, सूचना हर सेकंड में बीते समय, वर्तमान आवृत्ति और पुनरावृत्तियों की संख्या के साथ अपडेट होगी।</string>
     <string name="notifications_disabled">सूचनाएँ \u0020अक्षम\u0020 हैं। आप सूचनाओं को सक्षम कर सकते हैं ताकि आप बीते समय, वर्तमान आवृत्ति और पुनरावृत्तियों की संख्या देख सकें जब यह एक सूचना के रूप में चल रही हो।</string>
     <string name="three_herz_classic">3 हर्ट्ज (क्लासिक)</string>
-    <string name="schumann_resonance">7.83 हर्ट्ज शुमान रेजोनेंस (आदर्श)</string>
+    <string name="schumann_resonance">7.83 हर्ट्ज शुमान प्रतिध्वनि</string>
     <string name="prevents_device_sleeping">3 हर्ट्ज या 7.83 हर्ट्ज ऑपरेशनों के दौरान डिवाइस को सोने से रोकता है। बैटरी के उपयोग को बढ़ाता है।</string>
     <string name="iterations_zero_hz">0 पुनरावृत्तियाँ (0 हर्ट्ज)</string>
     <string name="duration">अवधि</string>

@@ -57,7 +57,7 @@
     <string name="notifications_enabled">通知 \u0020已启用\u0020。运行时，通知将每秒更新一次，显示经过的时间、当前频率和迭代次数。</string>
     <string name="notifications_disabled">通知 \u0020已禁用\u0020。您可以启用通知，以便在运行时作为通知查看经过的时间、当前频率和迭代次数。</string>
     <string name="three_herz_classic">3 赫兹 (经典)</string>
-    <string name="schumann_resonance">7.83 赫兹 舒曼共振（最佳）</string>
+    <string name="schumann_resonance">7.83 赫兹舒曼共振</string>
     <string name="prevents_device_sleeping">防止设备在 3 赫兹 或 7.83 赫兹 操作期间进入睡眠模式。增加电池消耗。</string>
     <string name="iterations_zero_hz">0 次迭代（0 赫兹）</string>
     <string name="duration">持续时间</string>

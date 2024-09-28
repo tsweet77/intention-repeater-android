@@ -57,7 +57,7 @@
     <string name="notifications_enabled">సూచనలు సక్రియంగా ఉన్నాయి. ఇది పనిచేసేటప్పుడు, ప్రతి సెకనుకు సూచన సమయాన్ని, ప్రస్తుత ఫ్రీక్వెన్సీని మరియు పునరావృతాల సంఖ్యను నవీకరిస్తుంది.</string>
     <string name="notifications_disabled">సూచనలు నిలిపివేయబడ్డాయి. మీరు సూచనలను చల్లారు మరియు ఇది పనిచేసేటప్పుడు సమయాన్ని, ప్రస్తుత ఫ్రీక్వెన్సీని మరియు పునరావృతాల సంఖ్యను చూడవచ్చు.</string>
     <string name="three_herz_classic">3 Hz (క్లాసిక్)</string>
-    <string name="schumann_resonance">7.83 హర్ట్జ్ షూమాన్ రెసొనెన్స్ (అత్యుత్తమ)</string>
+    <string name="schumann_resonance">7.83 హెర్డ్జ్ షుమాన్ రెసొనన్స్</string>
     <string name="prevents_device_sleeping">3 హర్ట్జ్ లేదా 7.83 హర్ట్జ్ ఆపరేషన్ల సమయంలో పరికరాన్ని నిద్రపోవడానికి అడ్డుకుంటుంది. బ్యాటరీ వినియోగాన్ని పెంచుతుంది.</string>
     <string name="iterations_zero_hz">0 పునరావృతాలు (0 హర్ట్జ్)</string>
     <string name="duration">కాలం</string>

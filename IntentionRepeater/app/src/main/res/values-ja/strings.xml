@@ -57,7 +57,7 @@
     <string name="notifications_enabled">通知は\u0020有効\u0020です。実行中は、通知が毎秒更新され、経過時間、現在の周波数、および繰り返し回数が表示されます。</string>
     <string name="notifications_disabled">通知は\u0020無効\u0020です。通知を有効にして、実行中の経過時間、現在の周波数、および繰り返し回数を通知として表示することができます。</string>
     <string name="three_herz_classic">3 Hz (クラシック)</string>
-    <string name="schumann_resonance">7.83 ヘルツ シューマン共鳴（最適）</string>
+    <string name="schumann_resonance">7.83 Hz シューマン共鳴</string>
     <string name="prevents_device_sleeping">3 ヘルツまたは7.83 ヘルツの操作中にデバイスがスリープ状態になるのを防ぎます。バッテリーの使用が増加します。</string>
     <string name="iterations_zero_hz">0 イテレーション（0 ヘルツ）</string>
     <string name="duration">期間</string>

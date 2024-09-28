@@ -57,7 +57,7 @@
     <string name="notifications_enabled">அறிக்கைகள் செயல்படுத்தப்பட்டுள்ளன. இயக்கப்படும் போது, அறிவிப்பு ஒவ்வொரு வினாடிக்கும் மொத்த காலம், தற்போதைய அலைவரிசை மற்றும் மடக்கப்பட்ட எண்ணிக்கையைப் புதுப்பிக்கும்.</string>
     <string name="notifications_disabled">அறிக்கைகள் செயலற்றன. நீங்கள் அறிவிப்புகளை செயல்படுத்தி, இயக்கப்படும் போது மொத்த காலம், தற்போதைய அலைவரிசை மற்றும் மடக்கப்பட்ட எண்ணிக்கைகளைப் பார்க்கலாம்.</string>
     <string name="three_herz_classic">3 Hz (கிளாசிக்)</string>
-    <string name="schumann_resonance">7.83 ஹெர்ட்ஸ் சுஹ்மன் ஒலிப்பு (சிறந்தது)</string>
+    <string name="schumann_resonance">7.83 ஹர்ச் ஷூமான் ரிசோனன்ஸ்</string>
     <string name="prevents_device_sleeping">3 ஹெர்ட்ஸ் அல்லது 7.83 ஹெர்ட்ஸ் செயல்பாட்டின் போது சாதனத்தை தூங்கும் வரையறுக்கும். பேட்டரி பயன்பாட்டை அதிகரிக்கும்.</string>
     <string name="iterations_zero_hz">0 மடக்கங்கள் (0 ஹெர்ட்ஸ்)</string>
     <string name="duration">காலம்</string>

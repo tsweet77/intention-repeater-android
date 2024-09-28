@@ -57,7 +57,7 @@
     <string name="notifications_enabled">Taarifa zimesanidiwa. Wakati inapofanya kazi, taarifa itasasishwa kila sekunde na muda uliopita, mzunguko wa sasa, na idadi ya kurudiwa.</string>
     <string name="notifications_disabled">Taarifa zimezimwa. Unaweza kuziwashia taarifa ili kuona muda uliopita, mzunguko wa sasa, na idadi ya kurudiwa wakati inapokuwa ikifanya kazi kama taarifa.</string>
     <string name="three_herz_classic">3 Hz (Classic)</string>
-    <string name="schumann_resonance">7.83 Hz Resonansi ya Schumann (Inayopendekezwa)</string>
+    <string name="schumann_resonance">7.83 Hz Resonansi Schumann</string>
     <string name="prevents_device_sleeping">Huzuia kifaa kulala wakati wa shughuli za 3 Hz au 7.83 Hz. Inaongeza matumizi ya betri.</string>
     <string name="iterations_zero_hz">Kurudiwa 0 (0 Hz)</string>
     <string name="duration">Muda</string>

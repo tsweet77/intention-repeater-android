@@ -57,7 +57,7 @@
     <string name="notifications_enabled">सूचनायाः सक्रियाः। यदा सञ्चालितं अस्ति, सूचनायाः प्रतिसेकण्डं व्यतीतकालं, वर्तमानफ्रिक्वेन्सी, च पुनरावृत्तिप्रमाणं च अद्यतनं भविष्यति।</string>
     <string name="notifications_disabled">सूचनायाः निष्क्रियाः। यद्यपि सूचनायाः सक्रिययितुं शक्नुयात्, यदा सञ्चालितं अस्ति, व्यतीतकालं, वर्तमानफ्रिक्वेन्सी, च पुनरावृत्तिप्रमाणं दृश्यते।</string>
     <string name="three_herz_classic">3 हर्ट्ज (क्लासिक)</string>
-    <string name="schumann_resonance">7.83 हेर्त्झ शूमन् गूंज (सर्वश्रेष्ठम्)</string>
+    <string name="schumann_resonance">7.83 Hz शूमान गूंज</string>
     <string name="prevents_device_sleeping">यंत्रं 3 हेर्त्झ अथवा 7.83 हेर्त्झ क्रियायाम् निद्रायाम् अकल्पयति। बैटरीवापरं वर्धयति।</string>
     <string name="iterations_zero_hz">0 पुनरावृत्तयः (0 हेर्त्झ)</string>
     <string name="duration">कालावधिः</string>

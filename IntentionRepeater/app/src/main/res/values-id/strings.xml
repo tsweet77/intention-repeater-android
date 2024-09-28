@@ -57,7 +57,7 @@
     <string name="notifications_enabled">Notifikasi \u0020DIaktifkan\u0020. Saat berjalan, notifikasi akan diperbarui setiap detik dengan waktu yang berlalu, frekuensi saat ini, dan jumlah iterasi.</string>
     <string name="notifications_disabled">Notifikasi \u0020DINonaktifkan\u0020. Anda dapat mengaktifkan notifikasi untuk melihat waktu yang berlalu, frekuensi saat ini, dan jumlah iterasi saat berjalan sebagai notifikasi.</string>
     <string name="three_herz_classic">3 Hz (Klasik)</string>
-    <string name="schumann_resonance">7.83 Hz Resonansi Schumann (Optimal)</string>
+    <string name="schumann_resonance">7,83 Hz Resonansi Schumann</string>
     <string name="prevents_device_sleeping">Mencegah perangkat tidur selama operasi 3 Hz atau 7.83 Hz. Meningkatkan penggunaan baterai.</string>
     <string name="iterations_zero_hz">0 Iterasi (0 Hz)</string>
     <string name="duration">Durasi</string>
