@@ -57,7 +57,7 @@
     <string name="notifications_enabled">Powiadomienia są \u0020WŁĄCZONE\u0020. Podczas działania powiadomienie będzie aktualizowane co sekundę o upływający czas, bieżącą częstotliwość i liczbę iteracji.</string>
     <string name="notifications_disabled">Powiadomienia są \u0020WYŁĄCZONE\u0020. Możesz włączyć powiadomienia, aby zobaczyć upływający czas, bieżącą częstotliwość i liczbę iteracji, gdy działają jako powiadomienie.</string>
     <string name="three_herz_classic">3 Hz (Klasyczny)</string>
-    <string name="schumann_resonance">7.83 Hz Rezonsans Schumanna (Optymalny)</string>
+    <string name="schumann_resonance">7,83 Hz rezonans Schumanna</string>
     <string name="prevents_device_sleeping">Zapobiega uśpieniu urządzenia podczas operacji 3 Hz lub 7.83 Hz. Zwiększa zużycie baterii.</string>
     <string name="iterations_zero_hz">0 Iteracji (0 Hz)</string>
     <string name="duration">Czas trwania</string>

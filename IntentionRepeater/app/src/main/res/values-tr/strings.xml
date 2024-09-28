@@ -57,7 +57,7 @@
     <string name="notifications_enabled">Bildirimler \u0020AKTİF\u0020. Çalışırken bildirim her saniye geçen süre, mevcut frekans ve yineleme sayısı ile güncellenecektir.</string>
     <string name="notifications_disabled">Bildirimler \u0020PASİF\u0020. Bildirimleri etkinleştirerek çalışırken geçen süreyi, mevcut frekansı ve yineleme sayısını bir bildirim olarak görebilirsiniz.</string>
     <string name="three_herz_classic">3 Hz (Klasik)</string>
-    <string name="schumann_resonance">7.83 Hz Schumann Rezonansı (Optimal)</string>
+    <string name="schumann_resonance">7.83 Hz Schumann Rezonansı</string>
     <string name="prevents_device_sleeping">3 Hz veya 7.83 Hz işlemleri sırasında cihazın uykuya geçmesini önler. Pil tüketimini artırır.</string>
     <string name="iterations_zero_hz">0 Tekrar (0 Hz)</string>
     <string name="duration">Süre</string>

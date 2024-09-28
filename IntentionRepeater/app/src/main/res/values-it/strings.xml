@@ -57,7 +57,7 @@
     <string name="notifications_enabled">Le notifiche sono \u0020ABILITATE\u0020. Durante l\'esecuzione, la notifica verrà aggiornata ogni secondo con il tempo trascorso, la frequenza attuale e il numero di iterazioni.</string>
     <string name="notifications_disabled">Le notifiche sono \u0020DISABILITATE\u0020. Puoi abilitare le notifiche per visualizzare il tempo trascorso, la frequenza attuale e il numero di iterazioni quando è in esecuzione come notifica.</string>
     <string name="three_herz_classic">3 Hz (Classico)</string>
-    <string name="schumann_resonance">7.83 Hz Risonanza di Schumann (Ottimale)</string>
+    <string name="schumann_resonance">7,83 Hz Risonanza di Schumann</string>
     <string name="prevents_device_sleeping">Impedisce al dispositivo di entrare in modalità standby durante le operazioni a 3 Hz o 7.83 Hz. Aumenta l\'uso della batteria.</string>
     <string name="iterations_zero_hz">0 Iterazioni (0 Hz)</string>
     <string name="duration">Durata</string>

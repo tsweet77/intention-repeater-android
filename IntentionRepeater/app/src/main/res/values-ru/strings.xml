@@ -57,7 +57,7 @@
     <string name="notifications_enabled">Уведомления \u0020ВКЛЮЧЕНЫ\u0020. Во время работы уведомление будет обновляться каждую секунду с информацией о прошедшем времени, текущей частоте и количестве итераций.</string>
     <string name="notifications_disabled">Уведомления \u0020ВЫКЛЮЧЕНЫ\u0020. Вы можете включить уведомления, чтобы видеть прошедшее время, текущую частоту и количество итераций, когда оно работает как уведомление.</string>
     <string name="three_herz_classic">3 Гц (Классический)</string>
-    <string name="schumann_resonance">7.83 Гц Резонанс Шумана (Оптимально)</string>
+    <string name="schumann_resonance">7,83 Гц Резонанс Шумана</string>
     <string name="prevents_device_sleeping">Предотвращает переход устройства в спящий режим во время работы на 3 Гц или 7.83 Гц. Увеличивает использование батареи.</string>
     <string name="iterations_zero_hz">0 Итераций (0 Гц)</string>
     <string name="duration">Продолжительность</string>

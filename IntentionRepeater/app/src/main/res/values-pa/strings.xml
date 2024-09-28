@@ -57,7 +57,7 @@
     <string name="notifications_enabled">ਸੂਚਨਾਵਾਂ ਸੰਚਾਲਿਤ ਹਨ। ਚੱਲਦੇ ਸਮੇਂ ਵਿੱਚ, ਸੂਚਨਾ ਹਰ ਸਕਿੰਟ ਵਿੱਚ ਅਗੇਤ ਸਮਾਂ, ਮੌਜੂਦਾ ਫ੍ਰੀਕਵੰਸੀ ਅਤੇ ਅਧਿਆਇ ਦੀ ਗਿਣਤੀ ਨੂੰ ਅਪਡੇਟ ਕਰੇਗੀ।</string>
     <string name="notifications_disabled">ਸੂਚਨਾਵਾਂ ਬੰਦ ਹਨ। ਤੁਸੀਂ ਸੂਚਨਾਵਾਂ ਨੂੰ ਚਾਲੂ ਕਰ ਸਕਦੇ ਹੋ ਤਾਂ ਜੋ ਚੱਲਦੇ ਸਮੇਂ ਵਿੱਚ ਅਗੇਤ ਸਮਾਂ, ਮੌਜੂਦਾ ਫ੍ਰੀਕਵੰਸੀ, ਅਤੇ ਅਧਿਆਇ ਦੀ ਗਿਣਤੀ ਦੇਖ ਸਕੋ।</string>
     <string name="three_herz_classic">3 Hz (ਕਲਾਸਿਕ)</string>
-    <string name="schumann_resonance">7.83 ਹਰਟਜ਼ ਸ਼ੁਮਨ ਰੇਜ਼ੋਨੈਂਸ (ਉੱਤਮ)</string>
+    <string name="schumann_resonance">7.83 ਹਰਟਜ਼ ਸ਼ੂਮਾਨ ਗੂੰਜ</string>
     <string name="prevents_device_sleeping">3 ਹਰਟਜ਼ ਜਾਂ 7.83 ਹਰਟਜ਼ ਕਾਰਜਾਂ ਦੌਰਾਨ ਉਪਕਰਣ ਨੂੰ ਸੌਣ ਤੋਂ ਰੋਕਦਾ ਹੈ। ਬੈਟਰੀ ਦੀ ਵਰਤੋਂ ਵਧਾਈ ਜਾਂਦੀ ਹੈ।</string>
     <string name="iterations_zero_hz">0 ਦੌਰਾਨ (0 ਹਰਟਜ਼)</string>
     <string name="duration">ਅਵਧੀ</string>
