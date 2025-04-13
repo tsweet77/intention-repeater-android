@@ -28,7 +28,7 @@
 ## Usage
 
 1. **Enter Your Intention**: Type the text or intention you want to repeat in the input box.
-2. **Set Frequency**: Choose between 3 Hz (Classic), 7.83 Hz Schumann Resonance (Optimal) or Maximum Frequency for repeating intentions.
+2. **Set Frequency**: Choose between Once-per-Hour (Optimal), 3 Hz, 7.83 Hz Schumann Resonance or Maximum Frequency for repeating intentions.
 3. **Enable Power Boost**: Optionally, enable the power boost to use SHA-512 encoding for stronger manifestation.
 4. **Start Repeating**: Click the "Start" button to begin repeating your intention. The app will display real-time updates of elapsed time and iterations.
 5. **Stop Repeating**: Click the "Stop" button to stop the process.
