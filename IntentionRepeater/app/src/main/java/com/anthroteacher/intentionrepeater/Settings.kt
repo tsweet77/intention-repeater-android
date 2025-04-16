@@ -335,7 +335,7 @@ fun SettingsScreen(
 
         Button(
             onClick = {
-                val url = "http://multihasher-group.intentionrepeater.com"
+                val url = "https://multihasher.intentionrepeater.com"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 context.startActivity(intent)
             },

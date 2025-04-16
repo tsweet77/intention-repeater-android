@@ -115,7 +115,7 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.math.roundToLong
 
-const val version = "1.55.5"
+const val version = "1.56"
 private const val SETTINGS_REQUEST_CODE = 100
 private const val VOICE_INTENTION_REQUEST_CODE = 101
 
