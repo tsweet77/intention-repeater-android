@@ -1,6 +1,10 @@
 package com.anthroteacher.intentionrepeater
 
+import Intention
+import IntentionViewModel
 import android.Manifest.permission.POST_NOTIFICATIONS
+import android.R.attr.maxLines
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
@@ -25,9 +29,16 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,18 +54,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.AttachFile
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -69,23 +90,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -94,33 +120,40 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.anthroteacher.intentionrepeater.db.IntentionDBHelper
 import com.anthroteacher.intentionrepeater.ui.theme.IntentionRepeaterTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.bouncycastle.jcajce.provider.digest.SHA3
+import org.burnoutcrew.reorderable.*
 import java.io.InputStream
 import java.math.BigInteger
 import java.math.RoundingMode
-import java.security.MessageDigest
 import java.util.Locale
+import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
-const val version = "1.56"
+
+const val version = "2.0"
 private const val SETTINGS_REQUEST_CODE = 100
 private const val VOICE_INTENTION_REQUEST_CODE = 101
 
 class MainActivity : ComponentActivity() {
 
+    private val intentionViewModel: IntentionViewModel by viewModels()
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var isChangingConfigurations = false
     private var currentLanguage: String = "en"
@@ -225,6 +258,8 @@ class MainActivity : ComponentActivity() {
         if (!isChangingConfigurations && isFinishing) {
             val intent = Intent(applicationContext, TimerForegroundService::class.java)
             stopService(intent)
+
+            intentionViewModel.stopAllIntentions();
         }
 
         super.onDestroy()
@@ -279,27 +314,38 @@ fun Greeting(modifier: Modifier = Modifier) {
         context.resources.updateConfiguration(newConfig, context.resources.displayMetrics)
     }
     val viewModel:TimerViewModel = viewModel()
+    val intentionViewModel: IntentionViewModel = viewModel()
 
-    var selectedFrequency by rememberSaveable { mutableStateOf(sharedPref.getString("frequency", "1") ?: "1") }
-    var isBoostEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("boost_enabled", false)) }
+    var selectedFrequency by rememberSaveable { mutableStateOf("1") }
+    var isBoostEnabled by rememberSaveable { mutableStateOf( false) }
     var targetLength by remember { mutableLongStateOf(1L) }
     var time by remember { mutableStateOf("00:00:00") }
-    val timerRunning by viewModel.timerRunning.observeAsState(false)
+    var timerRunning by remember { mutableStateOf(false) }
     var formattedIterations by remember { mutableStateOf(context.getString(R.string.iterations_zero_hz)) }
     var formattedIterationsCount by remember { mutableStateOf(context.getString(R.string.iterations_zero_hz)) }
-    var intention by remember { mutableStateOf(sharedPref.getString("intention", "") ?: "") }
+    var intention by remember { mutableStateOf( "") }
     val focusManager = LocalFocusManager.current
-    val savedSliderPosition = sharedPref.getFloat("sliderPosition", 0f)
-    var sliderPosition by remember { mutableFloatStateOf(savedSliderPosition) }
+    var sliderPosition by remember { mutableFloatStateOf(0f) }
     val fiftyPercentOfFreeMemory = remember {
         Runtime.getRuntime().let { it.maxMemory() - (it.totalMemory() - it.freeMemory()) } * 0.5
     }
+    val intentions = intentionViewModel.tabs
+
     val scrollState = rememberScrollState()
-    var multiplier by remember { mutableStateOf(0L) }
+//    var multiplier by remember { mutableStateOf(0L) }
     var isIntentionProcessed by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
     // Initialize `isKeepAwakeEnabled` with a default value, saving its state across recompositions
-    var isKeepAwakeEnabled by rememberSaveable { mutableStateOf(sharedPref.getBoolean("keep_awake_enabled", false)) }
+    var isKeepAwakeEnabled by rememberSaveable { mutableStateOf(false) }
+    var selectedTabId by remember { mutableStateOf(intentions.first().id) }
+    var selectedTab =intentions.first { it.id==selectedTabId }
+
+    intention=selectedTab.intention;
+    sliderPosition=selectedTab.multiplier.toFloat();
+    isKeepAwakeEnabled=selectedTab.awakeDevice;
+    selectedFrequency=selectedTab.frequency;
+    isBoostEnabled=selectedTab.boostPower;
+    timerRunning=selectedTab.timerRunning;
 
 
     val loadingText=context.getString(R.string.loading_intention)
@@ -311,6 +357,8 @@ fun Greeting(modifier: Modifier = Modifier) {
             uri?.let {
                 val hashedValue = hashFileContent(context, it)
                 intention += hashedValue // Append the hash to the intention text box
+                selectedTab.intention=intention;
+                intentionViewModel.updateIntention(selectedTab);
             }
         }
     )
@@ -326,6 +374,9 @@ fun Greeting(modifier: Modifier = Modifier) {
                 val savedAudioHash = sharedPref.getString("audioHash", "").toString()
                 Log.d("TESTH",savedAudioHash);
                 intention += savedAudioHash
+
+                selectedTab.intention=intention;
+                intentionViewModel.updateIntention(selectedTab);
             }
         }
     )
@@ -337,6 +388,70 @@ fun Greeting(modifier: Modifier = Modifier) {
     val onRecordVoiceIntentionClicked={
         val intent = Intent(context, RecordVoiceIntentionActivity::class.java)
         audioRecordLauncher.launch(intent)
+    }
+
+    val onAddClick={
+        val id= intentionViewModel.addIntention(Intention(
+            title = "",
+            intention = "",
+            multiplier = 0.0,
+            frequency = "1",
+            awakeDevice = false,
+            boostPower = true,
+            timerStartedAt = 0,
+            iterationCompleted = 0.0,
+            iterationCount = "",
+            timerRunning = false,
+            isNotification = false,
+            targetLength = 0
+        ))
+
+
+        selectedTabId=id.toInt()
+        selectedTab=intentions.first{it.id==selectedTabId}
+        intention=selectedTab.intention;
+        sliderPosition=selectedTab.multiplier.toFloat();
+        isKeepAwakeEnabled=selectedTab.awakeDevice;
+        selectedFrequency=selectedTab.frequency;
+        isBoostEnabled=selectedTab.boostPower;
+        timerRunning=selectedTab.timerRunning;
+        targetLength=selectedTab.targetLength;
+
+        formattedIterations=context.getString(R.string.iterations_zero_hz)
+        time = "00:00:00"
+
+        if(intentionViewModel.getStartIntentions().isNotEmpty()){
+            val intent = Intent(context, TimerForegroundService::class.java)
+            intent.putExtra("selectedTabId",selectedTabId);
+            context.startService(intent)
+        }
+    }
+
+    val onDeleteClick={
+        intentionViewModel.deleteIntention(selectedTabId)
+        selectedTabId=intentions.first().id
+        selectedTab=intentions.first()
+
+        intention=selectedTab.intention;
+        sliderPosition=selectedTab.multiplier.toFloat();
+        isKeepAwakeEnabled=selectedTab.awakeDevice;
+        selectedFrequency=selectedTab.frequency;
+        isBoostEnabled=selectedTab.boostPower;
+        timerRunning=selectedTab.timerRunning;
+        targetLength=selectedTab.targetLength;
+
+        formattedIterations=context.getString(R.string.iterations_zero_hz)
+        time = "00:00:00"
+
+        if(intentionViewModel.getStartIntentions().isNotEmpty()){
+            val intent = Intent(context, TimerForegroundService::class.java)
+            intent.putExtra("selectedTabId",selectedTabId);
+            context.startService(intent)
+        }
+    }
+
+    val onNotificationClick={
+        intentionViewModel.changeNotificationIntention(selectedTabId)
     }
 
     val maxMemoryUsageMB = 100f // Set the maximum allowed memory usage to 100 MB
@@ -352,19 +467,32 @@ fun Greeting(modifier: Modifier = Modifier) {
             }
     ) {
         MainContent(
+            tabList = intentions,
             selectedFrequency = selectedFrequency,
             intention = intention,
-            onIntentionChange = { intention = it },
+            onIntentionChange = {
+                intention = it
+                selectedTab.intention=intention;
+                intentionViewModel.updateIntention(selectedTab);
+                                },
             timerRunning = timerRunning,
             isBoostEnabled = isBoostEnabled,
-            onBoostChange = { isBoostEnabled = it },
+            onBoostChange = {
+                isBoostEnabled = it
+                selectedTab.boostPower=isBoostEnabled;
+                intentionViewModel.updateIntention(selectedTab);
+                            },
             onFrequencyChange = { newFrequency ->
                 selectedFrequency = newFrequency
+                selectedTab.frequency=selectedFrequency;
+                intentionViewModel.updateIntention(selectedTab);
             },
             sliderPosition = sliderPosition,
             onSliderPositionChange = { newValue ->
                 sliderPosition = newValue.roundToLong().toFloat()
-                sharedPref.edit().putFloat("sliderPosition", sliderPosition).apply()
+//                sharedPref.edit().putFloat("sliderPosition", sliderPosition).apply()
+                selectedTab.multiplier=sliderPosition.toDouble();
+                intentionViewModel.updateIntention(selectedTab);
             },
             time = time,
             formattedIterations = formattedIterations,
@@ -372,16 +500,27 @@ fun Greeting(modifier: Modifier = Modifier) {
             onStartStopButtonClick = {
                 focusManager.clearFocus()
 
-                if (timerRunning) {
-                    viewModel.setTimerRunning(false)
-                    val intent = Intent(context, TimerForegroundService::class.java)
-                    context.stopService(intent)
+                Log.d("TERS","Start stop clicked");
+                if (selectedTab.timerRunning) {
+                    timerRunning=false;
+
+                    selectedTab.timerRunning=false;
+                    selectedTab.timerStartedAt=0;
+                    selectedTab.iterationCompleted=0.0;
+                    selectedTab.targetLength=0;
+                    selectedTab.iterationCount="";
+                    intentionViewModel.updateIntention(selectedTab);
+                    Log.d("TERS","Timer stopped "+selectedTab);
+
+                    if(intentionViewModel.getStartIntentions().isEmpty()){
+                        val intent = Intent(context, TimerForegroundService::class.java)
+                        context.stopService(intent)
+                    }
 
                     formattedIterations = context.getString(R.string.finished,formattedIterationsCount)
                 } else {
                     formattedIterations = loadingText
                     time = "00:00:00"
-                    multiplier = 0
                     targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
 
 
@@ -394,22 +533,34 @@ fun Greeting(modifier: Modifier = Modifier) {
                         sliderPosition = maxMemoryUsageMB
                     }
                     targetLength = sliderPosition.roundToLong() * 1024 * 1024 / 4
-                    sharedPref.edit().putString("intention", intention).apply()
-                    sharedPref.edit().putString("frequency", selectedFrequency).apply()
-                    sharedPref.edit().putBoolean("boost_enabled", isBoostEnabled).apply()
-                    sharedPref.edit().putBoolean("keep_awake_enabled", isKeepAwakeEnabled).apply() // Ensure it saves state properly
-                    viewModel.setTimerRunning(true)
+//                    sharedPref.edit().putString("intention", intention).apply()
+//                    sharedPref.edit().putString("frequency", selectedFrequency).apply()
+//                    sharedPref.edit().putBoolean("boost_enabled", isBoostEnabled).apply()
+//                    sharedPref.edit().putBoolean("keep_awake_enabled", isKeepAwakeEnabled).apply() // Ensure it saves state properly
+
+                    selectedTab.boostPower=isBoostEnabled;
+                    selectedTab.awakeDevice=isKeepAwakeEnabled;
+                    selectedTab.timerRunning=true;
+                    selectedTab.targetLength=targetLength;
+                    selectedTab.timerStartedAt=System.nanoTime()
+                    selectedTab.lastSecond=System.nanoTime()
+                    selectedTab.targetLength=targetLength;
+
+                    if(intentionViewModel.getStartIntentions().isEmpty()){
+                        selectedTab.isNotification=true;
+                        intentionViewModel.setNotificationIntention(selectedTab.id);
+                    }
+
+                    intentionViewModel.updateIntention(selectedTab);
+
+                    timerRunning=true;
                     isIntentionProcessed = true
 
+                    Log.d("TERS","Timer started "+selectedTab.timerRunning);
 
                     val intent = Intent(context, TimerForegroundService::class.java)
-                    intent.putExtra("intention",intention);
-                    intent.putExtra("targetLength",targetLength);
-                    intent.putExtra("isBoostEnabled", isBoostEnabled)
-                    intent.putExtra("timerRunning", timerRunning)
-                    intent.putExtra("selectedFrequency", selectedFrequency)
-                    intent.putExtra("isKeepAwakeEnabled", isKeepAwakeEnabled) // Pass keep awake state to the service
-
+                    intent.putExtra("isInit",true);
+                    intent.putExtra("selectedTabId",selectedTabId);
                     context.startService(intent)
                 }
             },
@@ -417,9 +568,15 @@ fun Greeting(modifier: Modifier = Modifier) {
                 focusManager.clearFocus()
                 formattedIterations = zeroIteration
                 time = "00:00:00"
+                selectedTab.timerStartedAt=0;
+                selectedTab.timerRunning=false;
+                intentionViewModel.updateIntention(selectedTab);
             },
             onInsertFileClick = handleInsertFileClick, // Pass the file selection logic
             onRecordVoiceIntentionClicked= onRecordVoiceIntentionClicked,
+            onAddClick = onAddClick,
+            onDeleteClick = onDeleteClick,
+            onNotificationClick = onNotificationClick,
             scrollState = scrollState,
             expanded = expanded,
             onExpandChange = {
@@ -428,7 +585,30 @@ fun Greeting(modifier: Modifier = Modifier) {
             isKeepAwakeEnabled = isKeepAwakeEnabled,
             onKeepAwakeChange = { newValue ->
                 isKeepAwakeEnabled = newValue
-                sharedPref.edit().putBoolean("keep_awake_enabled", newValue).apply()
+//                sharedPref.edit().putBoolean("keep_awake_enabled", newValue).apply()
+                selectedTab.awakeDevice=newValue;
+                intentionViewModel.updateIntention(selectedTab);
+            },
+            selectedTabId = selectedTabId,
+            onTabSelected = {
+                selectedTabId=it
+                selectedTab=intentions.first{it.id==selectedTabId}
+                intention=selectedTab.intention;
+                sliderPosition=selectedTab.multiplier.toFloat();
+                isKeepAwakeEnabled=selectedTab.awakeDevice;
+                selectedFrequency=selectedTab.frequency;
+                isBoostEnabled=selectedTab.boostPower;
+                timerRunning=selectedTab.timerRunning;
+                targetLength=selectedTab.targetLength;
+
+                formattedIterations=context.getString(R.string.iterations_zero_hz)
+                time = "00:00:00"
+
+                if(intentionViewModel.getStartIntentions().isNotEmpty()){
+                    val intent = Intent(context, TimerForegroundService::class.java)
+                    intent.putExtra("selectedTabId",selectedTabId);
+                    context.startService(intent)
+                }
             }
         )
     }
@@ -438,11 +618,19 @@ fun Greeting(modifier: Modifier = Modifier) {
             // Get extra data included in the Intent
 
             if(intent.hasExtra("stopTimer")){
-                viewModel.setTimerRunning(false)
-                val intents = Intent(context, TimerForegroundService::class.java)
-                context!!.stopService(intents)
+                timerRunning=false;
+//                val intents = Intent(context, TimerForegroundService::class.java)
+//                context!!.stopService(intents)
 
-                formattedIterations = context.getString(R.string.finished,formattedIterationsCount)
+                selectedTab.timerRunning=false;
+                selectedTab.timerStartedAt=0;
+                selectedTab.iterationCount="";
+                selectedTab.iterationCompleted=0.0;
+                intentionViewModel.updateIntention(selectedTab);
+
+                formattedIterations = context!!.getString(R.string.finished,formattedIterationsCount)
+
+                intentionViewModel.loadTabs();
             }
 
             if(timerRunning){
@@ -480,21 +668,131 @@ fun hashFileContent(context: Context, uri: Uri): String {
     var inputStream: InputStream? = null
     return try {
         inputStream = context.contentResolver.openInputStream(uri)
-        inputStream?.use { stream ->
-            val bytes = stream.readBytes()
-            val digest = SHA3.Digest512().digest(bytes)
-            digest.joinToString("") { "%02x".format(it) }.uppercase()
-        } ?: ""
+        val buffer = ByteArray(8192) // 8KB buffer
+        val digest = SHA3.Digest512()
+        var bytesRead: Int
+
+        inputStream?.let { stream ->
+            while (stream.read(buffer).also { bytesRead = it } != -1) {
+                digest.update(buffer, 0, bytesRead)
+            }
+        }
+
+        digest.digest().joinToString("") { "%02x".format(it) }.uppercase()
     } catch (e: Exception) {
         e.printStackTrace()
-        "" // Return empty string in case of any exception
+        ""
     } finally {
         inputStream?.close()
     }
 }
 
+
+@Composable
+fun SimpleTabRow(
+    tabs: List<Intention>,
+    selectedTabId: Int,
+    onTabSelected: (Int) -> Unit
+) {
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(
+            onClick = {
+                coroutineScope.launch {
+                    val targetIndex = (listState.firstVisibleItemIndex - 1).coerceAtLeast(0)
+                    listState.animateScrollToItem(targetIndex)
+                }
+            },
+            modifier = Modifier.size(18.dp),
+            enabled = listState.canScrollBackward
+        ) {
+            Icon(Icons.Default.ArrowBack, contentDescription = "Scroll Left", tint = Color.White)
+        }
+
+        LazyRow(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 4.dp),
+            state = listState
+        ) {
+            itemsIndexed(tabs) { index, tab ->
+                val isSelected = tab.id == selectedTabId
+                val backgroundColor = if (isSelected) Color(0xFFD0E8FF) else Color.White
+                val textColor = if (isSelected) Color.Black else Color.DarkGray
+
+
+                Card(
+                    modifier = Modifier
+                        .width(60.dp)
+                        .padding(2.dp)
+                        .clickable { onTabSelected(tab.id) },
+                    colors = CardDefaults.cardColors(containerColor = backgroundColor),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = (index+1).toString(),
+                            fontSize = 12.sp,
+                            color = textColor,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        if (tab.isNotification) {
+                            Spacer(modifier = Modifier.width(2.dp))
+                            Icon(
+                                imageVector = Icons.Default.Notifications,
+                                contentDescription = "Selected Tab",
+                                tint = Color.Black,
+                                modifier = Modifier.size(12.dp)
+                            )
+                        }
+
+                        if (tab.timerRunning) {
+                            Spacer(modifier = Modifier.width(2.dp))
+                            Icon(
+                                imageVector = Icons.Default.FiberManualRecord,
+                                contentDescription = "Timer Running",
+                                tint = Color(0xFF4CAF50), // Green color
+                                modifier = Modifier.size(8.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        IconButton(
+            onClick = {
+                coroutineScope.launch {
+                    val targetIndex = (listState.firstVisibleItemIndex + 1).coerceAtMost(tabs.lastIndex)
+                    listState.animateScrollToItem(targetIndex)
+                }
+            },
+            modifier = Modifier.size(18.dp),
+            enabled = listState.canScrollForward
+        ) {
+            Icon(Icons.Default.ArrowForward, contentDescription = "Scroll Right", tint = Color.White)
+        }
+    }
+}
+
+
 @Composable
     private fun MainContent(
+    tabList: List<Intention>,
     selectedFrequency: String,
     intention: String,
     onFrequencyChange: (String) -> Unit,
@@ -511,13 +809,19 @@ fun hashFileContent(context: Context, uri: Uri): String {
     onResetButtonClick: () -> Unit,
     onInsertFileClick: () -> Unit,
     onRecordVoiceIntentionClicked: ()->Unit,
+    onAddClick: ()->Unit,
+    onDeleteClick: () -> Unit,
+    onNotificationClick: () -> Unit,
     scrollState: ScrollState,
     expanded: Boolean,
     onExpandChange: (Boolean) -> Unit,
     isKeepAwakeEnabled: Boolean, // Add parameter for keep awake state
-    onKeepAwakeChange: (Boolean) -> Unit // Callback for changing the keep awake state
+    onKeepAwakeChange: (Boolean) -> Unit, // Callback for changing the keep awake state
+    selectedTabId : Int,
+    onTabSelected: (Int) -> Unit
 ) {
     val context = LocalContext.current // Correctly obtain the context in Compose
+    val selectedTab=tabList.first { it.id == selectedTabId };
 
     Column(
         modifier = Modifier
@@ -527,12 +831,17 @@ fun hashFileContent(context: Context, uri: Uri): String {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppTitle()
+        SimpleTabRow(
+            tabs = tabList,
+            selectedTabId = selectedTabId,
+            onTabSelected = onTabSelected
+        )
         IntentionTextField(
             intention = intention,
             onIntentionChange = onIntentionChange,
             timerRunning = timerRunning
         )
-        FileVoiceSelector(timerRunning=timerRunning,onInsertFileClick = onInsertFileClick, onRecordVoiceIntentionClicked = onRecordVoiceIntentionClicked)
+        FileVoiceSelector(timerRunning=timerRunning,onInsertFileClick = onInsertFileClick, onRecordVoiceIntentionClicked = onRecordVoiceIntentionClicked, onAddClick = onAddClick,onDeleteClick=onDeleteClick,onNotificationClick=onNotificationClick,selectedTab=selectedTab)
         MultiplierSlider(
             sliderPosition = sliderPosition,
             onSliderPositionChange = onSliderPositionChange,
@@ -680,24 +989,89 @@ private fun IntentionTextField(
 
 
 @Composable
-private fun FileVoiceSelector(timerRunning: Boolean, onInsertFileClick: () -> Unit,onRecordVoiceIntentionClicked: () -> Unit){
+private fun FileVoiceSelector(
+    timerRunning: Boolean,
+    // Add onClick handlers for the new icons
+    // Keep existing handlers
+    onInsertFileClick: () -> Unit,
+    onRecordVoiceIntentionClicked: () -> Unit,
+    onAddClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onNotificationClick: () -> Unit,
+    selectedTab:Intention
+) {
+    val viewModel: IntentionViewModel = viewModel();
+
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
+        // Remove Arrangement.End, Spacer will handle positioning
+        // Add verticalAlignment for consistency
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        // --- Left Icons ---
+        IconButton(
+            onClick = onAddClick,
+            modifier = Modifier.size(40.dp)
+        ) {
+            Icon(
+                Icons.Filled.Add,
+                contentDescription = "Add",
+                // Apply tint logic consistently
+                tint = Color.White
+            )
+        }
+        if(viewModel.tabs.size>1){
+            IconButton(
+                onClick = onDeleteClick,
+                enabled = !timerRunning,
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    Icons.Filled.Delete,
+                    contentDescription = "Delete",
+                    tint = if (!timerRunning) Color.White else Color.Gray
+                )
+            }
+        }
+
+        if(!selectedTab.isNotification){
+            IconButton(
+                onClick = onNotificationClick,
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    Icons.Filled.Notifications,
+                    contentDescription = "Notifications",
+                    tint = Color.White
+                )
+            }
+        }
+
+        // --- Spacer to push next items to the end ---
+        Spacer(modifier = Modifier.weight(1f))
+
+        // --- Right Icons (Existing) ---
         IconButton(
             onClick = onInsertFileClick,
             enabled = !timerRunning,
-            modifier = Modifier.size(52.dp)
+            modifier = Modifier.size(40.dp)
         ) {
-            Icon(Icons.Filled.UploadFile,  contentDescription = "Load File", tint = if(!timerRunning) Color.White else Color.Gray)
+            Icon(
+                Icons.Filled.UploadFile,
+                contentDescription = "Load File",
+                tint = if (!timerRunning) Color.White else Color.Gray
+            )
         }
         IconButton(
             onClick = onRecordVoiceIntentionClicked,
             enabled = !timerRunning,
-            modifier = Modifier.size(52.dp)
+            modifier = Modifier.size(40.dp)
         ) {
-            Icon(Icons.Filled.Mic,  contentDescription = "Load File", tint = if(!timerRunning) Color.White else Color.Gray)
+            Icon(
+                Icons.Filled.Mic,
+                contentDescription = "Record Voice", // Updated content description slightly
+                tint = if (!timerRunning) Color.White else Color.Gray
+            )
         }
     }
 }
@@ -1214,14 +1588,32 @@ class TimerForegroundService : Service() {
 
     private lateinit var sharedPreferences:SharedPreferences
     private lateinit var context:Context;
+    private lateinit var  dbHelper: IntentionDBHelper
 
     override fun onCreate() {
         super.onCreate()
+        dbHelper=IntentionDBHelper(applicationContext)
         sharedPreferences=getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
         context=this;
 
+//        val filter = IntentFilter("com.example.SEND_TO_SERVICE")
+//        ContextCompat.registerReceiver(
+//            context,
+//            dataReceiver,
+//            filter,
+//            ContextCompat.RECEIVER_NOT_EXPORTED
+//        )
+
         setLocale(context, savedLanguage)
+    }
+
+
+    private val dataReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val data = intent?.getStringExtra("message_key")
+            Log.d("MyService", "Received via Broadcast: $data")
+        }
     }
 
     fun updateLocale(locale: Locale) {
@@ -1233,100 +1625,141 @@ class TimerForegroundService : Service() {
         context.resources.updateConfiguration(config, context.resources.displayMetrics)
     }
 
+    private var intentionList = mutableListOf<Intention>();
+
     private var timerRunning = false
-    private var multiplier: Long = 0L
-    private var selectedFrequency: String = "0"
-    private var newIntention: String = ""
-    private var isBoostEnabled: Boolean = false
-
-    private var elapsedTime = 0L
     private var durationSec=0L
-    private var iterations = 0.0.toFloat()
-    private var startTime = System.nanoTime()
-    private var lastTime="00:00:00";
-    private var mutableIntention = newIntention
-
-    private var updatedIterationCount="";
+    private var selectedTabId:Int=-1;
+    private val listLock = Any()
 
 
+    @SuppressLint("WakelockTimeout")
     @OptIn(DelicateCoroutinesApi::class)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
         val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
 
+        Log.d("TESTR","IN onstart commm");
         // Use safe call operator and provide default values
         intent?.let { safeIntent ->
-            val notification = createNotification(context.getString(R.string.intention_repeater_header)+" 00:00:00", context.getString(R.string.loading_intention),true)
-            startForeground(NOTIFICATION_ID, notification)
 
-            // Acquire a partial wake lock
-            val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
-            wakeLock = powerManager.newWakeLock(
-                PowerManager.PARTIAL_WAKE_LOCK,
-                "TimerForegroundService::WakeLock"
-            )
+                selectedTabId=safeIntent.getIntExtra("selectedTabId",-1);
+                val notification = createNotification(context.getString(R.string.intention_repeater_header)+" 00:00:00", context.getString(R.string.loading_intention),true)
+                startForeground(NOTIFICATION_ID, notification)
 
-            durationSec=sharedPreferences.getLong("Duration",0L) * 1000
+                // Acquire a partial wake lock
+                val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+                wakeLock = powerManager.newWakeLock(
+                    PowerManager.PARTIAL_WAKE_LOCK,
+                    "TimerForegroundService::WakeLock"
+                )
 
-            isBoostEnabled = intent.getBooleanExtra("isBoostEnabled", false)
-            timerRunning = intent.getBooleanExtra("timerRunning", true)
-            selectedFrequency = intent.getStringExtra("selectedFrequency").toString()
-            val keepAwake = intent.getBooleanExtra("isKeepAwakeEnabled", false)
+                durationSec=sharedPreferences.getLong("Duration",0L) * 1000
 
-            val targetLength=intent.getLongExtra("targetLength",0);
-            val intention=intent.getStringExtra("intention");
+            synchronized(listLock) {
+                intentionList.removeAll { !it.timerRunning }
 
+                val fetchedIntentions = dbHelper.getStartIntentions()
+                val existingIds = intentionList.map { it.id }.toSet()
+                val newIntentions = fetchedIntentions.filter { it.id !in existingIds }
 
-            val intentionBuilder = StringBuilder()
-            var localMultiplier = 0L
+                for (item in newIntentions) {
+                    val intentionBuilder = StringBuilder()
+                    var localMultiplier = 0L
 
-            if (targetLength > 0) {
-                while (intentionBuilder.length < targetLength) {
-                    intentionBuilder.append(intention)
-                    localMultiplier++
+                    if (item.targetLength > 0) {
+                        while (intentionBuilder.length < item.targetLength) {
+                            intentionBuilder.append(item.intention)
+                            localMultiplier++
+                        }
+                    } else {
+                        localMultiplier = 1
+                        intentionBuilder.append(item.intention)
+                    }
+
+                    item.newIntention = intentionBuilder.toString()
+                    item.newMultiplier = localMultiplier
                 }
-            } else {
-                localMultiplier = 1
-                intentionBuilder.append(intention)
+
+                intentionList.addAll(newIntentions)
             }
 
-            newIntention = intentionBuilder.toString()
-            multiplier = localMultiplier
+//                intentionList.removeAll { it.timerRunning == false }
+//
+//                val fetchedIntentions = dbHelper.getStartIntentions()
+//
+//                val existingIds = intentionList.map { it.id }.toSet()
+//                val newIntentions = fetchedIntentions.filter { it.id !in existingIds }
+//
+//                for (item in newIntentions) {
+//                    val intentionBuilder = StringBuilder()
+//                    var localMultiplier = 0L
+//
+//                    if (item.targetLength > 0) {
+//                        while (intentionBuilder.length < item.targetLength) {
+//                            intentionBuilder.append(item.intention)
+//                            localMultiplier++
+//                        }
+//                    } else {
+//                        localMultiplier = 1
+//                        intentionBuilder.append(item.intention)
+//                    }
+//
+//                    item.newIntention = intentionBuilder.toString()
+//                    item.newMultiplier = localMultiplier
+//                }
+//
+//                intentionList.addAll(newIntentions)
 
-            startTime = System.nanoTime()
+//                intentionList=dbHelper.getStartIntentions().toMutableStateList();
+//
+//                for (item in intentionList) {
+//                    val intentionBuilder = StringBuilder()
+//                    var localMultiplier = 0L
+//
+//                    if (item.targetLength > 0) {
+//                        while (intentionBuilder.length < item.targetLength) {
+//                            intentionBuilder.append(item.intention)
+//                            localMultiplier++
+//                        }
+//                    } else {
+//                        localMultiplier = 1
+//                        intentionBuilder.append(item.intention)
+//                    }
+//
+//                    item.newIntention = intentionBuilder.toString()
+//                    item.newMultiplier = localMultiplier
+//                }
 
 
-            // Determine the wakelock duration based on the frequency and keep awake state
-            if (selectedFrequency == "0") {
-                // Always use a 10-minute wakelock if selectedFrequency is "0"
-                wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */)
-            } else if (keepAwake) {
-                // Indefinite wakelock if "Keep Device Awake" is enabled
-                wakeLock.acquire()
-            } else {
-                // Fallback wakelock for 10 minutes
-                wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */)
-            }
-
-            val intentUpdate = Intent("IterationUpdate")
-
-            if (timerRunning) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    startTimer(onTimeUpdate = {
-                        intentUpdate.putExtra("time", it)
-
-                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
-                    }, onIterationsUpdate ={ s: String, s1: String ->
-                        intentUpdate.putExtra("iterations", s)
-                        intentUpdate.putExtra("iterationsCount",s1);
-
-                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
-                    }, onTimerStop = {
-                        intentUpdate.putExtra("stopTimer",true);
-
-                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
-                    })
+                if(isWakeEnabled()){
+                    wakeLock.acquire();
+                }else{
+                    wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */)
                 }
+
+                val intentUpdate = Intent("IterationUpdate")
+
+                timerRunning=dbHelper.getStartIntentions().isNotEmpty();
+                Log.d("TERS","Timer in command "+timerRunning);
+                if (dbHelper.getStartIntentions().size==1 && safeIntent.hasExtra("isInit")) {
+                    Log.d("TERR","Started intention");
+                    GlobalScope.launch(Dispatchers.Default) {
+                        startTimer(onTimeUpdate = {
+                            intentUpdate.putExtra("time", it)
+
+                            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
+                        }, onIterationsUpdate ={ s: String, s1: String ->
+                            intentUpdate.putExtra("iterations", s)
+                            intentUpdate.putExtra("iterationsCount",s1);
+
+                            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
+                        }, onTimerStop = {
+                            intentUpdate.putExtra("stopTimer",true);
+
+                            LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentUpdate)
+                        })
+                    }
             }
         } ?: run {
             stopSelf()
@@ -1335,114 +1768,327 @@ class TimerForegroundService : Service() {
         return START_STICKY
     }
 
+    private fun isWakeEnabled(): Boolean {
+        return dbHelper.getStartIntentions().any { it.awakeDevice }
+    }
 
-    suspend fun startTimer(onTimeUpdate: (String) -> Unit, onIterationsUpdate: (String,String) -> Unit,onTimerStop:(Boolean)->Unit){
-        var iterationsInLastSecond = 0.0.toFloat()
-        var lastSecond = System.nanoTime()
-        var isFirstIterationSet=false;
+//    suspend fun startTimer(
+//        onTimeUpdate: (String) -> Unit,
+//        onIterationsUpdate: (String, String) -> Unit,
+//        onTimerStop: (Boolean) -> Unit
+//    ) {
+//        Log.d("TESTF","Timer start");
+//        while (timerRunning) {
+//            val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
+//            if (savedLanguage != context.resources.configuration.locale.toString()) {
+//                updateLocale(Locale(savedLanguage))
+//            }
+//
+//            val now = System.nanoTime()
+//
+//            val snapshotList = synchronized(listLock) { intentionList.toList() }
+//            for (intention in snapshotList) {
+//                Log.d("TESTF","Intention loop");
+//                Log.d("TESTF",intention.intention);
+//                if (!intention.timerRunning) continue
+//
+//                val loopStart = System.nanoTime()
+//
+//                if (intention.boostPower) {
+//                    intention.mutableIntention =
+//                        sha512("${intention.mutableIntention}: ${intention.newIntention}")
+//                }
+//
+//                val freq = intention.frequency.toDoubleOrNull() ?: continue
+//                val shouldDelay = freq in listOf(1.0, 3.0, 7.83)
+//
+//                if (!shouldDelay) {
+//                    intention.iterationsInLastSecond++
+//                } else {
+//                    val timeTakenNs = System.nanoTime() - loopStart
+//                    val delayMs = (1.0 / freq) * 1000.0
+//                    val remainingDelayMs = delayMs - (timeTakenNs / 1_000_000.0)
+//                    preciseDelay(remainingDelayMs)
+//                }
+//
+//                if (intention.frequency == "1" && !intention.isFirstIterationSet) {
+//                    intention.iterationsInLastSecond = 1.0
+//                    intention.iterations += 1.0 * intention.multiplier
+//                    intention.isFirstIterationSet = true
+//                }
+//
+//                if (now - intention.lastSecond >= 1_000_000_000L) {
+//                    val ss=dbHelper.getIntentionById(intention.id);
+//                    intention.timerRunning=ss.timerRunning;
+//                    if (!intention.timerRunning) continue
+//
+//                    Log.d("TESTF","Inside one second loop");
+//
+//                    intention.lastSecond=now;
+//
+//                    val freq = intention.frequency.toDoubleOrNull() ?: continue
+//
+//                    when (freq) {
+//                        3.0 -> intention.iterationsInLastSecond = 3.0
+//                        7.83 -> intention.iterationsInLastSecond = 7.83
+//                        1.0 -> {
+//                            val elapsedSec =
+//                                (System.nanoTime() - intention.timerStartedAt) / 1_000_000_000L
+//                            intention.iterationsInLastSecond =
+//                                if ((elapsedSec % 3600).toInt() == 0) 1.0 else 0.0
+//                        }
+//                    }
+//
+//                    intention.elapsedTime =
+//                        (System.nanoTime() - intention.timerStartedAt) / 1_000_000L
+//                    intention.iterations += intention.iterationsInLastSecond * intention.multiplier
+//
+//                    val hours = intention.elapsedTime / 3600000
+//                    val minutes = (intention.elapsedTime / 60000) % 60
+//                    val seconds = (intention.elapsedTime / 1000) % 60
+//
+//                    val updatedTime =
+//                        String.format(Locale.ENGLISH, "%02d:%02d:%02d", hours, minutes, seconds)
+//                    intention.lastTime = updatedTime
+//
+//                    Log.d("TESTF",updatedTime);
+//
+//                    val iterationString = context.getString(
+//                        R.string.str_iterations,
+//                        formatLargeNumber(
+//                            context,
+//                            BigInteger.valueOf(intention.iterations.toLong())
+//                        ),
+//                        when (freq) {
+//                            7.83 -> formatDecimalNumber(
+//                                context,
+//                                7.83f * intention.multiplier.toFloat()
+//                            )
+//
+//                            3.0 -> formatLargeFreq(context, 3f * intention.multiplier.toFloat())
+//                            1.0 -> formatLargeNumber(
+//                                context,
+//                                BigInteger.valueOf((1f * intention.multiplier.toFloat()).toLong())
+//                            ) + "/hr"
+//
+//                            else -> formatLargeFreq(
+//                                context,
+//                                (intention.iterationsInLastSecond * intention.multiplier).toFloat()
+//                            )
+//                        }
+//                    )
+//
+//                    Log.d("TESTF",iterationString);
+//
+//                    intention.updatedIterationCount = formatLargeNumber(
+//                        context,
+//                        BigInteger.valueOf(intention.iterations.toLong())
+//                    )
+//
+//                    // Stop condition check
+//                    if ( durationSec>0&&intention.elapsedTime-1000>=durationSec) {
+//                        intention.timerRunning = false
+//                        withContext(Dispatchers.Main) {
+//                            onTimerStop(true)
+//                        }
+//                        continue
+//                    }
+//
+//                    dbHelper.updateIntention(intention);
+//                    Log.d("TESTF","Updated intentions");
+//                    withContext(Dispatchers.Main) {
+//                        Log.d("TESTF","Send updated");
+//
+//                        if(selectedTabId==intention.id && intention.timerRunning){
+//                            onTimeUpdate(updatedTime)
+//                            onIterationsUpdate(iterationString, intention.updatedIterationCount)
+//                        }
+//
+//                        if (intention.isNotification && intention.timerRunning) {
+//                            val notification = createNotification(
+//                                context.getString(R.string.intention_repeater_header) + " " + updatedTime,
+//                                iterationString,
+//                                true
+//                            )
+//                            val notificationManager =
+//                                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+//                            notificationManager.notify(intention.id, notification)
+//                        }
+//                    }
+//
+//                    // Reset for next second
+//                    intention.iterationsInLastSecond = 0.0
+//                    intention.lastSecond = now
+//
+//                    timerRunning=dbHelper.getStartIntentions().isNotEmpty();
+//                    Log.d("TERS","Timer running "+timerRunning);
+//                    Log.d("TERS",dbHelper.getStartIntentions().toString());
+//                }
+//            }
+//        }
+//    }
+
+
+
+    suspend fun startTimer(
+        onTimeUpdate: (String) -> Unit,
+        onIterationsUpdate: (String, String) -> Unit,
+        onTimerStop: (Boolean) -> Unit
+    ) {
+        Log.d("TIMER", "Starting Timer")
+
+        var lastTickTime = System.nanoTime()
 
         while (timerRunning) {
+            val currentTime = System.nanoTime()
+            val deltaNs = currentTime - lastTickTime
+
+            // Ensure roughly 1s loop accuracy
+            if (deltaNs < 1_000_000_000L) {
+                preciseDelaySafe((1_000_000_000.0 - deltaNs) / 1_000_000.0)
+                continue
+            }
+            lastTickTime = currentTime
 
             val savedLanguage = sharedPreferences.getString("Language", "en") ?: "en"
-            if(savedLanguage!=context.resources.configuration.locale.toString()){
+            if (savedLanguage != context.resources.configuration.locale.toString()) {
                 updateLocale(Locale(savedLanguage))
             }
 
-            val loopStartTime = System.nanoTime()
+            val snapshotList = synchronized(listLock) { intentionList.toList() }
 
-            if (isBoostEnabled) {
-                mutableIntention = sha512("$mutableIntention: $newIntention")
-            }
+            for (intention in snapshotList) {
 
-             if(selectedFrequency!="3"&&selectedFrequency!="7.83"&&selectedFrequency!="1"){
-                 iterationsInLastSecond++
-             }else{
-                 val timeTakenForHashingNs = System.nanoTime() - loopStartTime
-                 val frequency=if(selectedFrequency=="3") 3 else if(selectedFrequency=="7.83") 7.83 else 1
-                 val delayMilliseconds = (1.toFloat() / frequency.toDouble()) * 1000.0
+                val ss=dbHelper.getIntentionById(intention.id);
+                intention.timerRunning=ss.timerRunning;
+                intention.isNotification = ss.isNotification
 
-                 val remainingDelayMilliseconds = delayMilliseconds - (timeTakenForHashingNs / 1_000_000.0)
-                 preciseDelay(remainingDelayMilliseconds)
-             }
-
-            if(selectedFrequency=="1" && !isFirstIterationSet){
-                Log.d("TESTHH","In frequency 1");
-                iterationsInLastSecond=1.0.toFloat();
-                iterations += (iterationsInLastSecond.toFloat() * multiplier)
-
-                Log.d("TESTHH",iterations.toString());
-                isFirstIterationSet=true;
-            }
-
-            // Update every second
-            val now = System.nanoTime()
-            if (now - lastSecond >= 1_000_000_000L) {
-                if(selectedFrequency=="3"){
-                    iterationsInLastSecond=3.toFloat()
-                }else if(selectedFrequency=="7.83"){
-                    iterationsInLastSecond=7.83.toFloat()
-                }
-                elapsedTime = (now - startTime) / 1_000_000L // Convert to ms
-
-                if(selectedFrequency=="1"){
-                    val ets=elapsedTime/1_000L;
-                    if((ets%3600).toInt() == 0){
-                        iterationsInLastSecond=1.0.toFloat();
-                    }else{
-                        iterationsInLastSecond=0.0.toFloat();
+                if(!intention.timerRunning && intention.isNotification){
+                    val ll=dbHelper.getStartIntentions();
+                    if(ll.isNotEmpty()){
+                        dbHelper.setNotificationIntention(ll.first().id)
                     }
                 }
 
-                val hours = elapsedTime / 3600000
-                val minutes = (elapsedTime / 60000) % 60
-                val seconds = (elapsedTime / 1000) % 60
+                if (!intention.timerRunning) continue
 
-                iterations += (iterationsInLastSecond.toFloat() * multiplier)
+                if (intention.boostPower) {
+                    intention.mutableIntention = sha512("${intention.mutableIntention}: ${intention.newIntention}")
+                }
 
-                // Calculate frequency for the last second
-                val actualFrequency = iterationsInLastSecond.toFloat()
+                val freq = intention.frequency.toDoubleOrNull() ?: continue
 
-                val updatedTime = String.format(Locale.ENGLISH,"%02d:%02d:%02d", hours, minutes, seconds)
-                lastTime=updatedTime;
+                // One-time setup for 1/hr intentions
+//                if (freq == 1.0 && !intention.isFirstIterationSet) {
+//                    intention.iterationsInLastSecond = 1.0
+//                    intention.iterations += 1.0 * intention.multiplier
+//                    intention.isFirstIterationSet = true
+//                }
 
-                val updatedIterations = context.getString(
-                    R.string.str_iterations,
-                    formatLargeNumber(context = this,BigInteger.valueOf(iterations.toLong())),
-                    if (selectedFrequency == "7.83") formatDecimalNumber(context = context,7.83.toFloat() * multiplier) else
-                        if(selectedFrequency=="3") formatLargeFreq(context = context, "3".toFloat() *multiplier) else
-                        if(selectedFrequency=="1") formatLargeNumber(context=context,BigInteger.valueOf(("1".toFloat()*multiplier).toLong())) +"/hr" else
-                        formatLargeFreq(context=context,actualFrequency*multiplier)
-                )
+                val timeNow = System.nanoTime()
+//                val elapsedSec = (timeNow - intention.timerStartedAt) / 1_000_000_000L
 
-                updatedIterationCount=formatLargeNumber(context = context,BigInteger.valueOf(iterations.toLong()))
+                // Frequency-based updates
+                when (freq) {
+                    3.0, 7.83 -> intention.iterationsInLastSecond = freq
+                    1.0 -> {
+                        val elapsedSec = (System.nanoTime() - intention.timerStartedAt) / 1_000_000_000L
+                        val currentHour = elapsedSec / 3600
 
-                if(durationSec>0&&elapsedTime-1000>=durationSec){
-                    withContext(Dispatchers.Main){
-                        onTimerStop(true)
-                    }
-                }else{
-                    withContext(Dispatchers.Main) {
-                        onTimeUpdate(updatedTime)
-                        onIterationsUpdate(updatedIterations,updatedIterationCount)
-
-                        if(timerRunning){
-                            // do something
-                            val notification: Notification = createNotification(context.getString(R.string.intention_repeater_header)+" "+updatedTime,updatedIterations,true)
-
-                            val mNotificationManager =
-                                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                            mNotificationManager.notify(NOTIFICATION_ID, notification)
+                        if (!intention.isFirstIterationSet) {
+                            intention.iterationsInLastSecond = 1.0
+                            intention.isFirstIterationSet = true
+                            intention.lastHourMark = currentHour
+                        } else if (currentHour > intention.lastHourMark) {
+                            intention.iterationsInLastSecond = 1.0
+                            intention.lastHourMark = currentHour
+                        } else {
+                            // NO increment this tick
+                            intention.iterationsInLastSecond = 0.0
                         }
                     }
-
-                    // Reset for the next second
-                    iterationsInLastSecond = 0.0.toFloat()
-                    lastSecond = now
+                    else -> intention.iterationsInLastSecond++
                 }
+
+                intention.elapsedTime = (timeNow - intention.timerStartedAt) / 1_000_000L
+                intention.iterations += intention.iterationsInLastSecond * intention.multiplier
+
+                val hours = intention.elapsedTime / 3600000
+                val minutes = (intention.elapsedTime / 60000) % 60
+                val seconds = (intention.elapsedTime / 1000) % 60
+
+                val updatedTime = String.format(Locale.ENGLISH, "%02d:%02d:%02d", hours, minutes, seconds)
+                intention.lastTime = updatedTime
+
+                val iterationString = context.getString(
+                    R.string.str_iterations,
+                    formatLargeNumber(context, BigInteger.valueOf(intention.iterations.toLong())),
+                    when (freq) {
+                        7.83 -> formatDecimalNumber(context, 7.83f * intention.multiplier.toFloat())
+                        3.0 -> formatLargeFreq(context, 3f * intention.multiplier.toFloat())
+                        1.0 -> formatLargeNumber(context, BigInteger.valueOf((1f * intention.multiplier).toLong())) + "/hr"
+                        else -> formatLargeFreq(context, (intention.iterationsInLastSecond * intention.multiplier).toFloat())
+                    }
+                )
+
+                intention.updatedIterationCount = formatLargeNumber(
+                    context,
+                    BigInteger.valueOf(intention.iterations.toLong())
+                )
+
+                // Check for stop condition
+                if (durationSec > 0 && intention.elapsedTime >= durationSec) {
+                    intention.timerRunning = false
+                    withContext(Dispatchers.Main) {
+                        onTimerStop(true)
+                    }
+                    continue
+                }
+
+                // DB Update
+                withContext(Dispatchers.IO) {
+                    dbHelper.updateIntention(intention)
+                }
+
+                // UI Update
+                withContext(Dispatchers.Main) {
+                    if (selectedTabId == intention.id && intention.timerRunning) {
+                        onTimeUpdate(updatedTime)
+                        onIterationsUpdate(iterationString, intention.updatedIterationCount)
+                    }
+
+                    if (intention.isNotification && intention.timerRunning) {
+                        val notification = createNotification(
+                            context.getString(R.string.intention_repeater_header) + " " + updatedTime,
+                            iterationString,
+                            true
+                        )
+                        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                        notificationManager.notify(NOTIFICATION_ID, notification)
+                    }
+                }
+
+                intention.iterationsInLastSecond = 0.0
             }
+
+            // Refresh timerRunning check
+            timerRunning = withContext(Dispatchers.IO) { dbHelper.getStartIntentions().isNotEmpty() }
         }
     }
 
+
+    suspend fun preciseDelaySafe(milliseconds: Double) {
+        val wholeMilliseconds = milliseconds.toLong()
+        val fractionalMilliseconds = milliseconds - wholeMilliseconds
+        val nanoseconds = (fractionalMilliseconds * 1_000_000).toInt().coerceIn(0, 999999)
+
+        if (wholeMilliseconds > 0) {
+            delay(wholeMilliseconds)
+        }
+        if (nanoseconds > 0) {
+            delay((nanoseconds / 1_000_000).toLong())
+        }
+    }
     fun preciseDelay(milliseconds: Double) {
         // Split milliseconds into whole and fractional parts
         val wholeMilliseconds = milliseconds.toLong() // Whole part of the milliseconds
@@ -1458,17 +2104,17 @@ class TimerForegroundService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         // Release the wake lock when the service is destroyed
-        if (wakeLock.isHeld) {
+        if (::wakeLock.isInitialized && wakeLock.isHeld) {
             wakeLock.release()
         }
         timerRunning=false
         stopForeground(true)
         stopSelf()
-        val notification=createNotification(context.getString(R.string.intention_repeater_finished),context.getString(R.string.str_iterations,updatedIterationCount,lastTime),false)
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        notificationManager.notify(100,notification)
+//        val notification=createNotification(context.getString(R.string.intention_repeater_finished),context.getString(R.string.str_iterations,updatedIterationCount,lastTime),false)
+//
+//        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//
+//        notificationManager.notify(100,notification)
     }
 
     private fun createNotification(title:String,text:String,isSticky:Boolean): Notification {

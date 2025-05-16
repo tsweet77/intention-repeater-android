@@ -11,8 +11,8 @@ android {
         applicationId = "com.anthroteacher.intentionrepeater"
         minSdk = 21
         targetSdk = 34
-        versionCode = 62
-        versionName = "1.56"
+        versionCode = 64
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.bcprov.jdk15on) // for SHA-3
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.reorderable)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,4 +74,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }
