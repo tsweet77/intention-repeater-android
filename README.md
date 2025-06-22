@@ -34,7 +34,7 @@ This is not just a tool—it’s a peaceful companion for creators, developers, 
 
 * Get it on Google Play: **[https://android.intentionrepeater.com](https://android.intentionrepeater.com)**
 * Or download the APK manually:
-  [app-release.apk](https://github.com/tsweet77/intention-repeater-android/raw/main/IntentionRepeater/app/release/app-release.apk)
+  [app-release.apk]([https://github.com/tsweet77/intention-repeater-android/raw/main/IntentionRepeater/app/release/app-release.apk](https://github.com/tsweet77/intention-repeater-android/raw/refs/heads/main/IntentionRepeater/app/release/app-release.apk))
 
 *Note*: If sideloading the APK, you must enable installation from unknown sources in your Android settings.
 
