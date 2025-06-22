@@ -1,49 +1,69 @@
-# Intention Repeater Android App
+## 🌟 Intention Repeater Android App (Completion-Based Manifestation)
 
-**Intention Repeater** is an Android application designed to amplify your intentions through repeated affirmations and hashing algorithms. The app uses various techniques, including frequency control and SHA-512 encoding, to help manifest your desired intentions.
+**Intention Repeater** is an Android application designed to amplify intentions through repetition, energetic ambiance, and powerful hashing algorithms. Built from the Completion Field, it offers a calming interface with unique manifestation options—including ambiance simulation like “Disneyland at night” or “mountain sunrise.”
 
-## Features
+This is not just a tool—it’s a peaceful companion for creators, developers, and spiritually-minded users who want to shape their reality through soft persistence.
 
-- **Intention Repeating**: Set any intention text and repeat it at a controlled frequency to enhance its effect.
-- **Frequency Control**: Choose between an optimal frequency of Once-per-Hour, 7.83 Hz, 3 Hz or maximum frequency for repeating intentions.
-- **Power Boost Mode**: Enable a power boost option to use SHA-512 encoding for stronger manifestation.
-- **Dynamic Timer and Iterations Display**: View real-time updates of elapsed time and iterations.
-- **Memory Management**: Automatically manages memory usage to avoid exceeding limits.
-- **File Integration**: Load and hash content from any file type to append to your intentions.
-- **Background Service**: Runs in the background with a foreground notification, allowing continuous operation without interruption.
+---
 
-## Getting Started
+### ✨ Features
 
-### Prerequisites
+* **Intention Repeating**: Type any intention and repeat it at your chosen frequency.
+* **Ambiance Creation**: Combine soundless ambient fields like “starry meadow” or “AnthroHeart sanctuary” through subtle energetic broadcast.
+* **Frequency Control**: Choose between:
 
-- An Android device running **Android 5.0 (Lollipop) or higher**.
+  * Optimal (Once per Hour)
+  * Schumann Resonance (7.83 Hz)
+  * Deep Delta (3 Hz)
+  * Max Frequency (no limit)
+* **Power Boost Mode**: Use optional SHA-512 encoding to increase signal strength.
+* **Dynamic Timer**: Live tracking of iteration count and elapsed time.
+* **File Integration**: Load and hash the content of any file to energetically append it to your intention.
+* **Memory Management**: Smart memory handling for long-running sessions.
+* **Background Operation**: Runs continuously with a system-safe foreground service.
 
-### Installation
+---
 
-1. Download the Intention Repeater from the Google Play Store or: (https://github.com/tsweet77/intention-repeater-android/raw/main/IntentionRepeater/app/release/app-release.apk).
-2. Install the APK on your Android device by opening the downloaded file and following the on-screen instructions.
+### 🔧 Getting Started
 
-> **Note:** Make sure to enable installation from unknown sources in your device settings.
+#### Prerequisites
 
-## Usage
+* Android 5.0 (Lollipop) or newer.
 
-1. **Enter Your Intention**: Type the text or intention you want to repeat in the input box.
-2. **Set Frequency**: Choose between Once-per-Hour (Optimal), 3 Hz, 7.83 Hz Schumann Resonance or Maximum Frequency for repeating intentions.
-3. **Enable Power Boost**: Optionally, enable the power boost to use SHA-512 encoding for stronger manifestation.
-4. **Start Repeating**: Click the "Start" button to begin repeating your intention. The app will display real-time updates of elapsed time and iterations.
-5. **Stop Repeating**: Click the "Stop" button to stop the process.
-6. **Reset Timer**: Click the "Reset" button to reset the timer and iterations.
-7. **Load a File**: Use the "Load File" button to select a file whose contents will be hashed and appended to your intention.
-8. **Monitor Progress**: View the timer and iteration count to monitor the progress of your intention repetition.
+#### Installation
 
-## License
+* Get it on Google Play: **[https://android.intentionrepeater.com](https://android.intentionrepeater.com)**
+* Or download the APK manually:
+  [app-release.apk](https://github.com/tsweet77/intention-repeater-android/raw/main/IntentionRepeater/app/release/app-release.apk)
 
-This project is licensed under the GPLv3 License.
+*Note*: If sideloading the APK, you must enable installation from unknown sources in your Android settings.
 
-## Contributing
+---
 
-Feel free to fork this repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
+### 🛠️ How to Use
 
-## Contact
+1. **Enter Your Intention**: Input your affirmation, desire, or focus.
+2. **Set Frequency**: Choose your preferred repetition speed.
+3. **Enable Power Boost** *(optional)*: Add SHA-512 encoding for amplified delivery.
+4. **Start**: Begin the process—watch the timer and count grow.
+5. **Stop / Reset**: Pause or restart as needed.
+6. **Load a File** *(optional)*: Hash the contents of a file and include it in the intention.
+7. **Let it Run**: Intention Repeater works quietly in the background while you go about your day.
 
-If you have any questions, issues, or suggestions, please open an issue in the [GitHub repository](https://github.com/tsweet77/intention-repeater-android).
+---
+
+### 🌍 License
+
+This project is licensed under [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.html).
+
+---
+
+### 🤝 Contributing
+
+Contributions welcome! Fork the repo and submit a pull request, or open an issue to suggest improvements.
+
+---
+
+### 📬 Contact
+
+If you have feedback or encounter issues, please [open an issue on GitHub](https://github.com/tsweet77/intention-repeater-android/issues).
