@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "com.anthroteacher.intentionrepeater"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.anthroteacher.intentionrepeater"
         minSdk = 21
-        targetSdk = 34
-        versionCode = 64
-        versionName = "2.0"
+        targetSdk = 35
+        versionCode = 65
+        versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

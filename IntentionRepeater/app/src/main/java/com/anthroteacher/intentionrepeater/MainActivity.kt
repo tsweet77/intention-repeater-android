@@ -147,7 +147,7 @@ import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 
-const val version = "2.0"
+const val version = "2.1"
 private const val SETTINGS_REQUEST_CODE = 100
 private const val VOICE_INTENTION_REQUEST_CODE = 101
 
